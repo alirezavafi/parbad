@@ -11,10 +11,12 @@ using Parbad.Internal;
 using Parbad.Net;
 using Parbad.Options;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Parbad.Storage.Abstractions.Models;
 
 namespace Parbad.Gateway.PayPing
 {
@@ -90,32 +92,43 @@ namespace Parbad.Gateway.PayPing
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var callbackResult = await PayPingGatewayHelper.GetCallbackResult(
-                _httpContextAccessor.HttpContext.Request,
-                context,
-                _options.Messages,
-                cancellationToken);
-
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
             if (callbackResult.IsSucceed)
             {
-                return PaymentFetchResult.ReadyForVerifying();
+                return PaymentFetchResult.ReadyForVerifying(callbackResult);
             }
 
-            return PaymentFetchResult.Failed(callbackResult.Message);
+            return PaymentFetchResult.Failed(callbackResult, callbackResult.Message);
         }
 
+        private async Task<PayPingCallbackResult> GetCallbackResult(InvoiceContext context, CancellationToken cancellationToken)
+        {
+            var callBackTransaction = context.Transactions.SingleOrDefault(x => x.Type == TransactionType.Callback);
+
+            PayPingCallbackResult callbackResult;
+            if (callBackTransaction == null)
+            {
+                callbackResult = await PayPingGatewayHelper.GetCallbackResult(
+                    _httpContextAccessor.HttpContext.Request,
+                    context,
+                    _options.Messages,
+                    cancellationToken);
+            }
+            else
+            {
+                callbackResult =
+                    JsonConvert.DeserializeObject<PayPingCallbackResult>(callBackTransaction.AdditionalData);
+            }
+
+            return callbackResult;
+        }
+        
         /// <inheritdoc />
         public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
-
-            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
-
-            var callbackResult = await PayPingGatewayHelper.GetCallbackResult(
-                _httpContextAccessor.HttpContext.Request,
-                context,
-                _options.Messages,
-                cancellationToken);
+            
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (!callbackResult.IsSucceed)
             {
@@ -124,6 +137,7 @@ namespace Parbad.Gateway.PayPing
 
             var verificationModel = PayPingGatewayHelper.CreateVerificationModel(context, callbackResult);
 
+            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", account.AccessToken);
 
             //Send Verify pay Request

@@ -10,9 +10,13 @@ using Parbad.Internal;
 using Parbad.Net;
 using Parbad.Options;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Parbad.Gateway.Parsian.Internal.Models;
+using Parbad.Storage.Abstractions.Models;
 
 namespace Parbad.Gateway.Parsian
 {
@@ -58,32 +62,46 @@ namespace Parbad.Gateway.Parsian
         }
 
         /// <inheritdoc />
-        public override Task<IPaymentFetchResult> FetchAsync(InvoiceContext context, CancellationToken cancellationToken = default)
+        public override async Task<IPaymentFetchResult> FetchAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var callbackResult = ParsianHelper.CreateCallbackResult(_httpContextAccessor.HttpContext.Request, context, _messageOptions);
-
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
             IPaymentFetchResult result;
 
             if (callbackResult.IsSucceed)
             {
-                result = PaymentFetchResult.ReadyForVerifying();
+                return PaymentFetchResult.ReadyForVerifying(callbackResult);
+            }
+
+            return PaymentFetchResult.Failed(callbackResult, callbackResult.Message);
+        }
+
+        private async Task<ParsianCallbackResult> GetCallbackResult(InvoiceContext context, CancellationToken cancellationToken)
+        {
+            var callBackTransaction = context.Transactions.SingleOrDefault(x => x.Type == TransactionType.Callback);
+
+            ParsianCallbackResult callbackResult;
+            if (callBackTransaction == null)
+            {
+                callbackResult = ParsianHelper.CreateCallbackResult(_httpContextAccessor.HttpContext.Request, context, _messageOptions);
             }
             else
             {
-                result = PaymentFetchResult.Failed(callbackResult.Message);
+                callbackResult =
+                    JsonConvert.DeserializeObject<ParsianCallbackResult>(callBackTransaction.AdditionalData);
             }
 
-            return Task.FromResult(result);
+            return callbackResult;
         }
+
 
         /// <inheritdoc />
         public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var callbackResult = ParsianHelper.CreateCallbackResult(_httpContextAccessor.HttpContext.Request, context, _messageOptions);
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (!callbackResult.IsSucceed)
             {

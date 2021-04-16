@@ -10,9 +10,12 @@ using Parbad.Internal;
 using Parbad.Net;
 using Parbad.Options;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Parbad.Storage.Abstractions.Models;
 
 namespace Parbad.Gateway.ZarinPal
 {
@@ -61,22 +64,40 @@ namespace Parbad.Gateway.ZarinPal
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var callbackResult = await ZarinPalHelper.CreateCallbackResultAsync(_httpContextAccessor.HttpContext.Request, cancellationToken).ConfigureAwaitFalse();
-
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
             if (callbackResult.IsSucceed)
             {
-                return PaymentFetchResult.ReadyForVerifying();
+                return PaymentFetchResult.ReadyForVerifying(callbackResult);
             }
 
-            return PaymentFetchResult.Failed(callbackResult.Message);
+            return PaymentFetchResult.Failed(callbackResult, callbackResult.Message);
         }
+
+        private async Task<ZarinPalCallbackResult> GetCallbackResult(InvoiceContext context, CancellationToken cancellationToken)
+        {
+            var callBackTransaction = context.Transactions.SingleOrDefault(x => x.Type == TransactionType.Callback);
+
+            ZarinPalCallbackResult callbackResult;
+            if (callBackTransaction == null)
+            {
+                callbackResult = await ZarinPalHelper.CreateCallbackResultAsync(_httpContextAccessor.HttpContext.Request, cancellationToken).ConfigureAwaitFalse();
+            }
+            else
+            {
+                callbackResult =
+                    JsonConvert.DeserializeObject<ZarinPalCallbackResult>(callBackTransaction.AdditionalData);
+            }
+
+            return callbackResult;
+        }
+
 
         /// <inheritdoc />
         public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var callbackResult = await ZarinPalHelper.CreateCallbackResultAsync(_httpContextAccessor.HttpContext.Request, cancellationToken).ConfigureAwaitFalse();
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (!callbackResult.IsSucceed)
             {

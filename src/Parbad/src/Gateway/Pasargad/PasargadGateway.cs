@@ -10,9 +10,13 @@ using Parbad.Internal;
 using Parbad.Net;
 using Parbad.Options;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Parbad.Gateway.Pasargad.Internal.Models;
+using Parbad.Storage.Abstractions.Models;
 
 namespace Parbad.Gateway.Pasargad
 {
@@ -57,30 +61,46 @@ namespace Parbad.Gateway.Pasargad
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var callbackResult = await PasargadHelper.CreateCallbackResult(
-                    _httpContextAccessor.HttpContext.Request,
-                    _messageOptions.Value,
-                    cancellationToken)
-                .ConfigureAwaitFalse();
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (callbackResult.IsSucceed)
             {
-                return PaymentFetchResult.ReadyForVerifying();
+                return PaymentFetchResult.ReadyForVerifying(callbackResult);
             }
 
-            return PaymentFetchResult.Failed(callbackResult.Message);
+            return PaymentFetchResult.Failed(callbackResult, callbackResult.Message);
         }
+
+        private async Task<PasargadCallbackResult> GetCallbackResult(InvoiceContext context, CancellationToken cancellationToken)
+        {
+            var callBackTransaction = context.Transactions.SingleOrDefault(x => x.Type == TransactionType.Callback);
+
+            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
+            PasargadCallbackResult callbackResult;
+            if (callBackTransaction == null)
+            {
+                callbackResult =  await PasargadHelper.CreateCallbackResult(
+                        _httpContextAccessor.HttpContext.Request,
+                        _messageOptions.Value,
+                        cancellationToken)
+                    .ConfigureAwaitFalse();
+            }
+            else
+            {
+                callbackResult =
+                    JsonConvert.DeserializeObject<PasargadCallbackResult>(callBackTransaction.AdditionalData);
+            }
+
+            return callbackResult;
+        }
+
 
         /// <inheritdoc />
         public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var callbackResult = await PasargadHelper.CreateCallbackResult(
-                _httpContextAccessor.HttpContext.Request,
-                _messageOptions.Value,
-                cancellationToken)
-                .ConfigureAwaitFalse();
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (!callbackResult.IsSucceed)
             {

@@ -913,7 +913,7 @@
         <member name="M:Parbad.Internal.DefaultOnlinePayment.RequestAsync(Parbad.Abstraction.Invoice,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Internal.DefaultOnlinePayment.FetchAsync(System.Threading.CancellationToken)">
+        <member name="M:Parbad.Internal.DefaultOnlinePayment.FetchAndStoreAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Parbad.Internal.DefaultOnlinePayment.FetchAsync(System.Int64,System.Threading.CancellationToken)">
@@ -1219,7 +1219,7 @@
             <param name="invoice">The invoice that must be paid.</param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.IOnlinePayment.FetchAsync(System.Threading.CancellationToken)">
+        <member name="M:Parbad.IOnlinePayment.FetchAndStoreAsync(System.Threading.CancellationToken)">
             <summary>
             Fetches the invoice from the incoming HTTP request.
             </summary>

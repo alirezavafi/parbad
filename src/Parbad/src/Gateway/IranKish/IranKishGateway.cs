@@ -2,11 +2,13 @@
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Parbad.Abstraction;
 using Parbad.Gateway.IranKish.Internal;
 using Parbad.GatewayBuilders;
@@ -14,6 +16,7 @@ using Parbad.Internal;
 using Parbad.Net;
 using Parbad.Options;
 using Parbad.Properties;
+using Parbad.Storage.Abstractions.Models;
 
 namespace Parbad.Gateway.IranKish
 {
@@ -66,42 +69,54 @@ namespace Parbad.Gateway.IranKish
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
-
-            var callbackResult = await IranKishHelper.CreateCallbackResultAsync(
-                context,
-                account,
-                _httpContextAccessor.HttpContext.Request,
-                _messageOptions.Value,
-                cancellationToken);
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (callbackResult.IsSucceed)
             {
-                return PaymentFetchResult.ReadyForVerifying();
+                return PaymentFetchResult.ReadyForVerifying(callbackResult);
             }
 
-            return PaymentFetchResult.Failed(callbackResult.Message);
+            return PaymentFetchResult.Failed(callbackResult ,callbackResult.Message);
         }
+
+        private async Task<IranKishCallbackResult> GetCallbackResult(InvoiceContext context, CancellationToken cancellationToken)
+        {
+            var callBackTransaction = context.Transactions.SingleOrDefault(x => x.Type == TransactionType.Callback);
+
+            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
+            IranKishCallbackResult callbackResult;
+            if (callBackTransaction == null)
+            {
+                callbackResult = await IranKishHelper.CreateCallbackResultAsync(
+                    context,
+                    account,
+                    _httpContextAccessor.HttpContext.Request,
+                    _messageOptions.Value,
+                    cancellationToken);
+            }
+            else
+            {
+                callbackResult =
+                    JsonConvert.DeserializeObject<IranKishCallbackResult>(callBackTransaction.AdditionalData);
+            }
+
+            return callbackResult;
+        }
+
 
         /// <inheritdoc />
         public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
-
-            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
-
-            var callbackResult = await IranKishHelper.CreateCallbackResultAsync(
-                context,
-                account,
-                _httpContextAccessor.HttpContext.Request,
-                _messageOptions.Value,
-                cancellationToken);
+            
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (!callbackResult.IsSucceed)
             {
                 return PaymentVerifyResult.Failed(callbackResult.Message);
             }
 
+            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
             var data = IranKishHelper.CreateVerifyData(callbackResult, account);
 
             _httpClient.DefaultRequestHeaders.Clear();

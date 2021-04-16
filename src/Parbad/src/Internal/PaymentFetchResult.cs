@@ -12,7 +12,7 @@ namespace Parbad.Internal
 
         public override bool IsSucceed => Status == PaymentFetchResultStatus.ReadyForVerifying;
 
-        public static PaymentFetchResult Failed(object callbackResult,string message)
+        public static PaymentFetchResult Failed(object callbackResult, string message)
         {
             return new PaymentFetchResult
             {

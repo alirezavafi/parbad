@@ -10,9 +10,13 @@ using Parbad.Internal;
 using Parbad.Net;
 using Parbad.Options;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Parbad.Gateway.Saman.Internal.Models;
+using Parbad.Storage.Abstractions.Models;
 
 namespace Parbad.Gateway.Saman
 {
@@ -65,30 +69,46 @@ namespace Parbad.Gateway.Saman
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var callbackResult = await SamanHelper.CreateCallbackResultAsync(
-                    _httpContextAccessor.HttpContext.Request,
-                    _messageOptions,
-                    cancellationToken)
-                .ConfigureAwaitFalse();
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (callbackResult.IsSucceed)
             {
-                return PaymentFetchResult.ReadyForVerifying();
+                return PaymentFetchResult.ReadyForVerifying(callbackResult);
             }
 
-            return PaymentFetchResult.Failed(callbackResult.Message);
+            return PaymentFetchResult.Failed(callbackResult, callbackResult.Message);
         }
+
+        private async Task<SamanCallbackResult> GetCallbackResult(InvoiceContext context, CancellationToken cancellationToken)
+        {
+            var callBackTransaction = context.Transactions.SingleOrDefault(x => x.Type == TransactionType.Callback);
+
+            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
+            SamanCallbackResult callbackResult;
+            if (callBackTransaction == null)
+            {
+                callbackResult = await SamanHelper.CreateCallbackResultAsync(
+                        _httpContextAccessor.HttpContext.Request,
+                        _messageOptions,
+                        cancellationToken)
+                    .ConfigureAwaitFalse();
+            }
+            else
+            {
+                callbackResult =
+                    JsonConvert.DeserializeObject<SamanCallbackResult>(callBackTransaction.AdditionalData);
+            }
+
+            return callbackResult;
+        }
+
 
         /// <inheritdoc />
         public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var callbackResult = await SamanHelper.CreateCallbackResultAsync(
-                    _httpContextAccessor.HttpContext.Request,
-                    _messageOptions,
-                    cancellationToken)
-                .ConfigureAwaitFalse();
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (!callbackResult.IsSucceed)
             {

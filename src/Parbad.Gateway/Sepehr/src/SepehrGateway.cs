@@ -12,9 +12,11 @@ using Parbad.Internal;
 using Parbad.Net;
 using Parbad.Options;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Parbad.Storage.Abstractions.Models;
 
 namespace Parbad.Gateway.Sepehr
 {
@@ -73,44 +75,55 @@ namespace Parbad.Gateway.Sepehr
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
-
-            var callbackResult = await SepehrHelper.CreateCallbackResultAsync(
-                    context,
-                    _httpContextAccessor.HttpContext.Request,
-                    account,
-                    _options.Messages,
-                    cancellationToken)
-                .ConfigureAwaitFalse();
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (callbackResult.IsSucceed)
             {
-                return PaymentFetchResult.ReadyForVerifying();
+                return PaymentFetchResult.ReadyForVerifying(callbackResult);
             }
 
-            return PaymentFetchResult.Failed(callbackResult.Message);
+            return PaymentFetchResult.Failed(callbackResult, callbackResult.Message);
         }
+
+        private async Task<CallbackResultModel> GetCallbackResult(InvoiceContext context, CancellationToken cancellationToken)
+        {
+            var callBackTransaction = context.Transactions.SingleOrDefault(x => x.Type == TransactionType.Callback);
+
+            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
+            CallbackResultModel callbackResult;
+            if (callBackTransaction == null)
+            {
+                callbackResult = await SepehrHelper.CreateCallbackResultAsync(
+                        context,
+                        _httpContextAccessor.HttpContext.Request,
+                        account,
+                        _options.Messages,
+                        cancellationToken)
+                    .ConfigureAwaitFalse();
+            }
+            else
+            {
+                callbackResult =
+                    JsonConvert.DeserializeObject<CallbackResultModel>(callBackTransaction.AdditionalData);
+            }
+
+            return callbackResult;
+        }
+
 
         /// <inheritdoc />
         public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
-
-            var callbackResult = await SepehrHelper.CreateCallbackResultAsync(
-                    context,
-                    _httpContextAccessor.HttpContext.Request,
-                    account,
-                    _options.Messages,
-                    cancellationToken)
-                .ConfigureAwaitFalse();
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (!callbackResult.IsSucceed)
             {
                 return PaymentVerifyResult.Failed(callbackResult.Message);
             }
 
+            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
             var data = SepehrHelper.CreateVerifyData(callbackResult, account);
 
             var responseMessage = await _httpClient

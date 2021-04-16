@@ -33,30 +33,9 @@
             <param name="payment"></param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.DeletePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
-            <summary>
-            Deletes the given <paramref name="payment"/>.
-            </summary>
-            <param name="payment"></param>
-            <param name="cancellationToken"></param>
-        </member>
         <member name="M:Parbad.Storage.Abstractions.IStorage.CreateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
             <summary>
             Creates a new transaction.
-            </summary>
-            <param name="transaction"></param>
-            <param name="cancellationToken"></param>
-        </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.UpdateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
-            <summary>
-            Updates the given <paramref name="transaction"/>.
-            </summary>
-            <param name="transaction"></param>
-            <param name="cancellationToken"></param>
-        </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.DeleteTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
-            <summary>
-            Deletes the given <paramref name="transaction"/>.
             </summary>
             <param name="transaction"></param>
             <param name="cancellationToken"></param>

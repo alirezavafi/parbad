@@ -2,18 +2,22 @@
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Parbad.Abstraction;
 using Parbad.Gateway.AsanPardakht.Internal;
+using Parbad.Gateway.AsanPardakht.Internal.Models;
 using Parbad.GatewayBuilders;
 using Parbad.Internal;
 using Parbad.Net;
 using Parbad.Options;
 using Parbad.Properties;
+using Parbad.Storage.Abstractions.Models;
 
 namespace Parbad.Gateway.AsanPardakht
 {
@@ -70,43 +74,54 @@ namespace Parbad.Gateway.AsanPardakht
         public override async Task<IPaymentFetchResult> FetchAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
-
-            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
-
-            var callbackResult = AsanPardakhtHelper.CreateCallbackResult(
-                context,
-                account,
-                _httpContextAccessor.HttpContext.Request,
-                _crypto,
-                _messageOptions.Value);
-
+            
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
             if (callbackResult.IsSucceed)
             {
-                return PaymentFetchResult.ReadyForVerifying();
+                return PaymentFetchResult.ReadyForVerifying(callbackResult);
             }
 
-            return PaymentFetchResult.Failed(callbackResult.Message);
+            return PaymentFetchResult.Failed(callbackResult, callbackResult.Message);
         }
+  
+        private async Task<AsanPardakhtCallbackResult> GetCallbackResult(InvoiceContext context, CancellationToken cancellationToken)
+        {
+            var callBackTransaction = context.Transactions.SingleOrDefault(x => x.Type == TransactionType.Callback);
+
+            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
+            AsanPardakhtCallbackResult callbackResult;
+            if (callBackTransaction == null)
+            {
+                callbackResult = AsanPardakhtHelper.CreateCallbackResult(
+                    context,
+                    account,
+                    _httpContextAccessor.HttpContext.Request,
+                    _crypto,
+                    _messageOptions.Value);
+            }
+            else
+            {
+                callbackResult =
+                    JsonConvert.DeserializeObject<AsanPardakhtCallbackResult>(callBackTransaction.AdditionalData);
+            }
+
+            return callbackResult;
+        }
+
 
         /// <inheritdoc />
         public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
-
-            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
-
-            var callbackResult = AsanPardakhtHelper.CreateCallbackResult(
-                context,
-                account,
-                _httpContextAccessor.HttpContext.Request,
-                _crypto,
-                _messageOptions.Value);
+            
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (!callbackResult.IsSucceed)
             {
                 return PaymentVerifyResult.Failed(callbackResult.Message);
             }
 
+            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
             var data = AsanPardakhtHelper.CreateVerifyData(callbackResult, account, _crypto);
 
             var responseMessage = await _httpClient
