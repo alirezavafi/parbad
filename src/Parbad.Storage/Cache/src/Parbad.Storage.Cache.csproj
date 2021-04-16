@@ -41,6 +41,7 @@ More information: https://github.com/Sina-Soltani/Parbad</Description>
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Parbad\src\Parbad.csproj" />
     <ProjectReference Include="..\..\Abstractions\Parbad.Storage.Abstractions.csproj" />
   </ItemGroup>
 

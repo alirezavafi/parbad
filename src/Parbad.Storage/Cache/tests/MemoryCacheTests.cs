@@ -61,10 +61,9 @@ namespace Parbad.Storage.Cache.Tests
         {
             await _storage.CreatePaymentAsync(PaymentTestData);
 
-            var payment = _storage.Payments.SingleOrDefault();
+            var payment = await _storage.GetPaymentByTrackingNumberAsync(PaymentTestData.TrackingNumber);
 
             Assert.IsNotNull(payment);
-            Assert.AreEqual(1, _storage.Payments.Count());
 
             Assert.AreEqual(1, payment.Id);
             Assert.AreEqual(PaymentTestData.TrackingNumber, payment.TrackingNumber);
@@ -82,7 +81,7 @@ namespace Parbad.Storage.Cache.Tests
         {
             await _storage.CreatePaymentAsync(PaymentTestData);
 
-            var payment = _storage.Payments.SingleOrDefault();
+            var payment = await _storage.GetPaymentByTrackingNumberAsync(PaymentTestData.TrackingNumber);
             payment.TrackingNumber = 2;
             payment.Amount = 2000;
             payment.Token = "NewToken";
@@ -94,7 +93,7 @@ namespace Parbad.Storage.Cache.Tests
 
             await _storage.UpdatePaymentAsync(payment);
 
-            var newPayment = _storage.Payments.SingleOrDefault();
+            var newPayment = await _storage.GetPaymentByTrackingNumberAsync(payment.TrackingNumber);
 
             Assert.IsNotNull(newPayment);
             Assert.AreEqual(1, newPayment.Id);
@@ -107,34 +106,21 @@ namespace Parbad.Storage.Cache.Tests
             Assert.AreEqual(payment.IsPaid, newPayment.IsPaid);
             Assert.AreEqual(payment.IsCompleted, newPayment.IsCompleted);
         }
-
-        [Test]
-        public async Task Delete_Payment_Works()
-        {
-            await _storage.CreatePaymentAsync(PaymentTestData);
-
-            var payment = _storage.Payments.SingleOrDefault();
-
-            await _storage.DeletePaymentAsync(payment);
-
-            Assert.AreEqual(0, _storage.Payments.Count());
-        }
-
+        
         [Test]
         public async Task Create_Transaction_Works()
         {
             await _storage.CreatePaymentAsync(PaymentTestData);
 
-            var payment = _storage.Payments.SingleOrDefault();
+            var payment = await _storage.GetPaymentByTrackingNumberAsync(PaymentTestData.TrackingNumber);
 
             TransactionTestData.PaymentId = payment.Id;
 
             await _storage.CreateTransactionAsync(TransactionTestData);
 
-            var transaction = _storage.Transactions.SingleOrDefault();
+            var transaction = (await _storage.GetTransactionsAsync(payment)).FirstOrDefault(x => x.PaymentId == payment.Id);
 
             Assert.IsNotNull(transaction);
-            Assert.AreEqual(1, _storage.Transactions.Count());
 
             Assert.AreEqual(1, transaction.Id);
             Assert.AreEqual(payment.Id, transaction.PaymentId);
@@ -143,58 +129,6 @@ namespace Parbad.Storage.Cache.Tests
             Assert.AreEqual(TransactionTestData.IsSucceed, transaction.IsSucceed);
             Assert.AreEqual(TransactionTestData.Type, transaction.Type);
             Assert.AreEqual(TransactionTestData.Message, transaction.Message);
-        }
-
-        [Test]
-        public async Task Update_Transaction_Works()
-        {
-            await _storage.CreatePaymentAsync(PaymentTestData);
-
-            var payment = _storage.Payments.SingleOrDefault();
-
-            TransactionTestData.PaymentId = payment.Id;
-
-            await _storage.CreateTransactionAsync(TransactionTestData);
-
-            var transaction = _storage.Transactions.SingleOrDefault();
-            transaction.Amount = 2000;
-            transaction.IsSucceed = true;
-            transaction.Message = "NewMessage";
-            transaction.Type = TransactionType.Verify;
-            transaction.AdditionalData = "NewAdditionalData";
-
-            await _storage.UpdateTransactionAsync(transaction);
-
-            var newTransaction = _storage.Transactions.SingleOrDefault();
-
-            Assert.IsNotNull(newTransaction);
-            Assert.AreEqual(1, _storage.Transactions.Count());
-
-            Assert.AreEqual(1, transaction.Id);
-            Assert.AreEqual(transaction.Id, newTransaction.PaymentId);
-            Assert.AreEqual(transaction.Amount, newTransaction.Amount);
-            Assert.AreEqual(transaction.AdditionalData, newTransaction.AdditionalData);
-            Assert.AreEqual(transaction.IsSucceed, newTransaction.IsSucceed);
-            Assert.AreEqual(transaction.Type, newTransaction.Type);
-            Assert.AreEqual(transaction.Message, newTransaction.Message);
-        }
-
-        [Test]
-        public async Task Delete_Transaction_Works()
-        {
-            await _storage.CreatePaymentAsync(PaymentTestData);
-
-            var payment = _storage.Payments.SingleOrDefault();
-
-            TransactionTestData.PaymentId = payment.Id;
-
-            await _storage.CreateTransactionAsync(TransactionTestData);
-
-            var transaction = _storage.Transactions.SingleOrDefault();
-
-            await _storage.DeleteTransactionAsync(transaction);
-
-            Assert.AreEqual(0, _storage.Transactions.Count());
         }
     }
 }

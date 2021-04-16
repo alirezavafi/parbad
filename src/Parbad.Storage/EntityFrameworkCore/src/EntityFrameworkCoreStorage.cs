@@ -1,15 +1,13 @@
-﻿// Copyright (c) Parbad. All rights reserved.
-// Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
-
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Parbad.Storage.Abstractions;
 using Parbad.Storage.Abstractions.Models;
 using Parbad.Storage.EntityFrameworkCore.Context;
 using Parbad.Storage.EntityFrameworkCore.Internal;
-using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Parbad.Storage.EntityFrameworkCore
 {
@@ -18,49 +16,36 @@ namespace Parbad.Storage.EntityFrameworkCore
     /// </summary>
     public class EntityFrameworkCoreStorage : IStorage
     {
-        /// <summary>
-        /// Initializes an instance of <see cref="EntityFrameworkCoreStorage"/>.
-        /// </summary>
-        /// <param name="context"></param>
-        public EntityFrameworkCoreStorage(ParbadDataContext context)
+        protected ParbadDataContext DbContext { get; }
+
+        public EntityFrameworkCoreStorage(ParbadDataContext dbContext)
         {
-            Context = context;
+            DbContext = dbContext;
         }
 
         /// <inheritdoc />
-        public virtual IQueryable<Payment> Payments => Context.Payments.AsNoTracking().Select(Mapper.ToModel).AsQueryable();
-
-        /// <inheritdoc />
-        public virtual IQueryable<Transaction> Transactions => Context.Transactions.AsNoTracking().Select(Mapper.ToModel).AsQueryable();
-
-        /// <summary>
-        /// Parbad DbContext.
-        /// </summary>
-        protected ParbadDataContext Context { get; }
-
-        /// <inheritdoc />
-        public virtual async Task CreatePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
+        public async Task CreatePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
         {
             if (payment == null) throw new ArgumentNullException(nameof(payment));
 
             var entity = payment.ToEntity();
             entity.CreatedOn = DateTime.UtcNow;
 
-            Context.Payments.Add(entity);
+            DbContext.Payments.Add(entity);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await DbContext.SaveChangesAsync(cancellationToken);
 
-            Context.Entry(entity).State = EntityState.Detached;
+            DbContext.Entry(entity).State = EntityState.Detached;
 
             payment.Id = entity.Id;
         }
 
         /// <inheritdoc />
-        public virtual async Task UpdatePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
+        public async Task UpdatePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
         {
             if (payment == null) throw new ArgumentNullException(nameof(payment));
 
-            var record = await Context
+            var record = await DbContext
                 .Payments
                 .AsNoTracking()
                 .SingleOrDefaultAsync(model => model.Id == payment.Id, cancellationToken);
@@ -70,76 +55,66 @@ namespace Parbad.Storage.EntityFrameworkCore
             Mapper.ToEntity(payment, record);
             record.UpdatedOn = DateTime.UtcNow;
 
-            Context.Payments.Update(record);
+            DbContext.Payments.Update(record);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await DbContext.SaveChangesAsync(cancellationToken);
         }
 
         /// <inheritdoc />
-        public virtual async Task DeletePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
-        {
-            if (payment == null) throw new ArgumentNullException(nameof(payment));
-
-            var record = await Context
-                .Payments
-                .AsNoTracking()
-                .SingleOrDefaultAsync(model => model.Id == payment.Id, cancellationToken);
-
-            if (record == null) throw new InvalidOperationException($"No payment records found in database with id {payment.Id}");
-
-            Context.Payments.Remove(record);
-
-            await Context.SaveChangesAsync(cancellationToken);
-        }
-
-        /// <inheritdoc />
-        public virtual async Task CreateTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
+        public async Task CreateTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
         {
             if (transaction == null) throw new ArgumentNullException(nameof(transaction));
 
             var entity = transaction.ToEntity();
             entity.CreatedOn = DateTime.UtcNow;
 
-            Context.Transactions.Add(entity);
+            DbContext.Transactions.Add(entity);
 
-            await Context.SaveChangesAsync(cancellationToken);
+            await DbContext.SaveChangesAsync(cancellationToken);
 
             transaction.Id = entity.Id;
         }
 
         /// <inheritdoc />
-        public virtual async Task UpdateTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
+        public Task<Payment> GetPaymentByTrackingNumberAsync(long trackingNumber, CancellationToken cancellationToken = default)
         {
-            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
-
-            var record = await Context
-                .Transactions
-                .SingleOrDefaultAsync(model => model.Id == transaction.Id, cancellationToken);
-
-            if (record == null) throw new InvalidOperationException($"No transaction records found in database with id {transaction.Id}");
-
-            Mapper.ToEntity(transaction, record);
-            record.UpdatedOn = DateTime.UtcNow;
-
-            Context.Transactions.Update(record);
-
-            await Context.SaveChangesAsync(cancellationToken);
+            var p = DbContext.Payments
+                .AsNoTracking()
+                .SingleOrDefault(payment => payment.TrackingNumber == trackingNumber);
+            return Task.FromResult(p?.ToModel());
         }
 
         /// <inheritdoc />
-        public virtual async Task DeleteTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
+        public Task<Payment> GetPaymentByTokenAsync(string paymentToken, CancellationToken cancellationToken = default)
         {
-            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
+            var p = DbContext.Payments
+                .AsNoTracking()
+                .SingleOrDefault(payment => payment.Token == paymentToken);
+            return Task.FromResult(p?.ToModel());
+        }
 
-            var record = await Context
-                .Transactions
-                .SingleOrDefaultAsync(model => model.Id == transaction.Id, cancellationToken);
+        /// <inheritdoc />
+        public Task<bool> DoesPaymentExistAsync(long trackingNumber, CancellationToken cancellationToken = default)
+        {
+            var result = DbContext.Payments.Any(payment => payment.TrackingNumber == trackingNumber);
+            return Task.FromResult(result);
+        }
 
-            if (record == null) throw new InvalidOperationException($"No transaction records found in database with id {transaction.Id}");
+        /// <inheritdoc />
+        public Task<bool> DoesPaymentExistAsync(string paymentToken, CancellationToken cancellationToken = default)
+        {
+            var result = DbContext.Payments.Any(payment => payment.Token == paymentToken);
+            return Task.FromResult(result);
+        }
 
-            Context.Transactions.Remove(record);
-
-            await Context.SaveChangesAsync(cancellationToken);
+        /// <inheritdoc />
+        public Task<List<Transaction>> GetTransactionsAsync(Payment payment, CancellationToken cancellationToken = default)
+        {
+            var result = DbContext.Transactions
+                .Where(transaction => transaction.PaymentId == payment.Id)
+                .AsNoTracking()
+                .ToList();
+            return Task.FromResult(result.Select(x => x.ToModel()).ToList());
         }
     }
 }

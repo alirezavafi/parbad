@@ -19,7 +19,7 @@ namespace Parbad.Internal
     /// <inheritdoc />
     public class DefaultOnlinePayment : IOnlinePayment
     {
-        private readonly IStorageManager _storageManager;
+        private readonly IStorage _storage;
         private readonly IPaymentTokenProvider _tokenProvider;
         private readonly IGatewayProvider _gatewayProvider;
         private readonly ParbadOptions _options;
@@ -30,18 +30,18 @@ namespace Parbad.Internal
         /// </summary>
         public DefaultOnlinePayment(
             IServiceProvider services,
-            IStorageManager storageManager,
+            IStorage storage,
             IPaymentTokenProvider tokenProvider,
             IGatewayProvider gatewayProvider,
             IOptions<ParbadOptions> options,
             IParbadLogger<DefaultOnlinePayment> logger)
         {
             Services = services;
-            _storageManager = storageManager;
+            _storage = storage;
             _tokenProvider = tokenProvider;
             _options = options.Value;
             _logger = logger;
-            _storageManager = storageManager;
+            _storage = storage;
             _gatewayProvider = gatewayProvider;
         }
 
@@ -56,7 +56,7 @@ namespace Parbad.Internal
             _logger.LogInformation(LoggingEvents.RequestPayment, $"Requesting the invoice {invoice.TrackingNumber} is started.");
 
             //  Check the tracking number
-            if (await _storageManager.DoesPaymentExistAsync(invoice.TrackingNumber, cancellationToken).ConfigureAwaitFalse())
+            if (await _storage.DoesPaymentExistAsync(invoice.TrackingNumber, cancellationToken).ConfigureAwaitFalse())
             {
                 _logger.LogInformation(LoggingEvents.RequestPayment, _options.Messages.DuplicateTrackingNumber);
 
@@ -80,7 +80,7 @@ namespace Parbad.Internal
             }
 
             //  Check the created payment token
-            if (await _storageManager.DoesPaymentExistAsync(paymentToken, cancellationToken).ConfigureAwaitFalse())
+            if (await _storage.DoesPaymentExistAsync(paymentToken, cancellationToken).ConfigureAwaitFalse())
             {
                 var message = $"Requesting the invoice {invoice.TrackingNumber} is finished. The payment token \"{paymentToken}\" already exists.";
 
@@ -101,7 +101,7 @@ namespace Parbad.Internal
                 GatewayName = gateway.GetRoutingGatewayName()
             };
 
-            await _storageManager.CreatePaymentAsync(newPayment, cancellationToken).ConfigureAwaitFalse();
+            await _storage.CreatePaymentAsync(newPayment, cancellationToken).ConfigureAwaitFalse();
 
             PaymentRequestResult requestResult;
 
@@ -129,7 +129,7 @@ namespace Parbad.Internal
 
             newPayment.GatewayAccountName = requestResult.GatewayAccountName;
 
-            await _storageManager.UpdatePaymentAsync(newPayment, cancellationToken).ConfigureAwaitFalse();
+            await _storage.UpdatePaymentAsync(newPayment, cancellationToken).ConfigureAwaitFalse();
 
             var newTransaction = new Transaction
             {
@@ -141,7 +141,7 @@ namespace Parbad.Internal
                 PaymentId = newPayment.Id
             };
 
-            await _storageManager.CreateTransactionAsync(newTransaction, cancellationToken).ConfigureAwaitFalse();
+            await _storage.CreateTransactionAsync(newTransaction, cancellationToken).ConfigureAwaitFalse();
 
             _logger.LogInformation(LoggingEvents.RequestPayment, $"Requesting the invoice {invoice.TrackingNumber} is finished.");
 
@@ -162,7 +162,7 @@ namespace Parbad.Internal
                 throw new PaymentTokenProviderException("No Token is received.");
             }
 
-            var payment = await _storageManager.GetPaymentByTokenAsync(paymentToken, cancellationToken).ConfigureAwaitFalse();
+            var payment = await _storage.GetPaymentByTokenAsync(paymentToken, cancellationToken).ConfigureAwaitFalse();
 
             if (payment == null)
             {
@@ -182,7 +182,7 @@ namespace Parbad.Internal
                 PaymentId = payment.Id
             };
 
-            await _storageManager.CreateTransactionAsync(transaction, cancellationToken).ConfigureAwaitFalse();
+            await _storage.CreateTransactionAsync(transaction, cancellationToken).ConfigureAwaitFalse();
             
             return result;
         }
@@ -192,7 +192,7 @@ namespace Parbad.Internal
         {
             _logger.LogInformation(LoggingEvents.FetchPayment, $"Fetching from database for invoice number {trackingNumber} is started.");
 
-            var payment = await _storageManager.GetPaymentByTrackingNumberAsync(trackingNumber, cancellationToken).ConfigureAwaitFalse();
+            var payment = await _storage.GetPaymentByTrackingNumberAsync(trackingNumber, cancellationToken).ConfigureAwaitFalse();
 
             if (payment == null)
             {
@@ -211,7 +211,7 @@ namespace Parbad.Internal
         {
             _logger.LogInformation(LoggingEvents.VerifyPayment, $"Verifying the invoice {trackingNumber} is started.");
 
-            var payment = await _storageManager
+            var payment = await _storage
                 .GetPaymentByTrackingNumberAsync(trackingNumber, cancellationToken)
                 .ConfigureAwaitFalse();
 
@@ -240,7 +240,7 @@ namespace Parbad.Internal
 
             var gateway = _gatewayProvider.Provide(payment.GatewayName);
 
-            var transactions = await _storageManager.GetTransactionsAsync(payment, cancellationToken).ConfigureAwaitFalse();
+            var transactions = await _storage.GetTransactionsAsync(payment, cancellationToken).ConfigureAwaitFalse();
             var invoiceContext = new InvoiceContext(payment, transactions);
 
             PaymentVerifyResult verifyResult;
@@ -268,7 +268,7 @@ namespace Parbad.Internal
             payment.IsPaid = verifyResult.IsSucceed;
             payment.TransactionCode = verifyResult.TransactionCode;
 
-            await _storageManager.UpdatePaymentAsync(payment, cancellationToken).ConfigureAwaitFalse();
+            await _storage.UpdatePaymentAsync(payment, cancellationToken).ConfigureAwaitFalse();
 
             var transaction = new Transaction
             {
@@ -280,7 +280,7 @@ namespace Parbad.Internal
                 PaymentId = payment.Id
             };
 
-            await _storageManager.CreateTransactionAsync(transaction, cancellationToken).ConfigureAwaitFalse();
+            await _storage.CreateTransactionAsync(transaction, cancellationToken).ConfigureAwaitFalse();
 
             _logger.LogInformation(LoggingEvents.VerifyPayment, $"Verifying the invoice {trackingNumber} is finished.");
 
@@ -292,7 +292,7 @@ namespace Parbad.Internal
         {
             _logger.LogInformation(LoggingEvents.CancelPayment, $"Canceling the invoice {trackingNumber} is started.");
 
-            var payment = await _storageManager
+            var payment = await _storage
                 .GetPaymentByTrackingNumberAsync(trackingNumber, cancellationToken)
                 .ConfigureAwaitFalse();
 
@@ -323,7 +323,7 @@ namespace Parbad.Internal
             payment.IsCompleted = true;
             payment.IsPaid = false;
 
-            await _storageManager.UpdatePaymentAsync(payment, cancellationToken).ConfigureAwaitFalse();
+            await _storage.UpdatePaymentAsync(payment, cancellationToken).ConfigureAwaitFalse();
 
             var newTransaction = new Transaction
             {
@@ -334,7 +334,7 @@ namespace Parbad.Internal
                 PaymentId = payment.Id
             };
 
-            await _storageManager.CreateTransactionAsync(newTransaction, cancellationToken).ConfigureAwaitFalse();
+            await _storage.CreateTransactionAsync(newTransaction, cancellationToken).ConfigureAwaitFalse();
 
             _logger.LogInformation(LoggingEvents.CancelPayment, $"Canceling the invoice {trackingNumber} is finished.");
 
@@ -356,7 +356,7 @@ namespace Parbad.Internal
 
             _logger.LogInformation(LoggingEvents.RefundPayment, $"Refunding the invoice {invoice.TrackingNumber} is started.");
 
-            var payment = await _storageManager.GetPaymentByTrackingNumberAsync(invoice.TrackingNumber, cancellationToken).ConfigureAwaitFalse();
+            var payment = await _storage.GetPaymentByTrackingNumberAsync(invoice.TrackingNumber, cancellationToken).ConfigureAwaitFalse();
 
             if (payment == null)
             {
@@ -391,7 +391,7 @@ namespace Parbad.Internal
 
             var gateway = _gatewayProvider.Provide(payment.GatewayName);
 
-            var transactions = await _storageManager.GetTransactionsAsync(payment, cancellationToken).ConfigureAwaitFalse();
+            var transactions = await _storage.GetTransactionsAsync(payment, cancellationToken).ConfigureAwaitFalse();
             var verifyContext = new InvoiceContext(payment, transactions);
 
             PaymentRefundResult refundResult;
@@ -425,7 +425,7 @@ namespace Parbad.Internal
                 PaymentId = payment.Id
             };
 
-            await _storageManager.CreateTransactionAsync(newtTransaction, cancellationToken).ConfigureAwaitFalse();
+            await _storage.CreateTransactionAsync(newtTransaction, cancellationToken).ConfigureAwaitFalse();
 
             _logger.LogInformation(LoggingEvents.RefundPayment, $"Refunding the invoice {invoice.TrackingNumber} is finished.");
 
@@ -453,7 +453,7 @@ namespace Parbad.Internal
 
             var gateway = _gatewayProvider.Provide(payment.GatewayName);
 
-            var transactions = await _storageManager.GetTransactionsAsync(payment, cancellationToken).ConfigureAwaitFalse();
+            var transactions = await _storage.GetTransactionsAsync(payment, cancellationToken).ConfigureAwaitFalse();
             var invoiceContext = new InvoiceContext(payment, transactions);
 
             PaymentFetchResult gatewayFetchResult;

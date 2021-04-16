@@ -16,26 +16,7 @@ namespace Parbad.Internal
         }
 
         public IServiceCollection Services { get; }
-
-        public IStorageBuilder AddStorage<TStorage>(ServiceLifetime lifetime) where TStorage : class, IStorage
-        {
-            Services.AddOrUpdate<IStorage, TStorage>(lifetime);
-
-            return this;
-        }
-
-        public IStorageBuilder AddStorage(IStorage storage)
-        {
-            Services.TryAddSingleton(storage);
-
-            return this;
-        }
-
-        public IStorageBuilder AddStorage(Func<IServiceProvider, IStorage> factory, ServiceLifetime lifetime)
-        {
-            Services.AddOrUpdate(factory, lifetime);
-
-            return this;
-        }
     }
+
+
 }

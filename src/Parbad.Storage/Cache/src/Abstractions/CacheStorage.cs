@@ -4,6 +4,7 @@
 using Parbad.Storage.Abstractions;
 using Parbad.Storage.Abstractions.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,12 +16,6 @@ namespace Parbad.Storage.Cache.Abstractions
     /// </summary>
     public abstract class CacheStorage : IStorage
     {
-        /// <inheritdoc />
-        public virtual IQueryable<Payment> Payments => Collection.Payments.AsQueryable();
-
-        /// <inheritdoc />
-        public virtual IQueryable<Transaction> Transactions => Collection.Transactions.AsQueryable();
-
         /// <summary>
         /// A collection for holding the data.
         /// </summary>
@@ -58,24 +53,7 @@ namespace Parbad.Storage.Cache.Abstractions
 
             return SaveChangesAsync(cancellationToken);
         }
-
-        /// <inheritdoc />
-        public virtual Task DeletePaymentAsync(Payment payment, CancellationToken cancellationToken = default)
-        {
-            if (payment == null) throw new ArgumentNullException(nameof(payment));
-            cancellationToken.ThrowIfCancellationRequested();
-
-            var record = FindPayment(payment);
-
-            if (record == null) throw new InvalidOperationException($"No payment records found in database with id {payment.Id}");
-
-            Collection.Payments.Remove(record);
-
-            Collection.Transactions.RemoveAll(model => model.PaymentId == record.Id);
-
-            return SaveChangesAsync(cancellationToken);
-        }
-
+        
         /// <inheritdoc />
         public virtual Task CreateTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
         {
@@ -91,35 +69,41 @@ namespace Parbad.Storage.Cache.Abstractions
 
             return SaveChangesAsync(cancellationToken);
         }
-
+        
         /// <inheritdoc />
-        public virtual Task UpdateTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
+        public virtual Task<Payment> GetPaymentByTrackingNumberAsync(long trackingNumber, CancellationToken cancellationToken = default)
         {
-            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
             cancellationToken.ThrowIfCancellationRequested();
 
-            var record = FindTransaction(transaction);
-
-            if (record == null) throw new InvalidOperationException($"No payment records found in database with id {transaction.Id}");
-
-            record.IsSucceed = transaction.IsSucceed;
-
-            return SaveChangesAsync(cancellationToken);
+            return Task.FromResult(Collection.Payments.SingleOrDefault(model => model.TrackingNumber == trackingNumber));
         }
 
         /// <inheritdoc />
-        public virtual Task DeleteTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default)
+        public virtual Task<Payment> GetPaymentByTokenAsync(string paymentToken, CancellationToken cancellationToken = default)
         {
-            if (transaction == null) throw new ArgumentNullException(nameof(transaction));
             cancellationToken.ThrowIfCancellationRequested();
 
-            var record = FindTransaction(transaction);
+            return Task.FromResult(Collection.Payments.SingleOrDefault(model => model.Token == paymentToken));
+        }
 
-            if (record == null) throw new InvalidOperationException($"No payment records found in database with id {transaction.Id}");
+        /// <inheritdoc />
+        public virtual Task<bool> DoesPaymentExistAsync(long trackingNumber, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
 
-            Collection.Transactions.Remove(record);
+            return Task.FromResult(Collection.Payments.Any(model => model.TrackingNumber == trackingNumber));
+        }
 
-            return SaveChangesAsync(cancellationToken);
+        /// <inheritdoc />
+        public virtual Task<bool> DoesPaymentExistAsync(string paymentToken, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(Collection.Payments.Any(model => model.Token == paymentToken));
+        }
+
+        /// <inheritdoc />
+        public virtual Task<List<Transaction>> GetTransactionsAsync(Payment payment, CancellationToken cancellationToken = default)
+        {
+            return Task.FromResult(Collection.Transactions.Where(model => model.PaymentId == payment.Id).ToList());
         }
 
         /// <summary>

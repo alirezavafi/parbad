@@ -7,7 +7,6 @@ using Parbad.Abstraction;
 using Parbad.Builder;
 using Parbad.Internal;
 using Parbad.InvoiceBuilder;
-using Parbad.TrackingNumberProviders;
 using System;
 
 namespace Parbad
@@ -56,9 +55,6 @@ namespace Parbad
             builder.Services.TryAddSingleton<IOnlinePaymentAccessor, OnlinePaymentAccessor>();
 
             builder.Services.TryAddTransient<IInvoiceBuilder, DefaultInvoiceBuilder>();
-
-            builder.Services.TryAddTransient<AutoIncrementTrackingNumber>();
-            builder.Services.TryAddTransient<AutoRandomTrackingNumber>();
 
             builder.Services.TryAddTransient<IGatewayProvider, DefaultGatewayProvider>();
 

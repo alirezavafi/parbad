@@ -11,7 +11,7 @@ namespace Parbad.Storage.Abstractions
     /// <summary>
     /// Provides the APIs for managing payment and transaction in a persistence store.
     /// </summary>
-    public interface IStorageManager
+    public interface IStorage
     {
         /// <summary>
         /// Creates a new payment.

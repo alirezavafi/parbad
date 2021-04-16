@@ -276,12 +276,6 @@
             <param name="builder"></param>
             <param name="configureStorage"></param>
         </member>
-        <member name="M:Parbad.Builder.StorageBuilderExtensions.UseDefaultStorageManager(Parbad.Storage.Abstractions.IStorageBuilder)">
-            <summary>
-            Uses the default implementation of <see cref="T:Parbad.Storage.Abstractions.IStorageManager"/>.
-            </summary>
-            <param name="builder"></param>
-        </member>
         <member name="T:Parbad.CallbackUrl">
             <summary>
             A complete URL of your website. It will be used by the gateway for redirecting
@@ -902,7 +896,7 @@
         <member name="T:Parbad.Internal.DefaultOnlinePayment">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Internal.DefaultOnlinePayment.#ctor(System.IServiceProvider,Parbad.Storage.Abstractions.IStorageManager,Parbad.PaymentTokenProviders.IPaymentTokenProvider,Parbad.Abstraction.IGatewayProvider,Microsoft.Extensions.Options.IOptions{Parbad.Options.ParbadOptions},Parbad.IParbadLogger{Parbad.Internal.DefaultOnlinePayment})">
+        <member name="M:Parbad.Internal.DefaultOnlinePayment.#ctor(System.IServiceProvider,Parbad.Storage.Abstractions.IStorage,Parbad.PaymentTokenProviders.IPaymentTokenProvider,Parbad.Abstraction.IGatewayProvider,Microsoft.Extensions.Options.IOptions{Parbad.Options.ParbadOptions},Parbad.IParbadLogger{Parbad.Internal.DefaultOnlinePayment})">
             <summary>
             Initializes an instance of <see cref="T:Parbad.Internal.DefaultOnlinePayment"/>.
             </summary>
@@ -1864,88 +1858,104 @@
             </summary>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="T:Parbad.Storage.StorageManager">
-            <inheritdoc />
-        </member>
-        <member name="M:Parbad.Storage.StorageManager.#ctor(Parbad.Storage.Abstractions.IStorage)">
+        <member name="T:Parbad.Storage.Abstractions.IStorage">
             <summary>
-            Initializes an instance of <see cref="T:Parbad.Storage.StorageManager"/>.
-            </summary>
-            <param name="storage"></param>
-        </member>
-        <member name="P:Parbad.Storage.StorageManager.Storage">
-            <summary>
-            Gets an instance of <see cref="T:Parbad.Storage.Abstractions.IStorage"/>.
+            Provides the APIs for managing payment and transaction in a persistence store.
             </summary>
         </member>
-        <member name="M:Parbad.Storage.StorageManager.CreatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Parbad.Storage.StorageManager.UpdatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Parbad.Storage.StorageManager.CreateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Parbad.Storage.StorageManager.GetPaymentByTrackingNumberAsync(System.Int64,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Parbad.Storage.StorageManager.GetPaymentByTokenAsync(System.String,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Parbad.Storage.StorageManager.DoesPaymentExistAsync(System.Int64,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Parbad.Storage.StorageManager.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="M:Parbad.Storage.StorageManager.GetTransactionsAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
-        <member name="T:Parbad.TrackingNumberProviders.AutoIncrementTrackingNumber">
+        <member name="M:Parbad.Storage.Abstractions.IStorage.CreatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
             <summary>
-            An Invoice Formatter which generates automatically and incrementally a Tracking Number
-            depending on <see cref="T:Parbad.Storage.Abstractions.IStorage"/> and <see cref="T:Parbad.TrackingNumberProviders.AutoIncrementTrackingNumberOptions"/>.
+            Creates a new payment.
             </summary>
-        </member>
-        <member name="M:Parbad.TrackingNumberProviders.AutoIncrementTrackingNumber.FormatAsync(Parbad.Abstraction.Invoice,System.Threading.CancellationToken)">
-            <summary>
-            Generates the Tracking Number.
-            </summary>
-            <param name="invoice"></param>
+            <param name="payment"></param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="P:Parbad.TrackingNumberProviders.AutoIncrementTrackingNumberOptions.MinimumValue">
+        <member name="M:Parbad.Storage.Abstractions.IStorage.UpdatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
             <summary>
-            The default value equals to 1000.
+            Updates the given <paramref name="payment"/>.
+            </summary>
+            <param name="payment"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Parbad.Storage.Abstractions.IStorage.CreateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new transaction.
+            </summary>
+            <param name="transaction"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Parbad.Storage.Abstractions.IStorage.GetPaymentByTrackingNumberAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Gets a payment by its tracking number.
+            </summary>
+            <param name="trackingNumber"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Parbad.Storage.Abstractions.IStorage.GetPaymentByTokenAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets a payment by its token.
+            </summary>
+            <param name="paymentToken"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Parbad.Storage.Abstractions.IStorage.DoesPaymentExistAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Checks whether a payment exists with the given <paramref name="trackingNumber"/>.
+            </summary>
+            <param name="trackingNumber"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Parbad.Storage.Abstractions.IStorage.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Checks whether a payment exists with the given <paramref name="paymentToken"/>.
+            </summary>
+            <param name="paymentToken"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Parbad.Storage.Abstractions.IStorage.GetTransactionsAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+            <summary>
+            Gets a list of transactions of the given <paramref name="payment"/>.
+            </summary>
+            <param name="payment"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="P:Parbad.Storage.Abstractions.Models.Payment.IsCompleted">
+            <summary>
+            Determines if this payment is completed, regardless of whether it is successful or not.
             </summary>
         </member>
-        <member name="P:Parbad.TrackingNumberProviders.AutoIncrementTrackingNumberOptions.Increment">
+        <member name="P:Parbad.Storage.Abstractions.Models.Payment.IsPaid">
             <summary>
-            The Tracking Number increments by this property. The default value equals to 1.
+            Determines whether this payment is successful or not.
             </summary>
         </member>
-        <member name="T:Parbad.TrackingNumberProviders.AutoRandomTrackingNumber">
+        <member name="T:Parbad.Storage.Abstractions.Models.TransactionType">
             <summary>
-            An Invoice Formatter which generates automatically and randomly a Tracking Number
-            depending on <see cref="T:Parbad.Storage.Abstractions.IStorage"/> and <see cref="T:Parbad.TrackingNumberProviders.AutoRandomTrackingNumberOptions"/>.
+            Type of transaction.
             </summary>
         </member>
-        <member name="P:Parbad.TrackingNumberProviders.AutoRandomTrackingNumberOptions.MinimumValue">
+        <member name="M:Parbad.Storage.Abstractions.StorageBuilderExtensions.AddStorage``1(Parbad.Storage.Abstractions.IStorageBuilder,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
             <summary>
-            The default value equals to 1000.
+            Adds an implementation of <see cref="T:Parbad.Storage.Abstractions.IStorage"/> which required by Parbad for managing the storage operations.
             </summary>
+            <typeparam name="TManager"></typeparam>
+            <param name="builder"></param>
+            <param name="lifetime">The lifetime of given StorageManager.</param>
         </member>
-        <member name="M:Parbad.TrackingNumberProviderExtensions.UseAutoIncrementTrackingNumber(Parbad.InvoiceBuilder.IInvoiceBuilder)">
+        <member name="M:Parbad.Storage.Abstractions.StorageBuilderExtensions.AddStorage(Parbad.Storage.Abstractions.IStorageBuilder,Parbad.Storage.Abstractions.IStorage)">
             <summary>
-            Generates automatically a new tracking number which is greater than the latest number.
-            <para>Note: You can also set a starting number by configuring the AutoTrackingNumberOptions.</para>
+            Adds an implementation of <see cref="T:Parbad.Storage.Abstractions.IStorage"/> which required by Parbad for managing the storage operations.
             </summary>
+            <param name="builder"></param>
+            <param name="storage"></param>
         </member>
-        <member name="M:Parbad.TrackingNumberProviderExtensions.UseAutoRandomTrackingNumber(Parbad.InvoiceBuilder.IInvoiceBuilder)">
+        <member name="M:Parbad.Storage.Abstractions.StorageBuilderExtensions.AddStorage(Parbad.Storage.Abstractions.IStorageBuilder,System.Func{System.IServiceProvider,Parbad.Storage.Abstractions.IStorage},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
             <summary>
-            Generates a new tracking number randomly in <see cref="T:System.Int64"/> range.
+            Adds an implementation of <see cref="T:Parbad.Storage.Abstractions.IStorage"/> which required by Parbad for managing the storage operations.
             </summary>
+            <param name="builder"></param>
+            <param name="factory"></param>
+            <param name="lifetime">The lifetime of given StorageManager.</param>
         </member>
     </members>
 </doc>

@@ -42,8 +42,6 @@ namespace Parbad.Storage.EntityFrameworkCore.Builder
 
             builder.AddStorage<EntityFrameworkCoreStorage>(ServiceLifetime.Transient);
 
-            builder.AddStorageManager<EntityFrameworkCoreStorageManager>(ServiceLifetime.Transient);
-
             return builder;
         }
     }

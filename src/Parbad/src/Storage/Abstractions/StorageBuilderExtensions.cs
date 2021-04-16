@@ -7,42 +7,42 @@ namespace Parbad.Storage.Abstractions
     public static class StorageBuilderExtensions
     {
         /// <summary>
-        /// Adds an implementation of <see cref="IStorageManager"/> which required by Parbad for managing the storage operations.
+        /// Adds an implementation of <see cref="IStorage"/> which required by Parbad for managing the storage operations.
         /// </summary>
         /// <typeparam name="TManager"></typeparam>
         /// <param name="builder"></param>
         /// <param name="lifetime">The lifetime of given StorageManager.</param>
-        public static IStorageBuilder AddStorageManager<TManager>(this IStorageBuilder builder, ServiceLifetime lifetime) where TManager : class, IStorageManager
+        public static IStorageBuilder AddStorage<TManager>(this IStorageBuilder builder, ServiceLifetime lifetime) where TManager : class, IStorage
         {
-            builder.Services.AddOrUpdate<IStorageManager, TManager>(lifetime);
+            builder.Services.AddOrUpdate<IStorage, TManager>(lifetime);
 
             return builder;
         }
 
         /// <summary>
-        /// Adds an implementation of <see cref="IStorageManager"/> which required by Parbad for managing the storage operations.
+        /// Adds an implementation of <see cref="IStorage"/> which required by Parbad for managing the storage operations.
         /// </summary>
         /// <param name="builder"></param>
-        /// <param name="storageManager"></param>
-        public static IStorageBuilder AddStorageManager(this IStorageBuilder builder, IStorageManager storageManager)
+        /// <param name="storage"></param>
+        public static IStorageBuilder AddStorage(this IStorageBuilder builder, IStorage storage)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
-            if (storageManager == null) throw new ArgumentNullException(nameof(storageManager));
+            if (storage == null) throw new ArgumentNullException(nameof(storage));
 
             builder.Services
-                .RemoveAll<IStorageManager>()
-                .AddSingleton(storageManager);
+                .RemoveAll<IStorage>()
+                .AddSingleton(storage);
 
             return builder;
         }
 
         /// <summary>
-        /// Adds an implementation of <see cref="IStorageManager"/> which required by Parbad for managing the storage operations.
+        /// Adds an implementation of <see cref="IStorage"/> which required by Parbad for managing the storage operations.
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="factory"></param>
         /// <param name="lifetime">The lifetime of given StorageManager.</param>
-        public static IStorageBuilder AddStorageManager(this IStorageBuilder builder, Func<IServiceProvider, IStorageManager> factory, ServiceLifetime lifetime)
+        public static IStorageBuilder AddStorage(this IStorageBuilder builder, Func<IServiceProvider, IStorage> factory, ServiceLifetime lifetime)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
             if (factory == null) throw new ArgumentNullException(nameof(factory));
