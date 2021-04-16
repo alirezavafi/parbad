@@ -9,6 +9,7 @@ namespace Parbad.Storage.Abstractions.Models
     public enum TransactionType : byte
     {
         Request = 0,
+        Callback = 10,
         Verify = 1,
         Refund = 2
     }

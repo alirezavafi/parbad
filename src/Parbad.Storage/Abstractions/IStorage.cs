@@ -38,31 +38,11 @@ namespace Parbad.Storage.Abstractions
         Task UpdatePaymentAsync(Payment payment, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Deletes the given <paramref name="payment"/>.
-        /// </summary>
-        /// <param name="payment"></param>
-        /// <param name="cancellationToken"></param>
-        Task DeletePaymentAsync(Payment payment, CancellationToken cancellationToken = default);
-
-        /// <summary>
         /// Creates a new transaction.
         /// </summary>
         /// <param name="transaction"></param>
         /// <param name="cancellationToken"></param>
         Task CreateTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default);
 
-        /// <summary>
-        /// Updates the given <paramref name="transaction"/>.
-        /// </summary>
-        /// <param name="transaction"></param>
-        /// <param name="cancellationToken"></param>
-        Task UpdateTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// Deletes the given <paramref name="transaction"/>.
-        /// </summary>
-        /// <param name="transaction"></param>
-        /// <param name="cancellationToken"></param>
-        Task DeleteTransactionAsync(Transaction transaction, CancellationToken cancellationToken = default);
     }
 }

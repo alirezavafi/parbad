@@ -45,38 +45,43 @@ namespace Parbad.Storage.EntityFrameworkCore
         /// <inheritdoc />
         public Task<Payment> GetPaymentByTrackingNumberAsync(long trackingNumber, CancellationToken cancellationToken = default)
         {
-            return _storage.Payments
+            var p = _storage.Payments
                 .AsNoTracking()
-                .SingleOrDefaultAsync(payment => payment.TrackingNumber == trackingNumber, cancellationToken);
+                .SingleOrDefault(payment => payment.TrackingNumber == trackingNumber);
+            return Task.FromResult(p);
         }
 
         /// <inheritdoc />
         public Task<Payment> GetPaymentByTokenAsync(string paymentToken, CancellationToken cancellationToken = default)
         {
-            return _storage.Payments
+            var p = _storage.Payments
                 .AsNoTracking()
-                .SingleOrDefaultAsync(payment => payment.Token == paymentToken, cancellationToken);
+                .SingleOrDefault(payment => payment.Token == paymentToken);
+            return Task.FromResult(p);
         }
 
         /// <inheritdoc />
         public Task<bool> DoesPaymentExistAsync(long trackingNumber, CancellationToken cancellationToken = default)
         {
-            return _storage.Payments.AnyAsync(payment => payment.TrackingNumber == trackingNumber, cancellationToken);
+            var result = _storage.Payments.Any(payment => payment.TrackingNumber == trackingNumber);
+            return Task.FromResult(result);
         }
 
         /// <inheritdoc />
         public Task<bool> DoesPaymentExistAsync(string paymentToken, CancellationToken cancellationToken = default)
         {
-            return _storage.Payments.AnyAsync(payment => payment.Token == paymentToken, cancellationToken);
+            var result = _storage.Payments.Any(payment => payment.Token == paymentToken);
+            return Task.FromResult(result);
         }
 
         /// <inheritdoc />
         public Task<List<Transaction>> GetTransactionsAsync(Payment payment, CancellationToken cancellationToken = default)
         {
-            return _storage.Transactions
+            var result = _storage.Transactions
                 .Where(transaction => transaction.PaymentId == payment.Id)
                 .AsNoTracking()
-                .ToListAsync(cancellationToken);
+                .ToList();
+            return Task.FromResult(result);
         }
     }
 }

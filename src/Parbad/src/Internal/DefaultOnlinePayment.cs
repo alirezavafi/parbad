@@ -12,6 +12,7 @@ using Parbad.Storage.Abstractions.Models;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Parbad.Internal
 {
@@ -148,7 +149,7 @@ namespace Parbad.Internal
         }
 
         /// <inheritdoc />
-        public virtual async Task<IPaymentFetchResult> FetchAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<IPaymentFetchResult> FetchAndStoreAsync(CancellationToken cancellationToken = default)
         {
             _logger.LogInformation(LoggingEvents.FetchPayment, "Fetching from the current HTTP request is started.");
 
@@ -170,8 +171,19 @@ namespace Parbad.Internal
                 throw new InvoiceNotFoundException(paymentToken);
             }
 
-            var result = await FetchAsync(payment, cancellationToken);
+            var result = (PaymentFetchResult)await FetchAsync(payment, cancellationToken);
+            var transaction = new Transaction
+            {
+                Amount = result.Amount,
+                IsSucceed = result.IsSucceed,
+                Message = result.Message,
+                Type = TransactionType.Callback,
+                AdditionalData = JsonConvert.SerializeObject(result.CallbackResult),
+                PaymentId = payment.Id
+            };
 
+            await _storageManager.CreateTransactionAsync(transaction, cancellationToken).ConfigureAwaitFalse();
+            
             return result;
         }
 
@@ -463,7 +475,8 @@ namespace Parbad.Internal
             _logger.LogInformation(LoggingEvents.FetchPayment, "Fetching is finished.");
 
             fetchResult.Status = gatewayFetchResult.Status;
-
+            fetchResult.CallbackResult = gatewayFetchResult.CallbackResult;
+            
             string message = null;
             if (gatewayFetchResult.Status != PaymentFetchResultStatus.ReadyForVerifying)
             {

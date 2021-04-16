@@ -121,7 +121,7 @@ namespace Parbad
         /// <exception cref="PaymentTokenProviderException"></exception>
         /// <exception cref="InvoiceNotFoundException"></exception>
         public static IPaymentFetchResult Fetch(this IOnlinePayment onlinePayment)
-            => onlinePayment.FetchAsync().GetAwaiter().GetResult();
+            => onlinePayment.FetchAndStoreAsync().GetAwaiter().GetResult();
 
         /// <summary>
         /// Fetches the invoice by the given tracking number.

@@ -2,6 +2,7 @@
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ using Parbad.Internal;
 using Parbad.Net;
 using Parbad.Options;
 using Parbad.Properties;
+using Parbad.Storage.Abstractions.Models;
 
 namespace Parbad.Gateway.Melli
 {
@@ -75,40 +77,50 @@ namespace Parbad.Gateway.Melli
         public override async Task<IPaymentFetchResult> FetchAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
-
-            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
-
-            var callbackResult = await MelliHelper.CreateCallbackResultAsync(
-                context,
-                _httpContextAccessor.HttpContext.Request,
-                account,
-                _crypto,
-                _messageOptions.Value,
-                cancellationToken);
+            
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
 
             if (callbackResult.IsSucceed)
             {
-                return PaymentFetchResult.ReadyForVerifying();
+                return PaymentFetchResult.ReadyForVerifying(callbackResult);
             }
 
-            return PaymentFetchResult.Failed(callbackResult.Message);
+            return PaymentFetchResult.Failed(callbackResult, callbackResult.Message);
         }
+
+        private async Task<MelliCallbackResult> GetCallbackResult(InvoiceContext context, CancellationToken cancellationToken)
+        {
+            var callBackTransaction = context.Transactions.SingleOrDefault(x => x.Type == TransactionType.Callback);
+
+            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
+            MelliCallbackResult callbackResult;
+            if (callBackTransaction == null)
+            {
+                callbackResult = await MelliHelper.CreateCallbackResultAsync(
+                    context,
+                    _httpContextAccessor.HttpContext.Request,
+                    account,
+                    _crypto,
+                    _messageOptions.Value,
+                    cancellationToken);
+            }
+            else
+            {
+                callbackResult =
+                    JsonConvert.DeserializeObject<MelliCallbackResult>(callBackTransaction.AdditionalData);
+            }
+
+            return callbackResult;
+        }
+
 
         /// <inheritdoc />
         public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
-            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
-
-            var callbackResult = await MelliHelper.CreateCallbackResultAsync(
-                context,
-                _httpContextAccessor.HttpContext.Request,
-                account,
-                _crypto,
-                _messageOptions.Value,
-                cancellationToken);
-
+            var callbackResult = await GetCallbackResult(context, cancellationToken);
+            
             if (!callbackResult.IsSucceed)
             {
                 return PaymentVerifyResult.Failed(callbackResult.Message);

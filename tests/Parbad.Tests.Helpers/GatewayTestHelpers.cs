@@ -64,7 +64,7 @@ namespace Parbad.Tests.Helpers
 
             httpContext.Request.Query = new TestableQueryCollection(queries);
 
-            var invoice = await onlinePayment.FetchAsync();
+            var invoice = await onlinePayment.FetchAndStoreAsync();
 
             onFetchResult(invoice);
 

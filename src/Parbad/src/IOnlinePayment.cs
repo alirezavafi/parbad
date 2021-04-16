@@ -35,7 +35,7 @@ namespace Parbad
         /// <param name="cancellationToken"></param>
         /// <exception cref="PaymentTokenProviderException"></exception>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        Task<IPaymentFetchResult> FetchAsync(CancellationToken cancellationToken = default);
+        Task<IPaymentFetchResult> FetchAndStoreAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fetches the invoice by the given tracking number.
