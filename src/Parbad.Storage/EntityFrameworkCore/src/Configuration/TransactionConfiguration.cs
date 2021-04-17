@@ -33,12 +33,22 @@ namespace Parbad.Storage.EntityFrameworkCore.Configuration
                 .ValueGeneratedOnAdd();
 
             builder.Property(entity => entity.Amount)
-                .HasColumnName(nameof(TransactionEntity.Amount).ToLower())
+                .HasColumnName("amount")
                 .HasColumnType("decimal(18,2)")
                 .IsRequired(required: true);
 
             builder.Property(entity => entity.Type)
-                .HasColumnName(nameof(TransactionEntity.Type).ToLower())
+                .HasColumnName("type")
+                .IsRequired(required: true);
+
+            builder.Property(entity => entity.TypeCode)
+                .HasColumnName("type_code")
+                .HasColumnType("varchar(30)")
+                .IsRequired(required: true);
+
+            builder.Property(entity => entity.TypeTitle)
+                .HasColumnName("type_title")
+                .HasColumnType("nvarchar(30)")
                 .IsRequired(required: true);
 
             builder.Property(entity => entity.IsSucceed)
@@ -46,7 +56,7 @@ namespace Parbad.Storage.EntityFrameworkCore.Configuration
                 .IsRequired(required: true);
 
             builder.Property(entity => entity.Message)
-                .HasColumnName(nameof(TransactionEntity.Message).ToLower())
+                .HasColumnName("message")
                 .IsRequired(required: false);
 
             builder.Property(entity => entity.AdditionalData)
@@ -56,6 +66,10 @@ namespace Parbad.Storage.EntityFrameworkCore.Configuration
             builder.Property(entity => entity.CreatedOn)
                 .HasColumnName("created_on")
                 .IsRequired(required: true);
+
+            builder
+                .Property<long>("PaymentId")
+                .HasColumnName("payment_id");
 
             builder.Property(entity => entity.UpdatedOn)
                 .HasColumnName("updated_on")

@@ -75,7 +75,7 @@ namespace Parbad.Storage.EntityFrameworkCore.Configuration
             builder.Property(entity => entity.UpdatedOn)
                 .HasColumnName("updated_on")
                 .IsRequired(required: false);
-
+            
             builder
                 .HasMany(entity => entity.Transactions)
                 .WithOne(entity => entity.Payment)

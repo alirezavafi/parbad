@@ -83,7 +83,6 @@ namespace Parbad.Gateway.Saman
         {
             var callBackTransaction = context.Transactions.SingleOrDefault(x => x.Type == TransactionType.Callback);
 
-            var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
             SamanCallbackResult callbackResult;
             if (callBackTransaction == null)
             {

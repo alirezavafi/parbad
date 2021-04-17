@@ -32,7 +32,7 @@ namespace Parbad.Abstraction
         /// <inheritdoc />
         public abstract Task<IPaymentRefundResult> RefundAsync(InvoiceContext context, Money amount, CancellationToken cancellationToken = default);
 
-        protected virtual async Task<TAccount> GetAccountAsync(Invoice invoice)
+        public virtual async Task<TAccount> GetAccountAsync(Invoice invoice)
         {
             var accountName = invoice.GetAccountName();
 

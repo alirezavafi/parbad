@@ -67,7 +67,31 @@ namespace Parbad.Storage.EntityFrameworkCore
 
             var entity = transaction.ToEntity();
             entity.CreatedOn = DateTime.UtcNow;
-
+            switch (entity.Type)
+            {
+                case TransactionType.Request:
+                    entity.TypeCode = "REQUEST";
+                    entity.TypeTitle = "درخواست پرداخت";
+                    break;
+                case TransactionType.Callback:
+                    entity.TypeCode = "PSP_CALLBACK";
+                    entity.TypeTitle = "بازگشت از درگاه";
+                    break;
+                case TransactionType.Verify:
+                    entity.TypeCode = "VERIFY";
+                    entity.TypeTitle = "تاییده پرداخت";
+                    break;
+                case TransactionType.Canceled:
+                    entity.TypeCode = "VERIFY_CANCEL";
+                    entity.TypeTitle = "لغو پرداخت";
+                    break;
+                case TransactionType.Refund:
+                    entity.TypeCode = "REFUND";
+                    entity.TypeTitle = "استرداد وجه";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             DbContext.Transactions.Add(entity);
 
             await DbContext.SaveChangesAsync(cancellationToken);

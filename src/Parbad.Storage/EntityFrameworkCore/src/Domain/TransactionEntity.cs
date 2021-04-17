@@ -13,6 +13,8 @@ namespace Parbad.Storage.EntityFrameworkCore.Domain
         public decimal Amount { get; set; }
 
         public TransactionType Type { get; set; }
+        public string TypeCode { get; set; }
+        public string TypeTitle { get; set; }
 
         public bool IsSucceed { get; set; }
 

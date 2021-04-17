@@ -10,7 +10,8 @@ namespace Parbad.Storage.Abstractions.Models
     {
         Request = 0,
         Callback = 10,
-        Verify = 1,
-        Refund = 2
+        Verify = 20,
+        Canceled = 21,
+        Refund = 30
     }
 }
