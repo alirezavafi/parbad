@@ -96,7 +96,7 @@
         <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage.GetTransactionsAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage.GetTransactionsAsync(System.Int64,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Parbad.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions">

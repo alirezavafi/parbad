@@ -1912,7 +1912,7 @@
             <param name="paymentToken"></param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.GetTransactionsAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Abstractions.IStorage.GetTransactionsAsync(System.Int64,System.Threading.CancellationToken)">
             <summary>
             Gets a list of transactions of the given <paramref name="payment"/>.
             </summary>

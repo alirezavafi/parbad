@@ -240,7 +240,7 @@ namespace Parbad.Internal
 
             var gateway = _gatewayProvider.Provide(payment.GatewayName);
 
-            var transactions = await _storage.GetTransactionsAsync(payment, cancellationToken).ConfigureAwaitFalse();
+            var transactions = await _storage.GetTransactionsAsync(payment.Id, cancellationToken).ConfigureAwaitFalse();
             var invoiceContext = new InvoiceContext(payment, transactions);
 
             PaymentVerifyResult verifyResult;
@@ -391,7 +391,7 @@ namespace Parbad.Internal
 
             var gateway = _gatewayProvider.Provide(payment.GatewayName);
 
-            var transactions = await _storage.GetTransactionsAsync(payment, cancellationToken).ConfigureAwaitFalse();
+            var transactions = await _storage.GetTransactionsAsync(payment.Id, cancellationToken).ConfigureAwaitFalse();
             var verifyContext = new InvoiceContext(payment, transactions);
 
             PaymentRefundResult refundResult;
@@ -453,7 +453,7 @@ namespace Parbad.Internal
 
             var gateway = _gatewayProvider.Provide(payment.GatewayName);
 
-            var transactions = await _storage.GetTransactionsAsync(payment, cancellationToken).ConfigureAwaitFalse();
+            var transactions = await _storage.GetTransactionsAsync(payment.Id, cancellationToken).ConfigureAwaitFalse();
             var invoiceContext = new InvoiceContext(payment, transactions);
 
             PaymentFetchResult gatewayFetchResult;

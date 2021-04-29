@@ -67,6 +67,6 @@ namespace Parbad.Storage.Abstractions
         /// </summary>
         /// <param name="payment"></param>
         /// <param name="cancellationToken"></param>
-        Task<List<Transaction>> GetTransactionsAsync(Payment payment, CancellationToken cancellationToken = default);
+        Task<List<Transaction>> GetTransactionsAsync(long paymentId, CancellationToken cancellationToken = default);
     }
 }

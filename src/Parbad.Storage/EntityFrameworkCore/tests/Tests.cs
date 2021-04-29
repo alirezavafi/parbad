@@ -118,7 +118,7 @@ namespace Parbad.Storage.EntityFrameworkCore.Tests
 
             await _storage.CreateTransactionAsync(TransactionTestData);
 
-            var transaction = (await _storage.GetTransactionsAsync(payment)).FirstOrDefault(x => x.PaymentId == payment.Id);
+            var transaction = (await _storage.GetTransactionsAsync(payment.Id)).FirstOrDefault(x => x.PaymentId == payment.Id);
 
             Assert.IsNotNull(transaction);
 

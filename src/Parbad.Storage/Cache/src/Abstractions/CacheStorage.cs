@@ -101,12 +101,12 @@ namespace Parbad.Storage.Cache.Abstractions
         }
 
         /// <inheritdoc />
-        public virtual Task<List<Transaction>> GetTransactionsAsync(Payment payment, CancellationToken cancellationToken = default)
+        public virtual Task<List<Transaction>> GetTransactionsAsync(long paymentId, CancellationToken cancellationToken = default)
         {
-            return Task.FromResult(Collection.Transactions.Where(model => model.PaymentId == payment.Id).ToList());
+            return Task.FromResult(Collection.Transactions.Where(model => model.PaymentId == paymentId).ToList());
         }
 
-        /// <summary>
+        /// <summary>   
         /// Finds a payment in storage.
         /// </summary>
         /// <param name="payment"></param>

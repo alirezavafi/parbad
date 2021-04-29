@@ -132,10 +132,10 @@ namespace Parbad.Storage.EntityFrameworkCore
         }
 
         /// <inheritdoc />
-        public Task<List<Transaction>> GetTransactionsAsync(Payment payment, CancellationToken cancellationToken = default)
+        public Task<List<Transaction>> GetTransactionsAsync(long paymentId, CancellationToken cancellationToken = default)
         {
             var result = DbContext.Transactions
-                .Where(transaction => transaction.PaymentId == payment.Id)
+                .Where(transaction => transaction.PaymentId == paymentId)
                 .AsNoTracking()
                 .ToList();
             return Task.FromResult(result.Select(x => x.ToModel()).ToList());
