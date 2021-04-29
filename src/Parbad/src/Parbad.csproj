@@ -24,7 +24,7 @@ More information: https://github.com/Sina-Soltani/Parbad
     <PackageTags>parbad Payment Gateway virtual virtual-gateway Bank Iran Shetab IranKish Mellat Melli Sadad Parsian Pasargad Saman Asan-Pardakht پرداخت درگاه بانک ایران شتاب ایران-کیش ملت ملی سداد پارسیان پاسارگاد سامان آسان-پرداخت</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>3.7.2</PackageVersion>
+    <PackageVersion>3.7.3</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -76,10 +76,6 @@ More information: https://github.com/Sina-Soltani/Parbad
     <None Include="readme.txt" pack="true" Visible="false" PackagePath="." />
     <None Include="icon.png" pack="true" Visible="false" PackagePath="" />
     <None Include="Parbad.xml" pack="true" Visible="false" PackagePath="" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Parbad.Storage\Abstractions\Parbad.Storage.Abstractions.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\Parbad.Shared\Parbad.Shared.projitems" Label="Shared" />
