@@ -83,7 +83,8 @@ namespace Parbad.Storage.EntityFrameworkCore.Internal
                 IsSucceed = entity.IsSucceed,
                 Message = entity.Message,
                 AdditionalData = entity.AdditionalData,
-                PaymentId = entity.PaymentId
+                PaymentId = entity.PaymentId,
+                DateTime = entity.UpdatedOn ?? entity.CreatedOn,
             };
         }
     }

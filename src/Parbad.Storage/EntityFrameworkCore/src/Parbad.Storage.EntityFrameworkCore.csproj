@@ -20,7 +20,7 @@ More information: https://github.com/Sina-Soltani/Parbad</Description>
     <Authors>Sina Soltani (revision by A.Vafi)</Authors>
     <Product>Parbad.Storage.EntityframeworkCore</Product>
     <PackageReleaseNotes></PackageReleaseNotes>
-    <PackageVersion>1.3.6</PackageVersion>
+    <PackageVersion>1.3.7</PackageVersion>
   </PropertyGroup>
 
   <PropertyGroup>

@@ -21,5 +21,6 @@ namespace Parbad.Storage.Abstractions.Models
         public string AdditionalData { get; set; }
 
         public long PaymentId { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }
