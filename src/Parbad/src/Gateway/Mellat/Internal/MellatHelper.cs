@@ -100,6 +100,8 @@ namespace Parbad.Gateway.Mellat.Internal
 
             //  Transaction Code
             var saleReferenceId = await httpRequest.TryGetParamAsync("SaleReferenceId", cancellationToken).ConfigureAwaitFalse();
+            
+            var cardNo = await httpRequest.TryGetParamAsync("CardHolderPAN", cancellationToken).ConfigureAwaitFalse();
 
             var isSucceed = resCode.Value == OkResult;
 
@@ -115,7 +117,8 @@ namespace Parbad.Gateway.Mellat.Internal
                 IsSucceed = isSucceed,
                 RefId = refId.Value,
                 SaleReferenceId = saleReferenceId.Value,
-                Message = message
+                Message = message,
+                CardNo = cardNo.Value,
             };
         }
 
