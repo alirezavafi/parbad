@@ -1459,6 +1459,11 @@
             Gets the transaction code from the gateway.
             </summary>
         </member>
+        <member name="P:Parbad.IPaymentVerifyResult.CardNo">
+            <summary>
+            Gets the Shetab Card Number
+            </summary>
+        </member>
         <member name="P:Parbad.IPaymentVerifyResult.Status">
             <summary>
             Gets the status of the Verify operation.
