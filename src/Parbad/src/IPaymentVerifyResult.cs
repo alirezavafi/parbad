@@ -33,6 +33,11 @@ namespace Parbad
         /// Gets the transaction code from the gateway.
         /// </summary>
         string TransactionCode { get; }
+        
+        /// <summary>
+        /// Gets the Shetab Card Number
+        /// </summary>
+        string CardNo { get; set; }
 
         /// <summary>
         /// Gets the status of the Verify operation.

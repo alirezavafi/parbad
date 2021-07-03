@@ -6,6 +6,7 @@ namespace Parbad.Internal
     public class PaymentVerifyResult : PaymentResult, IPaymentVerifyResult
     {
         public string TransactionCode { get; set; }
+        public string CardNo { get; set; }
 
         public PaymentVerifyResultStatus Status { get; set; }
 

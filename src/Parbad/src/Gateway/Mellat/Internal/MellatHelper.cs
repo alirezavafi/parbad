@@ -198,6 +198,7 @@ namespace Parbad.Gateway.Mellat.Internal
             {
                 Status = isSuccess ? PaymentVerifyResultStatus.Succeed : PaymentVerifyResultStatus.Failed,
                 TransactionCode = callbackResult.SaleReferenceId,
+                CardNo = callbackResult.CardNo,
                 Message = message,
             };
         }
