@@ -217,7 +217,8 @@ namespace Parbad.Gateway.Saman.Internal
                 {
                     {"Token", token},
                     {"RedirectURL", invoice.CallbackUrl}
-                });
+                },
+                response);
         }
 
         private static async Task<PaymentRequestResult> CreateMobilePaymentRequest(
@@ -262,7 +263,8 @@ namespace Parbad.Gateway.Saman.Internal
                 new Dictionary<string, string>
                 {
                     {"Token", tokenResponse.Token}
-                });
+                },
+                tokenResponse);
 
             result.DatabaseAdditionalData.Add(MobileGatewayKey, true.ToString());
 

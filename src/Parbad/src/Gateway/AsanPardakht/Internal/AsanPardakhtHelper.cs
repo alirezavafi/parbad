@@ -72,7 +72,7 @@ namespace Parbad.Gateway.AsanPardakht.Internal
                 new Dictionary<string, string>
                 {
                     {"RefId", splitedResult[1]}
-                });
+                }, result);
         }
 
         public static AsanPardakhtCallbackResult CreateCallbackResult(

@@ -14,51 +14,56 @@ namespace Parbad.Internal
         /// <inheritdoc />
         public IGatewayTransporter GatewayTransporter { get; set; }
 
+        public object GatewayResult { get; set; }
+
         public override bool IsSucceed => Status == PaymentRequestResultStatus.Succeed;
 
         public static PaymentRequestResult SucceedWithPost(
             string gatewayAccountName,
             HttpContext httpContext,
             string url,
-            IEnumerable<KeyValuePair<string, string>> form)
+            IEnumerable<KeyValuePair<string, string>> form,
+            object gatewayResult)
         {
             var descriptor = GatewayTransporterDescriptor.CreatePost(url, form);
 
             var transporter = new DefaultGatewayTransporter(httpContext, descriptor);
-
-            return Succeed(transporter, gatewayAccountName);
+            return Succeed(transporter, gatewayAccountName, gatewayResult);
         }
 
         public static PaymentRequestResult SucceedWithRedirect(
             string gatewayAccountName,
             HttpContext httpContext,
-            string url)
+            string url,
+            object gatewayResult)
         {
             var descriptor = GatewayTransporterDescriptor.CreateRedirect(url);
 
             var transporter = new DefaultGatewayTransporter(httpContext, descriptor);
 
-            return Succeed(transporter, gatewayAccountName);
+            return Succeed(transporter, gatewayAccountName, gatewayResult);
         }
 
-        public static PaymentRequestResult Succeed(IGatewayTransporter gatewayTransporter, string gatewayAccountName)
+        public static PaymentRequestResult Succeed(IGatewayTransporter gatewayTransporter, string gatewayAccountName, object gatewayResult)
         {
             return new PaymentRequestResult
             {
                 GatewayAccountName = gatewayAccountName,
                 GatewayTransporter = gatewayTransporter,
-                Status = PaymentRequestResultStatus.Succeed
+                Status = PaymentRequestResultStatus.Succeed,
+                GatewayResult = gatewayResult,
             };
         }
 
-        public static PaymentRequestResult Failed(string message, string gatewayAccountName = null)
+        public static PaymentRequestResult Failed(string message, string gatewayAccountName = null, object gatewayResult = null)
         {
             return new PaymentRequestResult
             {
                 Status = PaymentRequestResultStatus.Failed,
                 Message = message,
                 GatewayAccountName = gatewayAccountName,
-                GatewayTransporter = new NullGatewayTransporter()
+                GatewayTransporter = new NullGatewayTransporter(),
+                GatewayResult = gatewayResult,
             };
         }
     }

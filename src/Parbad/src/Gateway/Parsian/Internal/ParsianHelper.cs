@@ -70,7 +70,7 @@ namespace Parbad.Gateway.Parsian.Internal
 
             var paymentPageUrl = $"{gatewayOptions.PaymentPageUrl}?Token={token}";
 
-            var result = PaymentRequestResult.SucceedWithRedirect(account.Name, httpContext, paymentPageUrl);
+            var result = PaymentRequestResult.SucceedWithRedirect(account.Name, httpContext, paymentPageUrl, webServiceResponse);
 
             result.DatabaseAdditionalData.Add("token", token);
 

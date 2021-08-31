@@ -84,7 +84,7 @@ namespace Parbad.Gateway.PayPing
 
             var url = _pingGatewayOptions.PaymentPageUrl.ToggleStringAtEnd("/", shouldHave: true) + createPayResult.Code;
 
-            return PaymentRequestResult.SucceedWithRedirect(account.Name, _httpContextAccessor.HttpContext, url);
+            return PaymentRequestResult.SucceedWithRedirect(account.Name, _httpContextAccessor.HttpContext, url, createPayResult);
         }
 
         /// <inheritdoc />

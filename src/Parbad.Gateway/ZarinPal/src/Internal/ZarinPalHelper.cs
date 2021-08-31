@@ -70,7 +70,7 @@ namespace Parbad.Gateway.ZarinPal.Internal
 
             var paymentPageUrl = GetWebPageUrl(account.IsSandbox, gatewayOptions) + authority;
 
-            return PaymentRequestResult.SucceedWithRedirect(account.Name, httpContext, paymentPageUrl);
+            return PaymentRequestResult.SucceedWithRedirect(account.Name, httpContext, paymentPageUrl, response);
         }
 
         public static async Task<ZarinPalCallbackResult> CreateCallbackResultAsync(

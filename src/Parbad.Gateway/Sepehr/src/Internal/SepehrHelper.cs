@@ -72,7 +72,8 @@ namespace Parbad.Gateway.Sepehr.Internal
                 {
                     {"TerminalID", account.TerminalId.ToString()},
                     {"token", result.AccessToken}
-                });
+                },
+                result);
         }
 
         public static async Task<CallbackResultModel> CreateCallbackResultAsync(

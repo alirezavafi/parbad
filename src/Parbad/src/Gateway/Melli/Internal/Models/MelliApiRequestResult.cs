@@ -6,7 +6,7 @@ using System;
 namespace Parbad.Gateway.Melli.Internal.Models
 {
     [Serializable]
-    internal class MelliApiRequestResult
+    public class MelliApiRequestResult
     {
         public int? ResCode { get; set; }
 

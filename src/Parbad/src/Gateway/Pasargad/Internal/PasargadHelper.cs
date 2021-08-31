@@ -60,7 +60,7 @@ namespace Parbad.Gateway.Pasargad.Internal
                     {"action", ActionNumber},
                     {"timeStamp", timeStamp},
                     {"sign", signedData}
-                });
+                }, null);
 
             result.DatabaseAdditionalData.Add("timeStamp", timeStamp);
 

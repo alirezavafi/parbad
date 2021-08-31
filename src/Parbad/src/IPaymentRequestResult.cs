@@ -38,5 +38,6 @@ namespace Parbad
         /// Redirects the client to the gateway website.
         /// </summary>
         IGatewayTransporter GatewayTransporter { get; }
+        public object GatewayResult { get; set; }
     }
 }

@@ -49,7 +49,7 @@ namespace Parbad.Gateway.IdPay.Internal
 
             var result = JsonConvert.DeserializeObject<IdPayRequestResultModel>(response);
 
-            return PaymentRequestResult.SucceedWithRedirect(account.Name, httpContext, result.Link);
+            return PaymentRequestResult.SucceedWithRedirect(account.Name, httpContext, result.Link, result);
         }
 
         public static async Task<IdPayCallbackResult> CreateCallbackResultAsync(
