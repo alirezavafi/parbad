@@ -8,32 +8,32 @@ using Parbad.GatewayBuilders;
 
 namespace Parbad.Gateway.AsanPardakht
 {
-    public static class AsanPardakhtGatewayBuilderExtensions
+    public static class AsanPardakhtSoapGatewayBuilderExtensions
     {
         /// <summary>
         /// Adds AsanPardakht gateway to Parbad services.
         /// </summary>
         /// <param name="builder"></param>
-        public static IGatewayConfigurationBuilder<AsanPardakhtGateway> AddAsanPardakht(this IGatewayBuilder builder)
+        public static IGatewayConfigurationBuilder<AsanPardakhtSoapGateway> AddAsanPardakhtSoap(this IGatewayBuilder builder)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
 
-            builder.Services.AddSingleton<IAsanPardakhtCrypto, AsanPardakhtCrypto>();
+            builder.Services.AddSingleton<IAsanPardakhtSoapCrypto, AsanPardakhtSoapCrypto>();
 
             return builder
-                .AddGateway<AsanPardakhtGateway>()
+                .AddGateway<AsanPardakhtSoapGateway>()
                 .WithOptions(options => { })
                 .WithHttpClient(clientBuilder => clientBuilder.ConfigureHttpClient(client => { }));
         }
 
         /// <summary>
-        /// Configures the accounts for <see cref="AsanPardakhtGateway"/>.
+        /// Configures the accounts for <see cref="AsanPardakhtSoapGateway"/>.
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configureAccounts">Configures the accounts.</param>
-        public static IGatewayConfigurationBuilder<AsanPardakhtGateway> WithAccounts(
-            this IGatewayConfigurationBuilder<AsanPardakhtGateway> builder,
-            Action<IGatewayAccountBuilder<AsanPardakhtGatewayAccount>> configureAccounts)
+        public static IGatewayConfigurationBuilder<AsanPardakhtSoapGateway> WithAccounts(
+            this IGatewayConfigurationBuilder<AsanPardakhtSoapGateway> builder,
+            Action<IGatewayAccountBuilder<AsanPardakhtSoapGatewayAccount>> configureAccounts)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
 
@@ -45,9 +45,9 @@ namespace Parbad.Gateway.AsanPardakht
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configureOptions">Configuration</param>
-        public static IGatewayConfigurationBuilder<AsanPardakhtGateway> WithOptions(
-            this IGatewayConfigurationBuilder<AsanPardakhtGateway> builder,
-            Action<AsanPardakhtGatewayOptions> configureOptions)
+        public static IGatewayConfigurationBuilder<AsanPardakhtSoapGateway> WithOptions(
+            this IGatewayConfigurationBuilder<AsanPardakhtSoapGateway> builder,
+            Action<AsanPardakhtSoapGatewayOptions> configureOptions)
         {
             builder.Services.Configure(configureOptions);
 

@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.0;net5.0</TargetFrameworks>
     <VersionPrefix>1.2.0</VersionPrefix>
     <LangVersion>9</LangVersion>
     <Authors>Sina Soltani</Authors>
@@ -17,6 +16,7 @@
     <Description>IDPay.ir Gateway for Parbad project.
 
 For more information see: https://www.nuget.org/packages/Parbad/</Description>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>

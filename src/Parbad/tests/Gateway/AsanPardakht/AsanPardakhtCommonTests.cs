@@ -23,7 +23,7 @@ namespace Parbad.Tests.Gateway.AsanPardakht
         [Test]
         public async Task Invoice_Must_Have_Correct_GatewayName()
         {
-            _invoiceBuilder.UseAsanPardakht();
+            _invoiceBuilder.UseAsanPardakhtSoap();
 
             var invoice = await _invoiceBuilder.BuildAsync();
 

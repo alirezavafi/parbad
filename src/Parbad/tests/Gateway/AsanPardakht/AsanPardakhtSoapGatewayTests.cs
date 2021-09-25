@@ -15,7 +15,7 @@ namespace Parbad.Tests.Gateway.AsanPardakht
 {
     public class AsanPardakhtGatewayTests
     {
-        private IAsanPardakhtCrypto _crypto;
+        private IAsanPardakhtSoapCrypto _soapCrypto;
 
         private const long ExpectedAmount = 1000;
         private const string ExpectedTransactionCode = "test";
@@ -23,7 +23,7 @@ namespace Parbad.Tests.Gateway.AsanPardakht
         [SetUp]
         public void Setup()
         {
-            var mockCrypto = new Mock<IAsanPardakhtCrypto>();
+            var mockCrypto = new Mock<IAsanPardakhtSoapCrypto>();
             mockCrypto
                 .Setup(crypto => crypto.Encrypt(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns("test");
@@ -34,7 +34,7 @@ namespace Parbad.Tests.Gateway.AsanPardakht
                 .Setup(crypto => crypto.Decrypt(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(decryptedValue);
 
-            _crypto = mockCrypto.Object;
+            _soapCrypto = mockCrypto.Object;
         }
 
         [Test]
@@ -50,7 +50,7 @@ namespace Parbad.Tests.Gateway.AsanPardakht
                 gateways =>
                 {
                     var builder = gateways
-                        .AddAsanPardakht()
+                        .AddAsanPardakhtSoap()
                         .WithAccounts(accounts =>
                         {
                             accounts.AddInMemory(account =>
@@ -68,9 +68,9 @@ namespace Parbad.Tests.Gateway.AsanPardakht
                             options.PaymentPageUrl = paymentPageUrl;
                         });
 
-                    builder.Services.RemoveAll<IAsanPardakhtCrypto>();
+                    builder.Services.RemoveAll<IAsanPardakhtSoapCrypto>();
 
-                    builder.Services.AddSingleton(_crypto);
+                    builder.Services.AddSingleton(_soapCrypto);
 
                     return builder;
                 },
@@ -80,7 +80,7 @@ namespace Parbad.Tests.Gateway.AsanPardakht
                         .SetTrackingNumber(expectedTrackingNumber)
                         .SetAmount(ExpectedAmount)
                         .SetCallbackUrl(expectedCallbackUrl)
-                        .UseAsanPardakht();
+                        .UseAsanPardakhtSoap();
                 },
                 handler =>
                 {
@@ -108,15 +108,15 @@ namespace Parbad.Tests.Gateway.AsanPardakht
                 },
                 result => GatewayOnResultHelper.OnRequestResult(
                     result,
-                    AsanPardakhtGateway.Name,
+                    AsanPardakhtSoapGateway.Name,
                     GatewayTransporterDescriptor.TransportType.Post,
                     expectedPaymentPageUrl: paymentPageUrl,
                     expectedForm: new Dictionary<string, string>
                     {
                         {"RefId", expectedRefId}
                     }),
-                result => GatewayOnResultHelper.OnFetchResult(result, expectedTrackingNumber, ExpectedAmount, AsanPardakhtGateway.Name),
-                result => GatewayOnResultHelper.OnVerifyResult(result, expectedTrackingNumber, ExpectedAmount, AsanPardakhtGateway.Name));
+                result => GatewayOnResultHelper.OnFetchResult(result, expectedTrackingNumber, ExpectedAmount, AsanPardakhtSoapGateway.Name),
+                result => GatewayOnResultHelper.OnVerifyResult(result, expectedTrackingNumber, ExpectedAmount, AsanPardakhtSoapGateway.Name));
         }
 
         private static string GetRequestResponse(string refId)

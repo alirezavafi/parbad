@@ -4,7 +4,6 @@
     <PackageId>Persian.Plus.PaymentGateway.Parbad.AspNetCore</PackageId>
     <Product>Parbad.AspNetCore</Product>
     <VersionPrefix>1.2.0</VersionPrefix>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.0;netcoreapp3.1;net5.0</TargetFrameworks>
     <LangVersion>9</LangVersion>
     <Authors>Sina Soltani (revision by A.Vafi)</Authors>
     <Copyright>Copyright © Sina Soltani 2016</Copyright>
@@ -21,6 +20,7 @@ For more information see: https://www.nuget.org/packages/Parbad/</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
     <PackageVersion>1.2.1</PackageVersion>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>

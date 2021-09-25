@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Parbad.Abstraction;
@@ -22,28 +23,29 @@ using Parbad.Storage.Abstractions.Models;
 namespace Parbad.Gateway.AsanPardakht
 {
     [Gateway(Name)]
-    public class AsanPardakhtGateway : GatewayBase<AsanPardakhtGatewayAccount>
+    public class AsanPardakhtSoapGateway : GatewayBase<AsanPardakhtSoapGatewayAccount>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
-        private readonly IAsanPardakhtCrypto _crypto;
-        private readonly AsanPardakhtGatewayOptions _gatewayOptions;
+        private readonly IAsanPardakhtSoapCrypto _soapCrypto;
+        private readonly AsanPardakhtSoapGatewayOptions _soapGatewayOptions;
         private readonly IOptions<MessagesOptions> _messageOptions;
 
-        public const string Name = "AsanPardakht";
+        public const string Name = "AsanPardakhtSoap";
 
-        public AsanPardakhtGateway(
+        public AsanPardakhtSoapGateway(
             IHttpContextAccessor httpContextAccessor,
             IHttpClientFactory httpClientFactory,
-            IGatewayAccountProvider<AsanPardakhtGatewayAccount> accountProvider,
-            IAsanPardakhtCrypto crypto,
-            IOptions<AsanPardakhtGatewayOptions> gatewayOptions,
-            IOptions<MessagesOptions> messageOptions) : base(accountProvider)
+            IGatewayAccountProvider<AsanPardakhtSoapGatewayAccount> accountProvider,
+            IAsanPardakhtSoapCrypto soapCrypto,
+            IOptions<AsanPardakhtSoapGatewayOptions> gatewayOptions,
+            IOptions<MessagesOptions> messageOptions
+            ) : base(accountProvider)
         {
             _httpContextAccessor = httpContextAccessor;
             _httpClient = httpClientFactory.CreateClient(this);
-            _crypto = crypto;
-            _gatewayOptions = gatewayOptions.Value;
+            _soapCrypto = soapCrypto;
+            _soapGatewayOptions = gatewayOptions.Value;
             _messageOptions = messageOptions;
         }
 
@@ -54,19 +56,19 @@ namespace Parbad.Gateway.AsanPardakht
 
             var account = await GetAccountAsync(invoice).ConfigureAwaitFalse();
 
-            var data = AsanPardakhtHelper.CreateRequestData(invoice, account, _crypto);
+            var data = AsanPardakhtSoapHelper.CreateRequestData(invoice, account, _soapCrypto);
 
             var responseMessage = await _httpClient
-                .PostXmlAsync(_gatewayOptions.ApiUrl, data, cancellationToken)
+                .PostXmlAsync(_soapGatewayOptions.ApiUrl, data, cancellationToken)
                 .ConfigureAwaitFalse();
 
             var response = await responseMessage.Content.ReadAsStringAsync().ConfigureAwaitFalse();
 
-            return AsanPardakhtHelper.CreateRequestResult(
+            return AsanPardakhtSoapHelper.CreateRequestResult(
                 response,
                 account,
                 _httpContextAccessor.HttpContext,
-                _gatewayOptions,
+                _soapGatewayOptions,
                 _messageOptions.Value);
         }
 
@@ -92,11 +94,11 @@ namespace Parbad.Gateway.AsanPardakht
             AsanPardakhtCallbackResult callbackResult;
             if (callBackTransaction == null)
             {
-                callbackResult = AsanPardakhtHelper.CreateCallbackResult(
+                callbackResult = AsanPardakhtSoapHelper.CreateCallbackResult(
                     context,
                     account,
                     _httpContextAccessor.HttpContext.Request,
-                    _crypto,
+                    _soapCrypto,
                     _messageOptions.Value);
             }
             else
@@ -122,30 +124,30 @@ namespace Parbad.Gateway.AsanPardakht
             }
 
             var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
-            var data = AsanPardakhtHelper.CreateVerifyData(callbackResult, account, _crypto);
+            var data = AsanPardakhtSoapHelper.CreateVerifyData(callbackResult, account, _soapCrypto);
 
             var responseMessage = await _httpClient
-                .PostXmlAsync(_gatewayOptions.ApiUrl, data, cancellationToken)
+                .PostXmlAsync(_soapGatewayOptions.ApiUrl, data, cancellationToken)
                 .ConfigureAwaitFalse();
 
             var response = await responseMessage.Content.ReadAsStringAsync().ConfigureAwaitFalse();
 
-            var verifyResult = AsanPardakhtHelper.CheckVerifyResult(response, callbackResult, _messageOptions.Value);
+            var verifyResult = AsanPardakhtSoapHelper.CheckVerifyResult(response, callbackResult, _messageOptions.Value);
 
             if (!verifyResult.IsSucceed)
             {
                 return verifyResult.Result;
             }
 
-            data = AsanPardakhtHelper.CreateSettleData(callbackResult, account, _crypto);
+            data = AsanPardakhtSoapHelper.CreateSettleData(callbackResult, account, _soapCrypto);
 
             responseMessage = await _httpClient
-                .PostXmlAsync(_gatewayOptions.ApiUrl, data, cancellationToken)
+                .PostXmlAsync(_soapGatewayOptions.ApiUrl, data, cancellationToken)
                 .ConfigureAwaitFalse();
 
             response = await responseMessage.Content.ReadAsStringAsync().ConfigureAwaitFalse();
 
-            return AsanPardakhtHelper.CreateSettleResult(response, callbackResult, _messageOptions.Value);
+            return AsanPardakhtSoapHelper.CreateSettleResult(response, callbackResult, _messageOptions.Value);
         }
 
         /// <inheritdoc />

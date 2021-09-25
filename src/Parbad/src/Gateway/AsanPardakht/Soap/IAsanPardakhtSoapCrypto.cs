@@ -1,6 +1,6 @@
 ﻿namespace Parbad.Gateway.AsanPardakht
 {
-    public interface IAsanPardakhtCrypto
+    public interface IAsanPardakhtSoapCrypto
     {
         string Encrypt(string input, string key, string iv);
 

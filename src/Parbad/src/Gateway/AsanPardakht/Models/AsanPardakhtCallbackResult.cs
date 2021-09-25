@@ -11,7 +11,7 @@ namespace Parbad.Gateway.AsanPardakht.Internal.Models
 
         public string Rrn { get; set; }
 
-        public string LastFourDigitOfPAN { get; set; }
+        public string CardNumber { get; set; }
 
         public string Message { get; set; }
     }

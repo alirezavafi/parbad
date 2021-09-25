@@ -4,7 +4,6 @@
     <PackageId>Persian.Plus.PaymentGateway.Parbad.Storage.EntityFrameworkCore</PackageId>
     <VersionPrefix>1.3.5</VersionPrefix>
     <LangVersion>9</LangVersion>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
@@ -21,6 +20,7 @@ More information: https://github.com/Sina-Soltani/Parbad</Description>
     <Product>Parbad.Storage.EntityframeworkCore</Product>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageVersion>1.3.7</PackageVersion>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>

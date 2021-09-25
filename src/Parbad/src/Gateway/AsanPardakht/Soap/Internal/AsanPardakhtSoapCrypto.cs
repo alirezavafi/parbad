@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace Parbad.Gateway.AsanPardakht.Internal
 {
-    internal class AsanPardakhtCrypto : IAsanPardakhtCrypto
+    internal class AsanPardakhtSoapCrypto : IAsanPardakhtSoapCrypto
     {
         public string Encrypt(string input, string key, string iv)
         {

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Parbad. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
+using System;
 using Microsoft.AspNetCore.Http;
 using Parbad.Abstraction;
 using Parbad.Gateway.AsanPardakht.Internal.Models;
@@ -8,15 +9,16 @@ using Parbad.Internal;
 using Parbad.Options;
 using Parbad.Utilities;
 using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace Parbad.Gateway.AsanPardakht.Internal
 {
-    internal static class AsanPardakhtHelper
+    internal static class AsanPardakhtSoapHelper
     {
         //public const string PaymentPageUrl = "https://asan.shaparak.ir/";
-        //public const string BaseServiceUrl = "https://services.asanpardakht.net/paygate/merchantservices.asmx";
+        //public const string BaseServiceUrl = "https://ipgsoap.asanpardakht.ir/paygate/merchantservices.asmx";
 
-        public static string CreateRequestData(Invoice invoice, AsanPardakhtGatewayAccount account, IAsanPardakhtCrypto crypto)
+        public static string CreateRequestData(Invoice invoice, AsanPardakhtSoapGatewayAccount account, IAsanPardakhtSoapCrypto soapCrypto)
         {
             var requestToEncrypt = string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8}",
                 1,
@@ -24,13 +26,13 @@ namespace Parbad.Gateway.AsanPardakht.Internal
                 account.Password,
                 invoice.TrackingNumber,
                 invoice.Amount.ToLongString(),
-                "datetime",
+                DateTime.Now.ToString("yyyyMMdd HHmmss"),
                 "",
                 invoice.CallbackUrl,
                 "0"
             );
 
-            var encryptedRequest = crypto.Encrypt(requestToEncrypt, account.Key, account.IV);
+            var encryptedRequest = soapCrypto.Encrypt(requestToEncrypt, account.Key, account.IV);
 
             return
                 "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">" +
@@ -47,9 +49,9 @@ namespace Parbad.Gateway.AsanPardakht.Internal
 
         public static PaymentRequestResult CreateRequestResult(
             string response,
-            AsanPardakhtGatewayAccount account,
+            AsanPardakhtSoapGatewayAccount account,
             HttpContext httpContext,
-            AsanPardakhtGatewayOptions gatewayOptions,
+            AsanPardakhtSoapGatewayOptions soapGatewayOptions,
             MessagesOptions messagesOptions)
         {
             var result = XmlHelper.GetNodeValueFromXml(response, "RequestOperationResult", "http://tempuri.org/");
@@ -68,7 +70,7 @@ namespace Parbad.Gateway.AsanPardakht.Internal
             return PaymentRequestResult.SucceedWithPost(
                 account.Name,
                 httpContext,
-                gatewayOptions.PaymentPageUrl,
+                soapGatewayOptions.PaymentPageUrl,
                 new Dictionary<string, string>
                 {
                     {"RefId", splitedResult[1]}
@@ -77,9 +79,9 @@ namespace Parbad.Gateway.AsanPardakht.Internal
 
         public static AsanPardakhtCallbackResult CreateCallbackResult(
             InvoiceContext context,
-            AsanPardakhtGatewayAccount account,
+            AsanPardakhtSoapGatewayAccount account,
             HttpRequest httpRequest,
-            IAsanPardakhtCrypto crypto,
+            IAsanPardakhtSoapCrypto soapCrypto,
             MessagesOptions messagesOptions)
         {
             httpRequest.Form.TryGetValue("ReturningParams", out var returningParams);
@@ -98,7 +100,7 @@ namespace Parbad.Gateway.AsanPardakht.Internal
             }
             else
             {
-                var decryptedResult = crypto.Decrypt(returningParams, account.Key, account.IV);
+                var decryptedResult = soapCrypto.Decrypt(returningParams, account.Key, account.IV);
 
                 var splitedResult = decryptedResult.Split(',');
 
@@ -142,18 +144,18 @@ namespace Parbad.Gateway.AsanPardakht.Internal
                 IsSucceed = isSucceed,
                 PayGateTranId = payGateTranId,
                 Rrn = rrn,
-                LastFourDigitOfPAN = lastFourDigitOfPAN,
+                CardNumber = lastFourDigitOfPAN,
                 Message = message
             };
         }
 
         public static string CreateVerifyData(
             AsanPardakhtCallbackResult callbackResult,
-            AsanPardakhtGatewayAccount account,
-            IAsanPardakhtCrypto crypto)
+            AsanPardakhtSoapGatewayAccount account,
+            IAsanPardakhtSoapCrypto soapCrypto)
         {
             var requestToEncrypt = account.UserName + "," + account.Password;
-            var encryptedRequest = crypto.Encrypt(requestToEncrypt, account.Key, account.IV);
+            var encryptedRequest = soapCrypto.Encrypt(requestToEncrypt, account.Key, account.IV);
 
             return
                 "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">" +
@@ -206,11 +208,11 @@ namespace Parbad.Gateway.AsanPardakht.Internal
 
         public static string CreateSettleData(
             AsanPardakhtCallbackResult callbackResult,
-            AsanPardakhtGatewayAccount account,
-            IAsanPardakhtCrypto crypto)
+            AsanPardakhtSoapGatewayAccount account,
+            IAsanPardakhtSoapCrypto soapCrypto)
         {
             var requestToEncrypt = $"{account.UserName},{account.Password}";
-            var encryptedRequest = crypto.Encrypt(requestToEncrypt, account.Key, account.IV);
+            var encryptedRequest = soapCrypto.Encrypt(requestToEncrypt, account.Key, account.IV);
 
             return
                 "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:tem=\"http://tempuri.org/\">" +
@@ -254,7 +256,7 @@ namespace Parbad.Gateway.AsanPardakht.Internal
             };
 
             verifyResult.DatabaseAdditionalData.Add("PayGateTranId", callbackResult.PayGateTranId);
-            verifyResult.DatabaseAdditionalData.Add("LastFourDigitOfPAN", callbackResult.LastFourDigitOfPAN);
+            verifyResult.DatabaseAdditionalData.Add("LastFourDigitOfPAN", callbackResult.CardNumber);
 
             return verifyResult;
         }

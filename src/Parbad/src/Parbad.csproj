@@ -4,7 +4,6 @@
     <PackageId>Persian.Plus.PaymentGateway.Parbad</PackageId>
     <Product>Parbad</Product>
     <VersionPrefix>3.7.0</VersionPrefix>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.0;netcoreapp3.1;net5.0</TargetFrameworks>
     <LangVersion>9</LangVersion>
     <Authors>Sina Soltani (revision by A.Vafi)</Authors>
     <Description>Parbad is a free, open-source, integrated and extensible library which connects your web applications to online payment gateways. Gateways can be added or developed by you.
@@ -24,7 +23,8 @@ More information: https://github.com/Sina-Soltani/Parbad
     <PackageTags>parbad Payment Gateway virtual virtual-gateway Bank Iran Shetab IranKish Mellat Melli Sadad Parsian Pasargad Saman Asan-Pardakht پرداخت درگاه بانک ایران شتاب ایران-کیش ملت ملی سداد پارسیان پاسارگاد سامان آسان-پرداخت</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageVersion>3.7.10</PackageVersion>
+    <PackageVersion>3.7.15</PackageVersion>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>

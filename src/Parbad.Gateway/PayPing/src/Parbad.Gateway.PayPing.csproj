@@ -3,7 +3,6 @@
     <PackageId>Parbad.Gateway.PayPing</PackageId>
     <Product>Parbad.Gateway.PayPing</Product>
     <VersionPrefix>1.1.0</VersionPrefix>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;netcoreapp3.0;net5.0</TargetFrameworks>
     <LangVersion>9</LangVersion>
     <Authors>Ali Zaferany</Authors>
     <Copyright>Copyright © Parbad 2016</Copyright>
@@ -18,6 +17,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Description>PayPing Gateway for Parbad project.
 For more information see: https://github.com/Sina-Soltani/Parbad</Description>
+    <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
