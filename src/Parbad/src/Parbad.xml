@@ -445,39 +445,77 @@
             Transports the client to the specified gateway.
             </summary>
         </member>
-        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtGateway.RequestAsync(Parbad.Abstraction.Invoice,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtRestGateway.RequestAsync(Parbad.Abstraction.Invoice,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtGateway.FetchAsync(Parbad.InvoiceContext,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtRestGateway.FetchAsync(Parbad.InvoiceContext,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtGateway.VerifyAsync(Parbad.InvoiceContext,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtRestGateway.VerifyAsync(Parbad.InvoiceContext,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtGateway.RefundAsync(Parbad.InvoiceContext,Parbad.Money,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtRestGateway.RefundAsync(Parbad.InvoiceContext,Parbad.Money,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtGatewayBuilderExtensions.AddAsanPardakht(Parbad.GatewayBuilders.IGatewayBuilder)">
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtRestGatewayBuilderExtensions.AddAsanPardakhtRest(Parbad.GatewayBuilders.IGatewayBuilder)">
             <summary>
             Adds AsanPardakht gateway to Parbad services.
             </summary>
             <param name="builder"></param>
         </member>
-        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtGatewayBuilderExtensions.WithAccounts(Parbad.GatewayBuilders.IGatewayConfigurationBuilder{Parbad.Gateway.AsanPardakht.AsanPardakhtGateway},System.Action{Parbad.GatewayBuilders.IGatewayAccountBuilder{Parbad.Gateway.AsanPardakht.AsanPardakhtGatewayAccount}})">
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtRestGatewayBuilderExtensions.WithAccounts(Parbad.GatewayBuilders.IGatewayConfigurationBuilder{Parbad.Gateway.AsanPardakht.AsanPardakhtRestGateway},System.Action{Parbad.GatewayBuilders.IGatewayAccountBuilder{Parbad.Gateway.AsanPardakht.AsanPardakhtRestGatewayAccount}})">
             <summary>
-            Configures the accounts for <see cref="T:Parbad.Gateway.AsanPardakht.AsanPardakhtGateway"/>.
+            Configures the accounts for <see cref="T:Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGateway"/>.
             </summary>
             <param name="builder"></param>
             <param name="configureAccounts">Configures the accounts.</param>
         </member>
-        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtGatewayBuilderExtensions.WithOptions(Parbad.GatewayBuilders.IGatewayConfigurationBuilder{Parbad.Gateway.AsanPardakht.AsanPardakhtGateway},System.Action{Parbad.Gateway.AsanPardakht.AsanPardakhtGatewayOptions})">
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtRestGatewayBuilderExtensions.WithOptions(Parbad.GatewayBuilders.IGatewayConfigurationBuilder{Parbad.Gateway.AsanPardakht.AsanPardakhtRestGateway},System.Action{Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGatewayOptions})">
             <summary>
             Configures the options for AsanPardakht Gateway.
             </summary>
             <param name="builder"></param>
             <param name="configureOptions">Configuration</param>
         </member>
-        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtGatewayInvoiceBuilderExtensions.UseAsanPardakht(Parbad.InvoiceBuilder.IInvoiceBuilder)">
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtRestGatewayInvoiceBuilderExtensions.UseAsanPardakhtRest(Parbad.InvoiceBuilder.IInvoiceBuilder)">
+            <summary>
+            The invoice will be sent to Asan Pardakht gateway.
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGateway.RequestAsync(Parbad.Abstraction.Invoice,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGateway.FetchAsync(Parbad.InvoiceContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGateway.VerifyAsync(Parbad.InvoiceContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGateway.RefundAsync(Parbad.InvoiceContext,Parbad.Money,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGatewayBuilderExtensions.AddAsanPardakhtSoap(Parbad.GatewayBuilders.IGatewayBuilder)">
+            <summary>
+            Adds AsanPardakht gateway to Parbad services.
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGatewayBuilderExtensions.WithAccounts(Parbad.GatewayBuilders.IGatewayConfigurationBuilder{Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGateway},System.Action{Parbad.GatewayBuilders.IGatewayAccountBuilder{Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGatewayAccount}})">
+            <summary>
+            Configures the accounts for <see cref="T:Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGateway"/>.
+            </summary>
+            <param name="builder"></param>
+            <param name="configureAccounts">Configures the accounts.</param>
+        </member>
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGatewayBuilderExtensions.WithOptions(Parbad.GatewayBuilders.IGatewayConfigurationBuilder{Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGateway},System.Action{Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGatewayOptions})">
+            <summary>
+            Configures the options for AsanPardakht Gateway.
+            </summary>
+            <param name="builder"></param>
+            <param name="configureOptions">Configuration</param>
+        </member>
+        <member name="M:Parbad.Gateway.AsanPardakht.AsanPardakhtSoapGatewayInvoiceBuilderExtensions.UseAsanPardakhtSoap(Parbad.InvoiceBuilder.IInvoiceBuilder)">
             <summary>
             The invoice will be sent to Asan Pardakht gateway.
             </summary>

@@ -68,7 +68,7 @@ namespace Parbad.Gateway.AsanPardakht
                 localInvoiceId = invoice.TrackingNumber,
                 amountInRials = (long) invoice.Amount,
                 localDate = DateTime.Now.ToString("yyyyMMdd HHmmss"),
-                callbackURL = invoice.CallbackUrl
+                callbackURL = invoice.CallbackUrl.Url
             });
 
             var r = await _httpClient.SendAsync(requestMessage, cancellationToken);
@@ -175,7 +175,7 @@ namespace Parbad.Gateway.AsanPardakht
                 };
             }
 
-            var settleHttpRequestMsg = new HttpRequestMessage(HttpMethod.Post, "/v1/Verify");
+            var settleHttpRequestMsg = new HttpRequestMessage(HttpMethod.Post, "/v1/Settlement");
             settleHttpRequestMsg.Headers.Add("usr", account.UserName);
             settleHttpRequestMsg.Headers.Add("pwd", account.Password);
             settleHttpRequestMsg.Content = JsonContent.Create(new

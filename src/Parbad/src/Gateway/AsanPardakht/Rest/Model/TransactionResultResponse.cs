@@ -36,22 +36,22 @@ namespace Parbad.Gateway.AsanPardakht.Model
         public string DestinationMobile { get; set; }
 
         [JsonPropertyName("productId")]
-        public int ProductId { get; set; }
+        public int? ProductId { get; set; }
 
         [JsonPropertyName("productNameFa")]
         public string ProductNameFa { get; set; }
 
         [JsonPropertyName("productPrice")]
-        public int ProductPrice { get; set; }
+        public int? ProductPrice { get; set; }
 
         [JsonPropertyName("operatorId")]
-        public int OperatorId { get; set; }
+        public int? OperatorId { get; set; }
 
         [JsonPropertyName("operatorNameFa")]
         public string OperatorNameFa { get; set; }
 
         [JsonPropertyName("simTypeId")]
-        public int SimTypeId { get; set; }
+        public int? SimTypeId { get; set; }
 
         [JsonPropertyName("simTypeTitleFa")]
         public string SimTypeTitleFa { get; set; }
@@ -69,6 +69,6 @@ namespace Parbad.Gateway.AsanPardakht.Model
         public DateTime PayGateTranDate { get; set; }
 
         [JsonPropertyName("payGateTranDateEpoch")]
-        public int PayGateTranDateEpoch { get; set; }
+        public decimal PayGateTranDateEpoch { get; set; }
     }
 }
