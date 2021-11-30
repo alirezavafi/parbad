@@ -12,6 +12,7 @@ using Parbad.Options;
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -116,15 +117,15 @@ namespace Parbad.Gateway.Saman
 
             var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
 
-            var data = SamanHelper.CreateVerifyData(callbackResult, account);
+            var resp = await _httpClient.PostJsonAsync(_gatewayOptions.VerificationUrl, new
+            {
+                RefNum = callbackResult.TransactionId,
+                TerminalNumber = account.MerchantId
+            }, cancellationToken: cancellationToken);
+            resp.EnsureSuccessStatusCode();
+            var result = await resp.Content.ReadFromJsonAsync<SamanVerifyTransactionResult>(cancellationToken: cancellationToken);
 
-            var responseMessage = await _httpClient
-                .PostXmlAsync(SamanHelper.GetVerificationUrl(context, _gatewayOptions), data, cancellationToken)
-                .ConfigureAwaitFalse();
-
-            var response = await responseMessage.Content.ReadAsStringAsync().ConfigureAwaitFalse();
-
-            return SamanHelper.CreateVerifyResult(response, context, callbackResult, _messageOptions);
+            return SamanHelper.CreateVerifyResult(result, context, callbackResult, _messageOptions);
         }
 
         /// <inheritdoc />
@@ -137,7 +138,7 @@ namespace Parbad.Gateway.Saman
             var data = SamanHelper.CreateRefundData(context, amount, account);
 
             var responseMessage = await _httpClient
-                .PostXmlAsync(SamanHelper.GetVerificationUrl(context, _gatewayOptions), data, cancellationToken)
+                .PostXmlAsync(_gatewayOptions.VerificationUrl, data, cancellationToken)
                 .ConfigureAwaitFalse();
 
             var response = await responseMessage.Content.ReadAsStringAsync().ConfigureAwaitFalse();

@@ -43,6 +43,12 @@ namespace Parbad.Abstraction
         /// Gets or sets the name of the gateway which the invoice must be paid in.
         /// </summary>
         public string GatewayName { get; set; }
+        
+        /// <summary>
+        /// Gets or sets the customer mobile number for saving/loading customer cart numbers in psp page.
+        /// </summary>
+        public string MobileNumber { get; set; }
+        
 
         /// <summary>
         /// Gets or sets the properties of the invoice.

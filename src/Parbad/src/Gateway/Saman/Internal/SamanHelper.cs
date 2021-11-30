@@ -24,7 +24,6 @@ namespace Parbad.Gateway.Saman.Internal
 {
     internal static class SamanHelper
     {
-        public const string MobileGatewayKey = "UseMobileGateway";
         public const string AdditionalVerificationDataKey = "SamanAdditionalVerificationData";
 
         public static Task<PaymentRequestResult> CreateRequest(
@@ -36,12 +35,7 @@ namespace Parbad.Gateway.Saman.Internal
             MessagesOptions messagesOptions,
             CancellationToken cancellationToken)
         {
-            if (invoice.IsSamanMobileGatewayEnabled())
-            {
-                return CreateMobilePaymentRequest(invoice, httpContext, account, httpClient, gatewayOptions, messagesOptions, cancellationToken);
-            }
-
-            return CreateWebPaymentRequest(invoice, httpContext, account, httpClient, gatewayOptions, messagesOptions, cancellationToken);
+            return CreatePaymentRequest(invoice, httpContext, account, httpClient, gatewayOptions, messagesOptions, cancellationToken);
         }
 
         public static async Task<SamanCallbackResult> CreateCallbackResultAsync(
@@ -94,33 +88,13 @@ namespace Parbad.Gateway.Saman.Internal
             };
         }
 
-        public static string CreateVerifyData(SamanCallbackResult callbackResult, SamanGatewayAccount account)
+        public static PaymentVerifyResult CreateVerifyResult(SamanVerifyTransactionResult verifyResult, InvoiceContext context, SamanCallbackResult callbackResult, MessagesOptions messagesOptions)
         {
-            return
-                "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:Foo\">" +
-                "<soapenv:Header/>" +
-                "<soapenv:Body>" +
-                "<urn:verifyTransaction soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">" +
-                $"<String_1 xsi:type=\"xsd:string\">{callbackResult.TransactionId}</String_1>" +
-                $"<String_2 xsi:type=\"xsd:string\">{account.MerchantId}</String_2>" +
-                "</urn:verifyTransaction>" +
-                "</soapenv:Body>" +
-                "</soapenv:Envelope>";
-        }
-
-        public static PaymentVerifyResult CreateVerifyResult(string webServiceResponse, InvoiceContext context, SamanCallbackResult callbackResult, MessagesOptions messagesOptions)
-        {
-            var stringResult = XmlHelper.GetNodeValueFromXml(webServiceResponse, "result");
-
-            //  This result is actually: TotalAmount
-            //  it must be equals to TotalAmount in database.
-            var numericResult = Convert.ToInt64(stringResult);
-
-            var isSuccess = numericResult > 0 && numericResult == (long)context.Payment.Amount;
+            var isSuccess = verifyResult.Success && verifyResult.ResultCode == 0 && verifyResult.SamanVerifyTransactionDetail.AffectiveAmount == (long)context.Payment.Amount;
 
             var message = isSuccess
                 ? messagesOptions.PaymentSucceed
-                : SamanResultTranslator.Translate(numericResult, messagesOptions);
+                : verifyResult.ResultDescription;
 
             var result = new PaymentVerifyResult
             {
@@ -172,8 +146,8 @@ namespace Parbad.Gateway.Saman.Internal
                 Message = message
             };
         }
-
-        private static async Task<PaymentRequestResult> CreateWebPaymentRequest(
+        
+        private static async Task<PaymentRequestResult> CreatePaymentRequest(
             Invoice invoice,
             HttpContext httpContext,
             SamanGatewayAccount account,
@@ -182,68 +156,21 @@ namespace Parbad.Gateway.Saman.Internal
             MessagesOptions messagesOptions,
             CancellationToken cancellationToken)
         {
-            var data = CreateTokenRequest(invoice, account);
-
-            var responseMessage = await httpClient.PostXmlAsync(gatewayOptions.WebApiTokenUrl, data, cancellationToken);
-
-            var response = await responseMessage.Content.ReadAsStringAsync();
-
-            var token = XmlHelper.GetNodeValueFromXml(response, "result");
-
-            string message = null;
-            var isSucceed = true;
-
-            if (token.IsNullOrEmpty())
-            {
-                message = $"{messagesOptions.InvalidDataReceivedFromGateway} Token is null or empty.";
-                isSucceed = false;
-            }
-            else if (long.TryParse(token, out var longToken) && longToken < 0)
-            {
-                message = SamanResultTranslator.Translate(longToken, messagesOptions);
-                isSucceed = false;
-            }
-
-            if (!isSucceed)
-            {
-                return PaymentRequestResult.Failed(message, account.Name);
-            }
-
-            return PaymentRequestResult.SucceedWithPost(
-                account.Name,
-                httpContext,
-                gatewayOptions.WebPaymentPageUrl,
-                new Dictionary<string, string>
-                {
-                    {"Token", token},
-                    {"RedirectURL", invoice.CallbackUrl}
-                },
-                response);
-        }
-
-        private static async Task<PaymentRequestResult> CreateMobilePaymentRequest(
-            Invoice invoice,
-            HttpContext httpContext,
-            SamanGatewayAccount account,
-            HttpClient httpClient,
-            SamanGatewayOptions gatewayOptions,
-            MessagesOptions messagesOptions,
-            CancellationToken cancellationToken)
-        {
-            var data = new SamanMobilePaymentTokenRequest
+            var data = new SamanPaymentTokenRequest
             {
                 TerminalId = account.MerchantId,
                 ResNum = invoice.TrackingNumber.ToString(),
                 Amount = invoice.Amount,
                 RedirectUrl = invoice.CallbackUrl,
-                Action = "Token"
+                CellNumber = invoice.MobileNumber,
+                Action = "token"
             };
 
-            var responseMessage = await httpClient.PostJsonAsync(gatewayOptions.MobileApiTokenUrl, data, cancellationToken);
+            var responseMessage = await httpClient.PostJsonAsync(gatewayOptions.TokenUrl, data, cancellationToken);
 
             var response = await responseMessage.Content.ReadAsStringAsync();
 
-            var tokenResponse = JsonConvert.DeserializeObject<SamanMobilePaymentTokenResponse>(response);
+            var tokenResponse = JsonConvert.DeserializeObject<SamanPaymentTokenResponse>(response);
 
             if (tokenResponse == null)
             {
@@ -259,47 +186,14 @@ namespace Parbad.Gateway.Saman.Internal
             var result = PaymentRequestResult.SucceedWithPost(
                 account.Name,
                 httpContext,
-                gatewayOptions.MobilePaymentPageUrl,
+                gatewayOptions.PaymentPageUrl,
                 new Dictionary<string, string>
                 {
                     {"Token", tokenResponse.Token}
                 },
                 tokenResponse);
 
-            result.DatabaseAdditionalData.Add(MobileGatewayKey, true.ToString());
-
             return result;
-        }
-
-        private static string CreateTokenRequest(Invoice invoice, SamanGatewayAccount account)
-        {
-            return
-                "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:urn=\"urn:Foo\">" +
-                "<soapenv:Header/>" +
-                "<soapenv:Body>" +
-                "<urn:RequestToken soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">" +
-                $"<TermID xsi:type=\"xsd:string\">{account.MerchantId}</TermID>" +
-                $"<ResNum xsi:type=\"xsd:string\">{invoice.TrackingNumber}</ResNum>" +
-                $"<TotalAmount xsi:type=\"xsd:long\">{(long)invoice.Amount}</TotalAmount>" +
-                "</urn:RequestToken>" +
-                "</soapenv:Body>" +
-                "</soapenv:Envelope>";
-        }
-
-        public static string GetVerificationUrl(InvoiceContext invoiceContext, SamanGatewayOptions gatewayOptions)
-        {
-            var record = invoiceContext
-                .Transactions
-                .SingleOrDefault(transaction => transaction.Type == TransactionType.Request);
-
-            if (record == null || record.AdditionalData.IsNullOrEmpty()) return gatewayOptions.WebApiUrl;
-
-            if (AdditionalDataConverter.ToDictionary(record).TryGetValue(MobileGatewayKey, out var isMobileGatewayEnabled) && bool.Parse(isMobileGatewayEnabled))
-            {
-                return gatewayOptions.MobileApiVerificationUrl;
-            }
-
-            return gatewayOptions.WebApiUrl;
         }
     }
 }

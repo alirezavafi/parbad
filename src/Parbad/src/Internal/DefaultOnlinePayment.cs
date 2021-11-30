@@ -162,7 +162,7 @@ namespace Parbad.Internal
                 throw new PaymentTokenProviderException("No Token is received.");
             }
 
-            var payment = await _storage.GetPaymentByTokenAsync(paymentToken, cancellationToken).ConfigureAwaitFalse();
+            var payment = await _storage.GetPaymentByLocalTokenAsync(paymentToken, cancellationToken).ConfigureAwaitFalse();
 
             if (payment == null)
             {

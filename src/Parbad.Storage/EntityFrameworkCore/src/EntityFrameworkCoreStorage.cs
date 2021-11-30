@@ -109,7 +109,7 @@ namespace Parbad.Storage.EntityFrameworkCore
         }
 
         /// <inheritdoc />
-        public Task<Payment> GetPaymentByTokenAsync(string paymentToken, CancellationToken cancellationToken = default)
+        public Task<Payment> GetPaymentByLocalTokenAsync(string paymentToken, CancellationToken cancellationToken = default)
         {
             var p = DbContext.Payments
                 .AsNoTracking()

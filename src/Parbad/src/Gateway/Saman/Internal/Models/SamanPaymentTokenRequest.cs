@@ -3,7 +3,7 @@
 
 namespace Parbad.Gateway.Saman.Internal.Models
 {
-    internal class SamanMobilePaymentTokenRequest
+    internal class SamanPaymentTokenRequest
     {
         public string Action { get; set; }
 
@@ -15,6 +15,6 @@ namespace Parbad.Gateway.Saman.Internal.Models
 
         public long Amount { get; set; }
 
-        public long? CellNumber { get; set; }
+        public string CellNumber { get; set; }
     }
 }

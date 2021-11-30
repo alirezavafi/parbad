@@ -5,7 +5,7 @@ using Parbad.Options;
 
 namespace Parbad.Gateway.Saman.Internal.ResultTranslators
 {
-    internal static class SamanStateTranslator
+    public static class SamanStateTranslator
     {
         public static string Translate(string result, MessagesOptions options)
         {

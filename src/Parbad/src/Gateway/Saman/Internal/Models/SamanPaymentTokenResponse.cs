@@ -3,7 +3,7 @@
 
 namespace Parbad.Gateway.Saman.Internal.Models
 {
-    internal class SamanMobilePaymentTokenResponse
+    internal class SamanPaymentTokenResponse
     {
         public int Status { get; set; }
 

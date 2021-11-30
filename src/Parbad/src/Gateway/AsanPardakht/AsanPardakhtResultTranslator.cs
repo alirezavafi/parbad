@@ -6,7 +6,7 @@ using Parbad.Options;
 
 namespace Parbad.Gateway.AsanPardakht.Internal
 {
-    internal static class AsanPardakhtResultTranslator
+    public static class AsanPardakhtResultTranslator
     {
         public static string TranslateRequest(string result, MessagesOptions options) =>
             Translate(result, RequestDictionary, options);

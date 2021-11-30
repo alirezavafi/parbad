@@ -81,7 +81,8 @@ namespace Parbad.Gateway.AsanPardakht
                 _restGatewayOptions.PaymentPageUrl,
                 new Dictionary<string, string>
                 {
-                    {"RefId", token}
+                    {"RefId", token},
+                    {"mobileap", invoice.MobileNumber}
                 },
                 token);
         }

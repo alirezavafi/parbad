@@ -128,6 +128,11 @@
             Gets or sets the name of the gateway which the invoice must be paid in.
             </summary>
         </member>
+        <member name="P:Parbad.Abstraction.Invoice.MobileNumber">
+            <summary>
+            Gets or sets the customer mobile number for saving/loading customer cart numbers in psp page.
+            </summary>
+        </member>
         <member name="P:Parbad.Abstraction.Invoice.Properties">
             <summary>
             Gets or sets the properties of the invoice.
@@ -863,13 +868,6 @@
             </summary>
             <param name="builder"></param>
         </member>
-        <member name="M:Parbad.Gateway.Saman.SamanGatewayInvoiceBuilderExtensions.EnableSamanMobileGateway(Parbad.InvoiceBuilder.IInvoiceBuilder,System.Boolean)">
-            <summary>
-            Enables or disables Saman Mobile gateway.
-            </summary>
-            <param name="builder"></param>
-            <param name="enable">If true, the invoice will be sent to Saman Mobile gateway. Otherwise it will be sent to Saman Web gateway.</param>
-        </member>
         <member name="T:Parbad.IGatewayTransporter">
             <summary>
             Defines a mechanism for transporting the client to a gateway.
@@ -1157,6 +1155,14 @@
             <param name="builder"></param>
             <param name="gatewayName"></param>
             <exception cref="T:Parbad.Exceptions.GatewayNotFoundException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Parbad.InvoiceBuilderExtensions.SetMobileNumber(Parbad.InvoiceBuilder.IInvoiceBuilder,System.String)">
+            <summary>
+            Sets the mobile number.
+            </summary>
+            <param name="builder"></param>
+            <param name="mobileNumber"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:Parbad.InvoiceBuilderExtensions.AddProperty(Parbad.InvoiceBuilder.IInvoiceBuilder,System.String,System.Object)">
@@ -1934,7 +1940,7 @@
             <param name="trackingNumber"></param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.GetPaymentByTokenAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Abstractions.IStorage.GetPaymentByLocalTokenAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Gets a payment by its token.
             </summary>

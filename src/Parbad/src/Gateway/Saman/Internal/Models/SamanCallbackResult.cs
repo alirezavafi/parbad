@@ -3,7 +3,7 @@
 
 namespace Parbad.Gateway.Saman.Internal.Models
 {
-    internal class SamanCallbackResult
+    public class SamanCallbackResult
     {
         public bool IsSucceed { get; set; }
 

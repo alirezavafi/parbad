@@ -77,6 +77,17 @@ namespace Parbad
         }
 
         /// <summary>
+        /// Sets the mobile number.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="mobileNumber"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IInvoiceBuilder SetMobileNumber(this IInvoiceBuilder builder, string mobileNumber)
+        {
+            return AddFormatter(builder, invoice => invoice.MobileNumber = mobileNumber);
+        }
+
+        /// <summary>
         /// Adds the given key and value to the invoice.
         /// </summary>
         /// <param name="builder"></param>
