@@ -42,12 +42,9 @@ namespace Parbad.Tests.Gateway.Saman
                         })
                         .WithOptions(options =>
                         {
-                            options.WebApiUrl = ApiUrl;
-                            options.WebApiTokenUrl = ApiUrl;
-                            options.WebPaymentPageUrl = PaymentPageUrl;
-                            options.MobileApiTokenUrl = ApiUrl;
-                            options.MobileApiVerificationUrl = ApiUrl;
-                            options.MobilePaymentPageUrl = ApiUrl;
+                            options.TokenUrl = ApiUrl;
+                            options.VerificationUrl = ApiUrl;
+                            options.PaymentPageUrl = ApiUrl;
                         });
                 },
                 invoice =>
@@ -112,12 +109,9 @@ namespace Parbad.Tests.Gateway.Saman
                         })
                         .WithOptions(options =>
                         {
-                            options.WebApiUrl = ApiUrl;
-                            options.WebApiTokenUrl = ApiUrl;
-                            options.WebPaymentPageUrl = PaymentPageUrl;
-                            options.MobileApiTokenUrl = ApiUrl;
-                            options.MobileApiVerificationUrl = ApiUrl;
-                            options.MobilePaymentPageUrl = ApiUrl;
+                            options.TokenUrl = ApiUrl;
+                            options.VerificationUrl = ApiUrl;
+                            options.PaymentPageUrl = ApiUrl;
                         });
                 },
                 invoice =>
@@ -126,7 +120,6 @@ namespace Parbad.Tests.Gateway.Saman
                         .SetTrackingNumber(ExpectedTrackingNumber)
                         .SetAmount(ExpectedAmount)
                         .SetCallbackUrl(ExpectedCallbackUrl)
-                        .EnableSamanMobileGateway()
                         .UseSaman();
                 },
                     handler =>
@@ -134,7 +127,7 @@ namespace Parbad.Tests.Gateway.Saman
                         handler
                             .Expect(ApiUrl)
                             .WithHttpMethod(HttpMethod.Post)
-                            .WithJsonBody<SamanMobilePaymentTokenRequest>(model =>
+                            .WithJsonBody<SamanPaymentTokenRequest>(model =>
                             {
                                 var isModelValid =
                                     model.Amount == ExpectedAmount &&

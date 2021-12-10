@@ -32,35 +32,5 @@ namespace Parbad.Tests.Gateway.Saman
             Assert.IsNotNull(invoice.GatewayName);
             Assert.IsTrue(invoice.GatewayName.Equals("saman", StringComparison.OrdinalIgnoreCase));
         }
-
-        [Test]
-        public async Task Invoice_Must_Have_Saman_MobileGateway_Enabled()
-        {
-            _invoiceBuilder.EnableSamanMobileGateway();
-
-            var invoice = await _invoiceBuilder.BuildAsync();
-
-            Assert.IsNotNull(invoice);
-
-            Assert.IsNotNull(invoice.Properties);
-            Assert.IsTrue(invoice.Properties.ContainsKey(SamanHelper.MobileGatewayKey));
-            Assert.IsInstanceOf<bool>(invoice.Properties[SamanHelper.MobileGatewayKey]);
-            Assert.AreEqual(true, invoice.Properties[SamanHelper.MobileGatewayKey]);
-        }
-
-        [Test]
-        public async Task Invoice_Must_Have_Saman_MobileGateway_Disabled()
-        {
-            _invoiceBuilder.EnableSamanMobileGateway(false);
-
-            var invoice = await _invoiceBuilder.BuildAsync();
-
-            Assert.IsNotNull(invoice);
-
-            Assert.IsNotNull(invoice.Properties);
-            Assert.IsTrue(invoice.Properties.ContainsKey(SamanHelper.MobileGatewayKey));
-            Assert.IsInstanceOf<bool>(invoice.Properties[SamanHelper.MobileGatewayKey]);
-            Assert.AreEqual(false, invoice.Properties[SamanHelper.MobileGatewayKey]);
-        }
     }
 }

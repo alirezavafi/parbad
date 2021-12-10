@@ -10,6 +10,7 @@ using Parbad.PaymentTokenProviders;
 using Parbad.Storage.Abstractions;
 using Parbad.Storage.Abstractions.Models;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -182,8 +183,10 @@ namespace Parbad.Internal
                 PaymentId = payment.Id
             };
 
-            await _storage.CreateTransactionAsync(transaction, cancellationToken).ConfigureAwaitFalse();
-            
+            var tr = (await _storage.GetTransactionsAsync(payment.Id, cancellationToken)).FirstOrDefault(x => x.Type == TransactionType.Callback);
+            if (tr == null)
+                await _storage.CreateTransactionAsync(transaction, cancellationToken).ConfigureAwaitFalse();
+
             return result;
         }
 

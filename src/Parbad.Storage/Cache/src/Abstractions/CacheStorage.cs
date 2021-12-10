@@ -78,6 +78,12 @@ namespace Parbad.Storage.Cache.Abstractions
             return Task.FromResult(Collection.Payments.SingleOrDefault(model => model.TrackingNumber == trackingNumber));
         }
 
+        public Task<Payment> GetPaymentByLocalTokenAsync(string paymentToken, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(Collection.Payments.SingleOrDefault(model => model.Token == paymentToken));
+        }
+
         /// <inheritdoc />
         public virtual Task<Payment> GetPaymentByTokenAsync(string paymentToken, CancellationToken cancellationToken = default)
         {
