@@ -14,5 +14,6 @@ namespace Parbad.Gateway.AsanPardakht.Internal.Models
         public string CardNumber { get; set; }
 
         public string Message { get; set; }
+        public string Status { get; set; }
     }
 }

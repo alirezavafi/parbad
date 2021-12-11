@@ -84,7 +84,8 @@ namespace Parbad.Gateway.Saman.Internal
                 Cid = cid.Value,
                 TraceNo = traceNo.Value,
                 Rrn = rrn.Value,
-                Message = message
+                Message = message,
+                State = state.ToString(),
             };
         }
 

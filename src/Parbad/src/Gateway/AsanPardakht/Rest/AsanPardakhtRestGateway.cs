@@ -130,7 +130,8 @@ namespace Parbad.Gateway.AsanPardakht
                     PayGateTranId = resultData?.PayGateTranId,
                     Rrn = resultData?.Rrn,
                     CardNumber = resultData?.CardNumber,
-                    Message = isSucceed ? "موفق" : "ناموفق"
+                    Message = isSucceed ? "موفق" : "ناموفق",
+                    Status = resultData?.ServiceStatusCode
                 };
             }
             else
