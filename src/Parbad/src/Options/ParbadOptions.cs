@@ -1,7 +1,7 @@
 ﻿namespace Parbad.Options
 {
     /// <summary>
-    /// Provides configuration for Parbad.
+    /// Provides configuration for Parbad.Core.
     /// </summary>
     public class ParbadOptions
     {
@@ -11,7 +11,7 @@
         public bool EnableLogging { get; set; } = true;
 
         /// <summary>
-        /// Contains all messages that Parbad uses in results.
+        /// Contains all messages that Parbad.Core uses in results.
         /// </summary>
         public MessagesOptions Messages { get; set; } = new MessagesOptions();
     }

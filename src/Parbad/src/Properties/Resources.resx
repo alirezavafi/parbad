@@ -121,7 +121,7 @@
     <value>Amount cannot be negative.</value>
   </data>
   <data name="CannotGetParbadServiceException" xml:space="preserve">
-    <value>Cannot get Parbad service from injector. Make sure that Parbad is initialized by using the ParbadBuilder class.</value>
+    <value>Cannot get Parbad.Core service from injector. Make sure that Parbad.Core is initialized by using the ParbadBuilder class.</value>
   </data>
   <data name="NoRecordsSavedInDatabase" xml:space="preserve">
     <value>No records saved in database.</value>

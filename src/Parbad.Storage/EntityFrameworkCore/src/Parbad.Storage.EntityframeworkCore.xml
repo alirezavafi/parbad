@@ -8,7 +8,7 @@
             <summary>
             Uses the EntityFramework Core as a storage for saving and loading data.
             <para>
-            Note: It means Parbad can save and load the data in different database providers
+            Note: It means Parbad.Core can save and load the data in different database providers
             such as SQL Server, MySql, Sqlite, PostgreSQL, Oracle, InMemory, etc.
             For more information see: https://docs.microsoft.com/en-us/ef/core/providers/.
             </para>
@@ -18,7 +18,7 @@
             all payment requests.</para>
             </summary>
             <param name="builder"></param>
-            <param name="configureEfCoreOptions">Configures the EntityFrameworkCore options for Parbad.</param>
+            <param name="configureEfCoreOptions">Configures the EntityFrameworkCore options for Parbad.Core.</param>
         </member>
         <member name="T:Parbad.Storage.EntityFrameworkCore.Configuration.EntityTypeConfiguration`1">
             <summary>
@@ -33,7 +33,7 @@
         </member>
         <member name="P:Parbad.Storage.EntityFrameworkCore.Configuration.EntityTypeConfiguration`1.EntityFrameworkCoreOptions">
             <summary>
-            Contains the options for configuring the EntityFrameworkCore for Parbad storage.
+            Contains the options for configuring the EntityFrameworkCore for Parbad.Core storage.
             </summary>
         </member>
         <member name="M:Parbad.Storage.EntityFrameworkCore.Configuration.EntityTypeConfiguration`1.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{`0})">
@@ -101,7 +101,7 @@
         </member>
         <member name="T:Parbad.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions">
             <summary>
-            Contains the options for configuring the EntityFrameworkCore for Parbad storage.
+            Contains the options for configuring the EntityFrameworkCore for Parbad.Core storage.
             </summary>
         </member>
         <member name="M:Parbad.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions.#ctor">

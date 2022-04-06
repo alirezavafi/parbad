@@ -1,4 +1,4 @@
-﻿// Copyright (c) Parbad. All rights reserved.
+﻿// Copyright (c) Parbad.Core. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using Parbad.Storage.Abstractions;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace Parbad.Storage.Cache.Abstractions
 {
     /// <summary>
-    /// Abstract cache implementation of Parbad storage.
+    /// Abstract cache implementation of Parbad.Core storage.
     /// </summary>
     public abstract class CacheStorage : IStorage
     {

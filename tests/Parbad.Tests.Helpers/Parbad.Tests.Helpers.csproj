@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Parbad.Storage\Cache\src\Parbad.Storage.Cache.csproj" />
-    <ProjectReference Include="..\..\src\Parbad\src\Parbad.csproj" />
+    <ProjectReference Include="..\..\src\Parbad\src\Parbad.Core.csproj" />
   </ItemGroup>
 
 </Project>

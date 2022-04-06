@@ -34,7 +34,7 @@ For more information see: https://www.nuget.org/packages/Parbad/</Description>
   </PropertyGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Parbad\src\Parbad.csproj" />
+    <ProjectReference Include="..\..\..\Parbad\src\Parbad.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

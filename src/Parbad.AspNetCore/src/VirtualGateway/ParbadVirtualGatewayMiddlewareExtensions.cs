@@ -1,4 +1,4 @@
-// Copyright (c) Parbad. All rights reserved.
+// Copyright (c) Parbad.Core. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using System;
@@ -13,7 +13,7 @@ namespace Microsoft.AspNetCore.Builder
     public static class ParbadVirtualGatewayMiddlewareExtensions
     {
         /// <summary>
-        /// Adds the Parbad Virtual Gateway middleware to the pipeline if the current
+        /// Adds the Parbad.Core Virtual Gateway middleware to the pipeline if the current
         /// hosting environment name is <see cref="Hosting.EnvironmentName.Development"/>.
         /// </summary>
         /// <param name="builder"></param>
@@ -32,7 +32,7 @@ namespace Microsoft.AspNetCore.Builder
         }
 
         /// <summary>
-        /// Adds the Parbad Virtual Gateway middleware to the pipeline.
+        /// Adds the Parbad.Core Virtual Gateway middleware to the pipeline.
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="predicate"></param>
@@ -46,7 +46,7 @@ namespace Microsoft.AspNetCore.Builder
         }
 
         /// <summary>
-        /// Adds the Parbad Virtual Gateway middleware to the pipeline.
+        /// Adds the Parbad.Core Virtual Gateway middleware to the pipeline.
         /// </summary>
         /// <param name="builder"></param>
         public static IApplicationBuilder UseParbadVirtualGateway(this IApplicationBuilder builder)
@@ -61,7 +61,7 @@ namespace Microsoft.AspNetCore.Builder
                 options.Value.GatewayPath == null ||
                 !options.Value.GatewayPath.HasValue)
             {
-                throw new InvalidOperationException("Cannot get Parbad Virtual gateway path value. " +
+                throw new InvalidOperationException("Cannot get Parbad.Core Virtual gateway path value. " +
                                                     "Make sure that you have already configured it.");
             }
 

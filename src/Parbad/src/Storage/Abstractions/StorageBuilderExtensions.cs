@@ -7,7 +7,7 @@ namespace Parbad.Storage.Abstractions
     public static class StorageBuilderExtensions
     {
         /// <summary>
-        /// Adds an implementation of <see cref="IStorage"/> which required by Parbad for managing the storage operations.
+        /// Adds an implementation of <see cref="IStorage"/> which required by Parbad.Core for managing the storage operations.
         /// </summary>
         /// <typeparam name="TManager"></typeparam>
         /// <param name="builder"></param>
@@ -20,7 +20,7 @@ namespace Parbad.Storage.Abstractions
         }
 
         /// <summary>
-        /// Adds an implementation of <see cref="IStorage"/> which required by Parbad for managing the storage operations.
+        /// Adds an implementation of <see cref="IStorage"/> which required by Parbad.Core for managing the storage operations.
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="storage"></param>
@@ -37,7 +37,7 @@ namespace Parbad.Storage.Abstractions
         }
 
         /// <summary>
-        /// Adds an implementation of <see cref="IStorage"/> which required by Parbad for managing the storage operations.
+        /// Adds an implementation of <see cref="IStorage"/> which required by Parbad.Core for managing the storage operations.
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="factory"></param>

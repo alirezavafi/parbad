@@ -1,4 +1,4 @@
-// Copyright (c) Parbad. All rights reserved.
+// Copyright (c) Parbad.Core. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using System;
@@ -11,7 +11,7 @@ namespace Parbad.Builder
     public static class HttpContextBuilderExtensions
     {
         /// <summary>
-        /// Configures the <see cref="HttpContext"/> required by Parbad.
+        /// Configures the <see cref="HttpContext"/> required by Parbad.Core.
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="httpContextBuilder">A builder for configuring the HttpContext.</param>

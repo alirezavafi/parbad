@@ -1,4 +1,4 @@
-// Copyright (c) Parbad. All rights reserved.
+// Copyright (c) Parbad.Core. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using System;
@@ -10,7 +10,7 @@ namespace Parbad.Builder
     public static class PaymentTokenProviderExtensions
     {
         /// <summary>
-        /// Configures the <see cref="IPaymentTokenProvider"/> required by Parbad to create
+        /// Configures the <see cref="IPaymentTokenProvider"/> required by Parbad.Core to create
         /// a unique token which will be used to load the payment data when the client comes
         /// back from the gateway.
         /// </summary>

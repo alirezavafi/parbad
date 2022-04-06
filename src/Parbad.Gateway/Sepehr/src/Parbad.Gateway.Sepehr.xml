@@ -1,62 +1,62 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Parbad.Gateway.Sepehr</name>
+        <name>Parbad.Core.Gateway.Sepehr</name>
     </assembly>
     <members>
-        <member name="T:Parbad.Gateway.Sepehr.SepehrGateway">
+        <member name="T:Parbad.Core.Gateway.Sepehr.SepehrGateway">
             <summary>
             Sepehr Gateway.
             </summary>
         </member>
-        <member name="M:Parbad.Gateway.Sepehr.SepehrGateway.#ctor(Parbad.GatewayBuilders.IGatewayAccountProvider{Parbad.Gateway.Sepehr.SepehrGatewayAccount},Microsoft.AspNetCore.Http.IHttpContextAccessor,System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Options.IOptions{Parbad.Gateway.Sepehr.SepehrGatewayOptions},Microsoft.Extensions.Options.IOptions{Parbad.Options.ParbadOptions})">
+        <member name="M:Parbad.Core.Gateway.Sepehr.SepehrGateway.#ctor(Parbad.Core.GatewayBuilders.IGatewayAccountProvider{Parbad.Core.Gateway.Sepehr.SepehrGatewayAccount},Microsoft.AspNetCore.Http.IHttpContextAccessor,System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Options.IOptions{Parbad.Core.Gateway.Sepehr.SepehrGatewayOptions},Microsoft.Extensions.Options.IOptions{Parbad.Core.Options.ParbadOptions})">
             <summary>
-            Initializes an instance of <see cref="T:Parbad.Gateway.Sepehr.SepehrGateway"/>.
+            Initializes an instance of <see cref="T:Parbad.Core.Gateway.Sepehr.SepehrGateway"/>.
             </summary>
         </member>
-        <member name="M:Parbad.Gateway.Sepehr.SepehrGateway.RequestAsync(Parbad.Abstraction.Invoice,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Core.Gateway.Sepehr.SepehrGateway.RequestAsync(Parbad.Core.Abstraction.Invoice,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Gateway.Sepehr.SepehrGateway.FetchAsync(Parbad.InvoiceContext,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Core.Gateway.Sepehr.SepehrGateway.FetchAsync(Parbad.Core.InvoiceContext,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Gateway.Sepehr.SepehrGateway.VerifyAsync(Parbad.InvoiceContext,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Core.Gateway.Sepehr.SepehrGateway.VerifyAsync(Parbad.Core.InvoiceContext,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Gateway.Sepehr.SepehrGateway.RefundAsync(Parbad.InvoiceContext,Parbad.Money,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Core.Gateway.Sepehr.SepehrGateway.RefundAsync(Parbad.Core.InvoiceContext,Parbad.Core.Money,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Gateway.Sepehr.SepehrGatewayBuilderExtensions.AddSepehr(Parbad.GatewayBuilders.IGatewayBuilder)">
+        <member name="M:Parbad.Core.Gateway.Sepehr.SepehrGatewayBuilderExtensions.AddSepehr(Parbad.Core.GatewayBuilders.IGatewayBuilder)">
             <summary>
-            Adds the Sepehr gateway to Parbad services.
+            Adds the Sepehr gateway to Parbad.Core services.
             </summary>
             <param name="builder"></param>
         </member>
-        <member name="M:Parbad.Gateway.Sepehr.SepehrGatewayBuilderExtensions.WithAccounts(Parbad.GatewayBuilders.IGatewayConfigurationBuilder{Parbad.Gateway.Sepehr.SepehrGateway},System.Action{Parbad.GatewayBuilders.IGatewayAccountBuilder{Parbad.Gateway.Sepehr.SepehrGatewayAccount}})">
+        <member name="M:Parbad.Core.Gateway.Sepehr.SepehrGatewayBuilderExtensions.WithAccounts(Parbad.Core.GatewayBuilders.IGatewayConfigurationBuilder{Parbad.Core.Gateway.Sepehr.SepehrGateway},System.Action{Parbad.Core.GatewayBuilders.IGatewayAccountBuilder{Parbad.Core.Gateway.Sepehr.SepehrGatewayAccount}})">
             <summary>
             Configures the accounts for Sepehr gateway.
             </summary>
             <param name="builder"></param>
             <param name="configureAccounts">Configures the accounts.</param>
         </member>
-        <member name="M:Parbad.Gateway.Sepehr.SepehrGatewayBuilderExtensions.WithOptions(Parbad.GatewayBuilders.IGatewayConfigurationBuilder{Parbad.Gateway.Sepehr.SepehrGateway},System.Action{Parbad.Gateway.Sepehr.SepehrGatewayOptions})">
+        <member name="M:Parbad.Core.Gateway.Sepehr.SepehrGatewayBuilderExtensions.WithOptions(Parbad.Core.GatewayBuilders.IGatewayConfigurationBuilder{Parbad.Core.Gateway.Sepehr.SepehrGateway},System.Action{Parbad.Core.Gateway.Sepehr.SepehrGatewayOptions})">
             <summary>
             Configures the options for Sepehr Gateway.
             </summary>
             <param name="builder"></param>
             <param name="configureOptions">Configuration</param>
         </member>
-        <member name="M:Parbad.Gateway.Sepehr.SepehrGatewayInvoiceBuilderExtensions.UseSepehr(Parbad.InvoiceBuilder.IInvoiceBuilder)">
+        <member name="M:Parbad.Core.Gateway.Sepehr.SepehrGatewayInvoiceBuilderExtensions.UseSepehr(Parbad.Core.InvoiceBuilder.IInvoiceBuilder)">
             <summary>
             The invoice will be sent to Sepehr gateway.
             </summary>
         </member>
-        <member name="M:Parbad.Gateway.Sepehr.SepehrGatewayPaymentResultExtensions.GetSepehrAdditionalData(Parbad.IPaymentVerifyResult)">
+        <member name="M:Parbad.Core.Gateway.Sepehr.SepehrGatewayPaymentResultExtensions.GetSepehrAdditionalData(Parbad.Core.IPaymentVerifyResult)">
             <summary>
             Gets the verification additional data from Sepehr gateway.
             </summary>
         </member>
-        <member name="T:Parbad.Gateway.Sepehr.SepehrGatewayVerificationAdditionalData">
+        <member name="T:Parbad.Core.Gateway.Sepehr.SepehrGatewayVerificationAdditionalData">
             <summary>
             Contains some additional data after the invoice verification.
             </summary>

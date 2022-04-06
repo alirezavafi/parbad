@@ -1,4 +1,4 @@
-﻿// Copyright (c) Parbad. All rights reserved.
+﻿// Copyright (c) Parbad.Core. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +10,7 @@ namespace Parbad.Gateway.PayPing
     public static class PayPingGatewayBuilderExtensions
     {
         /// <summary>
-        /// Adds the PayPing Gateway to Parbad services.
+        /// Adds the PayPing Gateway to Parbad.Core services.
         /// </summary>
         /// <param name="builder"></param>
         public static IGatewayConfigurationBuilder<PayPingGateway> AddPayPing(this IGatewayBuilder builder)

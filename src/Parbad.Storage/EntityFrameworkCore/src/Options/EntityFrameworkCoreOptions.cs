@@ -1,4 +1,4 @@
-﻿// Copyright (c) Parbad. All rights reserved.
+﻿// Copyright (c) Parbad.Core. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using System;
@@ -8,7 +8,7 @@ using Parbad.Storage.EntityFrameworkCore.Context;
 namespace Parbad.Storage.EntityFrameworkCore.Options
 {
     /// <summary>
-    /// Contains the options for configuring the EntityFrameworkCore for Parbad storage.
+    /// Contains the options for configuring the EntityFrameworkCore for Parbad.Core storage.
     /// </summary>
     public class EntityFrameworkCoreOptions
     {

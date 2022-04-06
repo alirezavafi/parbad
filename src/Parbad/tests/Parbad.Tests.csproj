@@ -14,7 +14,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\tests\Parbad.Tests.Helpers\Parbad.Tests.Helpers.csproj" />
-    <ProjectReference Include="..\src\Parbad.csproj" />
+    <ProjectReference Include="..\Parbad.Gateways.AsanPardakht\Parbad.Gateways.AsanPardakht.csproj" />
+    <ProjectReference Include="..\Parbad.Gateways.Core\Parbad.Gateways.Core.csproj" />
+    <ProjectReference Include="..\Parbad.Gateways.IranKish\Parbad.Gateways.IranKish.csproj" />
+    <ProjectReference Include="..\Parbad.Gateways.Mellat\Parbad.Gateways.Mellat.csproj" />
+    <ProjectReference Include="..\Parbad.Gateways.Melli\Parbad.Gateways.Melli.csproj" />
+    <ProjectReference Include="..\Parbad.Gateways.Parsian\Parbad.Gateways.Parsian.csproj" />
+    <ProjectReference Include="..\Parbad.Gateways.Pasargad\Parbad.Gateways.Pasargad.csproj" />
+    <ProjectReference Include="..\Parbad.Gateways.Saman\Parbad.Gateways.Saman.csproj" />
+    <ProjectReference Include="..\Parbad.Gateways.VirtualGateway\Parbad.Gateways.VirtualGateway.csproj" />
+    <ProjectReference Include="..\src\Parbad.Core.csproj" />
   </ItemGroup>
 
 </Project>

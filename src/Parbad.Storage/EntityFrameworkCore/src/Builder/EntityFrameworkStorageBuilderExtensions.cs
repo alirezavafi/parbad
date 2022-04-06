@@ -1,4 +1,4 @@
-// Copyright (c) Parbad. All rights reserved.
+// Copyright (c) Parbad.Core. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +14,7 @@ namespace Parbad.Storage.EntityFrameworkCore.Builder
         /// <summary>
         /// Uses the EntityFramework Core as a storage for saving and loading data.
         /// <para>
-        /// Note: It means Parbad can save and load the data in different database providers
+        /// Note: It means Parbad.Core can save and load the data in different database providers
         /// such as SQL Server, MySql, Sqlite, PostgreSQL, Oracle, InMemory, etc.
         /// For more information see: https://docs.microsoft.com/en-us/ef/core/providers/.
         /// </para>
@@ -24,7 +24,7 @@ namespace Parbad.Storage.EntityFrameworkCore.Builder
         /// all payment requests.</para>
         /// </summary>
         /// <param name="builder"></param>
-        /// <param name="configureEfCoreOptions">Configures the EntityFrameworkCore options for Parbad.</param>
+        /// <param name="configureEfCoreOptions">Configures the EntityFrameworkCore options for Parbad.Core.</param>
         public static IStorageBuilder UseEfCore(this IStorageBuilder builder, Action<EntityFrameworkCoreOptions> configureEfCoreOptions)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));

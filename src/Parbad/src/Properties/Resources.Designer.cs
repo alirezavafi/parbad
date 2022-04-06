@@ -70,7 +70,7 @@ namespace Parbad.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot get Parbad service from injector. Make sure that Parbad is initialized by using the ParbadBuilder class..
+        ///   Looks up a localized string similar to Cannot get Parbad.Core service from injector. Make sure that Parbad.Core is initialized by using the ParbadBuilder class..
         /// </summary>
         internal static string CannotGetParbadServiceException {
             get {

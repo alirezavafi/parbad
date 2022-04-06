@@ -6,14 +6,8 @@
     <members>
         <member name="T:Parbad.Storage.Cache.Abstractions.CacheStorage">
             <summary>
-            Abstract cache implementation of Parbad storage.
+            Abstract cache implementation of Parbad.Core storage.
             </summary>
-        </member>
-        <member name="P:Parbad.Storage.Cache.Abstractions.CacheStorage.Payments">
-            <inheritdoc />
-        </member>
-        <member name="P:Parbad.Storage.Cache.Abstractions.CacheStorage.Transactions">
-            <inheritdoc />
         </member>
         <member name="P:Parbad.Storage.Cache.Abstractions.CacheStorage.Collection">
             <summary>
@@ -26,20 +20,26 @@
         <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.UpdatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.DeletePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
         <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.CreateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.UpdateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.GetPaymentByTrackingNumberAsync(System.Int64,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.DeleteTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.GetPaymentByTokenAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.DoesPaymentExistAsync(System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.GetTransactionsAsync(System.Int64,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.FindPayment(Parbad.Storage.Abstractions.Models.Payment)">
-            <summary>
+            <summary>   
             Finds a payment in storage.
             </summary>
             <param name="payment"></param>
@@ -83,7 +83,7 @@
         </member>
         <member name="T:Parbad.Storage.Cache.DistributedCache.DistributedCacheStorage">
             <summary>
-            Distributed cache implementation of Parbad storage.
+            Distributed cache implementation of Parbad.Core storage.
             </summary>
         </member>
         <member name="M:Parbad.Storage.Cache.DistributedCache.DistributedCacheStorage.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.Extensions.Options.IOptions{Parbad.Storage.Cache.DistributedCache.DistributedCacheStorageOptions})">
@@ -131,7 +131,7 @@
         </member>
         <member name="T:Parbad.Storage.Cache.MemoryCache.MemoryCacheStorage">
             <summary>
-            Memory cache implementation of Parbad storage.
+            Memory cache implementation of Parbad.Core storage.
             </summary>
         </member>
         <member name="M:Parbad.Storage.Cache.MemoryCache.MemoryCacheStorage.#ctor(Microsoft.Extensions.Caching.Memory.IMemoryCache,Microsoft.Extensions.Options.IOptions{Parbad.Storage.Cache.MemoryCache.MemoryCacheStorageOptions})">

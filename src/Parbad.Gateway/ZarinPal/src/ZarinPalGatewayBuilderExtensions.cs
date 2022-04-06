@@ -1,4 +1,4 @@
-﻿// Copyright (c) Parbad. All rights reserved.
+﻿// Copyright (c) Parbad.Core. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +10,7 @@ namespace Parbad.Gateway.ZarinPal
     public static class ZarinPalGatewayBuilderExtensions
     {
         /// <summary>
-        /// Adds the ZarinPal gateway to Parbad services.
+        /// Adds the ZarinPal gateway to Parbad.Core services.
         /// </summary>
         /// <param name="builder"></param>
         public static IGatewayConfigurationBuilder<ZarinPalGateway> AddZarinPal(this IGatewayBuilder builder)

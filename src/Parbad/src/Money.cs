@@ -1,4 +1,4 @@
-// Copyright (c) Parbad. All rights reserved.
+// Copyright (c) Parbad.Core. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using System;
@@ -11,7 +11,7 @@ namespace Parbad
     /// <para>
     /// Note: The official unit of currency in Iran is the Iranian rial (IR).
     /// It means the amount of the invoice will be sent to Iranian gateways automatically
-    /// as <see cref="Int64"/> by Parbad.
+    /// as <see cref="Int64"/> by Parbad.Core.
     /// </para>
     /// <para>Examples:
     /// <para>decimal a = new Money(1000)</para>
@@ -27,7 +27,7 @@ namespace Parbad
         /// <para>
         /// Note: The official unit of currency in Iran is the Iranian rial (IR).
         /// It means the amount of the invoice will be sent to Iranian gateways automatically
-        /// as <see cref="Int64"/> by Parbad.
+        /// as <see cref="Int64"/> by Parbad.Core.
         /// </para>
         /// </summary>
         /// <param name="value">The amount of money.</param>
