@@ -55,6 +55,8 @@ For more information see: https://www.nuget.org/packages/Parbad/</Description>
     <ProjectReference Include="..\Parbad.Gateways\Parbad.Gateways.Pasargad\Parbad.Gateways.Pasargad.csproj" />
     <ProjectReference Include="..\Parbad.Gateways\Parbad.Gateways.Saman\Parbad.Gateways.Saman.csproj" />
     <ProjectReference Include="..\Parbad.Gateways\Parbad.Gateways.VirtualGateway\Parbad.Gateways.VirtualGateway.csproj" />
+    <ProjectReference Include="..\Parbad.Storage.Cache\Parbad.Storage.Cache.csproj" />
+    <ProjectReference Include="..\Parbad.Storage.EntityFrameworkCore\Parbad.Storage.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

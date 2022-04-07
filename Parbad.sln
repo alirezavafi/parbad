@@ -55,6 +55,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parbad.Gateways.Core", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parbad.Gateways.VirtualGateway", "src\Parbad.Gateways\Parbad.Gateways.VirtualGateway\Parbad.Gateways.VirtualGateway.csproj", "{CDAFA81B-6580-4B8B-950A-A0C1DCA9D706}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parbad.Storage.Cache", "src\Parbad.Storages\Parbad.Storage.Cache\Parbad.Storage.Cache.csproj", "{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parbad.Storage.EntityFrameworkCore", "src\Parbad.Storages\Parbad.Storage.EntityFrameworkCore\Parbad.Storage.EntityFrameworkCore.csproj", "{47B6FE9F-9A74-4B0E-A46E-647F055399B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Parbad.Storages", "Parbad.Storages", "{BE4ACCC2-FFF3-4AC7-86FC-7FC0775B444C}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		src\Parbad.Shared\Parbad.Shared.projitems*{2e124fc2-6fa6-45e1-9912-edca1c19cef7}*SharedItemsImports = 13
@@ -130,6 +136,14 @@ Global
 		{CDAFA81B-6580-4B8B-950A-A0C1DCA9D706}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDAFA81B-6580-4B8B-950A-A0C1DCA9D706}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDAFA81B-6580-4B8B-950A-A0C1DCA9D706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47B6FE9F-9A74-4B0E-A46E-647F055399B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47B6FE9F-9A74-4B0E-A46E-647F055399B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47B6FE9F-9A74-4B0E-A46E-647F055399B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47B6FE9F-9A74-4B0E-A46E-647F055399B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +165,8 @@ Global
 		{819BF946-12D0-476E-BD28-ABDC14AB531D} = {7B7D4D04-B4EE-4BA9-A365-8F4EA8A124BF}
 		{9D71EEA7-F1DB-4E04-9A8C-011D92D7D81C} = {5AFB1097-3A40-4A5D-B441-ADA0980A7561}
 		{CDAFA81B-6580-4B8B-950A-A0C1DCA9D706} = {5AFB1097-3A40-4A5D-B441-ADA0980A7561}
+		{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4} = {BE4ACCC2-FFF3-4AC7-86FC-7FC0775B444C}
+		{47B6FE9F-9A74-4B0E-A46E-647F055399B2} = {BE4ACCC2-FFF3-4AC7-86FC-7FC0775B444C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CBDDB699-C14A-4235-B0AE-32725230B4ED}
