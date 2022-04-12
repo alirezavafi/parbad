@@ -3,6 +3,7 @@
 
 using System;
 using Parbad.Gateway.Sepehr.Internal;
+using Parbad.Internal;
 
 namespace Parbad.Gateway.Sepehr
 {
@@ -11,7 +12,7 @@ namespace Parbad.Gateway.Sepehr
         /// <summary>
         /// Gets the verification additional data from Sepehr gateway.
         /// </summary>
-        public static SepehrGatewayVerificationAdditionalData GetSepehrAdditionalData(this IPaymentVerifyResult result)
+        public static SepehrGatewayVerificationAdditionalData GetSepehrAdditionalData(this PaymentVerifyResult result)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));
 
@@ -20,7 +21,7 @@ namespace Parbad.Gateway.Sepehr
             return additionalData as SepehrGatewayVerificationAdditionalData;
         }
 
-        internal static void SetSepehrAdditionalData(this IPaymentVerifyResult result, SepehrGatewayVerificationAdditionalData additionalData)
+        internal static void SetSepehrAdditionalData(this PaymentVerifyResult result, SepehrGatewayVerificationAdditionalData additionalData)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));
             if (additionalData == null) throw new ArgumentNullException(nameof(additionalData));

@@ -40,7 +40,7 @@ namespace Parbad.Gateway.PayIr.Internal
 
             var paymentPageUrl = $"{gatewayOptions.PaymentPageUrl}{result.Token}";
 
-            return PaymentRequestResult.SucceedWithRedirect(account.Name, httpContext, paymentPageUrl, result);
+            return PaymentRequestResult.SucceedWithRedirect(account.Name, paymentPageUrl, result);
         }
 
         public static async Task<PayIrCallbackResult> CreateCallbackResultAsync(HttpRequest httpRequest, CancellationToken cancellationToken)

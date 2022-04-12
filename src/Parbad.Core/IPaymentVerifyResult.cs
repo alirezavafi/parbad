@@ -23,25 +23,4 @@ namespace Parbad
         /// </summary>
         AlreadyVerified
     }
-
-    /// <summary>
-    /// Describes the result of the Verify operation.
-    /// </summary>
-    public interface IPaymentVerifyResult : IPaymentResult
-    {
-        /// <summary>
-        /// Gets the transaction code from the gateway.
-        /// </summary>
-        string TransactionCode { get; }
-        
-        /// <summary>
-        /// Gets the Shetab Card Number
-        /// </summary>
-        string CardNo { get; set; }
-
-        /// <summary>
-        /// Gets the status of the Verify operation.
-        /// </summary>
-        PaymentVerifyResultStatus Status { get; }
-    }
 }

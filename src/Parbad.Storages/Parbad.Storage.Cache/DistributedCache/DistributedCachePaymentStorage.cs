@@ -13,17 +13,17 @@ namespace Parbad.Storage.Cache.DistributedCache
     /// <summary>
     /// Distributed cache implementation of Parbad.Core storage.
     /// </summary>
-    public class DistributedCacheStorage : CacheStorage
+    public class DistributedCachePaymentStorage : CachePaymentStorage
     {
         private readonly IDistributedCache _distributedCache;
         private readonly DistributedCacheStorageOptions _options;
 
         /// <summary>
-        /// Initializes an instance of <see cref="DistributedCacheStorage"/>.
+        /// Initializes an instance of <see cref="DistributedCachePaymentStorage"/>.
         /// </summary>
         /// <param name="distributedCache"></param>
         /// <param name="options"></param>
-        public DistributedCacheStorage(IDistributedCache distributedCache, IOptions<DistributedCacheStorageOptions> options)
+        public DistributedCachePaymentStorage(IDistributedCache distributedCache, IOptions<DistributedCacheStorageOptions> options)
         {
             _distributedCache = distributedCache;
             _options = options.Value;

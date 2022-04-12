@@ -1,6 +1,8 @@
 // Copyright (c) Parbad.Core. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
+using Microsoft.AspNetCore.Http;
+
 namespace Parbad
 {
     /// <summary>
@@ -22,22 +24,5 @@ namespace Parbad
         /// The tracking number is already exists or used before.
         /// </summary>
         TrackingNumberAlreadyExists
-    }
-
-    /// <summary>
-    /// Describes the result of the Request operation.
-    /// </summary>
-    public interface IPaymentRequestResult : IPaymentResult
-    {
-        /// <summary>
-        /// Gets the status of the requested invoice.
-        /// </summary>
-        PaymentRequestResultStatus Status { get; }
-
-        /// <summary>
-        /// Redirects the client to the gateway website.
-        /// </summary>
-        IGatewayTransporter GatewayTransporter { get; }
-        public object GatewayResult { get; set; }
     }
 }

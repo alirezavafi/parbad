@@ -2,6 +2,7 @@
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using System;
+using Parbad.Internal;
 
 namespace Parbad.Gateway.PayIr
 {
@@ -9,7 +10,7 @@ namespace Parbad.Gateway.PayIr
     {
         private const string AdditionalDataKey = "PayIrVerificationAdditionalData";
 
-        public static PayIrVerifyAdditionalData GetPayIrAdditionalData(this IPaymentVerifyResult result)
+        public static PayIrVerifyAdditionalData GetPayIrAdditionalData(this PaymentVerifyResult result)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));
 
@@ -18,7 +19,7 @@ namespace Parbad.Gateway.PayIr
             return additionalData as PayIrVerifyAdditionalData;
         }
 
-        internal static void SetPayIrAdditionalData(this IPaymentVerifyResult result, PayIrVerifyAdditionalData additionalData)
+        internal static void SetPayIrAdditionalData(this PaymentVerifyResult result, PayIrVerifyAdditionalData additionalData)
         {
             if (result == null) throw new ArgumentNullException(nameof(result));
             if (additionalData == null) throw new ArgumentNullException(nameof(additionalData));

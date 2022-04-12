@@ -62,8 +62,6 @@ namespace Parbad
 
             builder.ConfigurePaymentToken(tokenBuilder => tokenBuilder.UseGuidQueryStringPaymentTokenProvider());
 
-            builder.Services.TryAddTransient(typeof(IParbadLogger<>), typeof(ParbadLogger<>));
-
             return builder;
         }
     }

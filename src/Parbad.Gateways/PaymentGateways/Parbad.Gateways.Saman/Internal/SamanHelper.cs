@@ -186,7 +186,6 @@ namespace Parbad.Gateway.Saman.Internal
 
             var result = PaymentRequestResult.SucceedWithPost(
                 account.Name,
-                httpContext,
                 gatewayOptions.PaymentPageUrl,
                 new Dictionary<string, string>
                 {

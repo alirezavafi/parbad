@@ -70,9 +70,9 @@ namespace Parbad.Gateway.Parsian.Internal
 
             var paymentPageUrl = $"{gatewayOptions.PaymentPageUrl}?Token={token}";
 
-            var result = PaymentRequestResult.SucceedWithRedirect(account.Name, httpContext, paymentPageUrl, webServiceResponse);
+            var result = PaymentRequestResult.SucceedWithRedirect(account.Name, paymentPageUrl, webServiceResponse);
 
-            result.DatabaseAdditionalData.Add("token", token);
+            //result.DatabaseAdditionalData.Add("token", token);
 
             return result;
         }
@@ -183,7 +183,7 @@ namespace Parbad.Gateway.Parsian.Internal
                 Message = message
             };
 
-            result.DatabaseAdditionalData.Add("token", token);
+            //result.DatabaseAdditionalData.Add("token", token);
 
             return result;
         }
@@ -232,7 +232,7 @@ namespace Parbad.Gateway.Parsian.Internal
                 Message = message
             };
 
-            result.DatabaseAdditionalData.Add("token", token);
+            //result.DatabaseAdditionalData.Add("token", token);
 
             return result;
         }

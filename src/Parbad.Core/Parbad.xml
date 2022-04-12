@@ -514,7 +514,7 @@
         <member name="T:Parbad.Internal.DefaultOnlinePayment">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Internal.DefaultOnlinePayment.#ctor(System.IServiceProvider,Parbad.Storage.Abstractions.IStorage,Parbad.PaymentTokenProviders.IPaymentTokenProvider,Parbad.Abstraction.IGatewayProvider,Microsoft.Extensions.Options.IOptions{Parbad.Options.ParbadOptions},Parbad.IParbadLogger{Parbad.Internal.DefaultOnlinePayment})">
+        <member name="M:Parbad.Internal.DefaultOnlinePayment.#ctor(System.IServiceProvider,Parbad.Storage.Abstractions.IPaymentStorage,Parbad.PaymentTokenProviders.IPaymentTokenProvider,Parbad.Abstraction.IGatewayProvider,Microsoft.Extensions.Options.IOptions{Parbad.Options.ParbadOptions},Serilog.ILogger)">
             <summary>
             Initializes an instance of <see cref="T:Parbad.Internal.DefaultOnlinePayment"/>.
             </summary>
@@ -594,9 +594,6 @@
             <inheritdoc />
         </member>
         <member name="P:Parbad.Internal.PaymentRequestResult.Status">
-            <inheritdoc />
-        </member>
-        <member name="P:Parbad.Internal.PaymentRequestResult.GatewayTransporter">
             <inheritdoc />
         </member>
         <member name="T:Parbad.Internal.PaymentResult">
@@ -844,7 +841,7 @@
             Fetches the invoice from the incoming HTTP request.
             </summary>
             <param name="cancellationToken"></param>
-            <exception cref="T:Parbad.PaymentTokenProviders.PaymentTokenProviderException"></exception>
+            <exception cref="T:Parbad.PaymentTokenProviders.InvalidPaymentTokenProviderException"></exception>
             <exception cref="T:Parbad.Exceptions.InvoiceNotFoundException"></exception>
         </member>
         <member name="M:Parbad.IOnlinePayment.FetchAsync(System.Int64,System.Threading.CancellationToken)">
@@ -853,7 +850,7 @@
             </summary>
             <param name="trackingNumber">Invoice's tracking number.</param>
             <param name="cancellationToken"></param>
-            <exception cref="T:Parbad.PaymentTokenProviders.PaymentTokenProviderException"></exception>
+            <exception cref="T:Parbad.PaymentTokenProviders.InvalidPaymentTokenProviderException"></exception>
             <exception cref="T:Parbad.Exceptions.InvoiceNotFoundException"></exception>
         </member>
         <member name="M:Parbad.IOnlinePayment.VerifyAsync(System.Int64,System.Threading.CancellationToken)">
@@ -899,17 +896,6 @@
             </summary>
             <exception cref="T:Parbad.Exceptions.ParbadServiceNotInitializedException"></exception>
         </member>
-        <member name="T:Parbad.IParbadLogger`1">
-            <summary>
-            Parbad.Core Logger is a Proxy for Microsoft Logging.
-            </summary>
-            <typeparam name="TCategoryName"></typeparam>
-        </member>
-        <member name="T:Parbad.IPaymentCancelResult">
-            <summary>
-            Describes the result of the Cancel operation.
-            </summary>
-        </member>
         <member name="T:Parbad.PaymentFetchResultStatus">
             <summary>
             Describes the status of the fetched invoice.
@@ -928,21 +914,6 @@
         <member name="F:Parbad.PaymentFetchResultStatus.Failed">
             <summary>
             Payment is failed.
-            </summary>
-        </member>
-        <member name="T:Parbad.IPaymentFetchResult">
-            <summary>
-            Describes the result of the Fetch operation.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentFetchResult.Status">
-            <summary>
-            Gets the status of the fetched invoice.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentFetchResult.IsAlreadyVerified">
-            <summary>
-            Returns true if the invoice is already verified before.
             </summary>
         </member>
         <member name="T:Parbad.PaymentRefundResultStatus">
@@ -965,16 +936,6 @@
             The invoice is already refunded before.
             </summary>
         </member>
-        <member name="T:Parbad.IPaymentRefundResult">
-            <summary>
-            Describes the result of the Refund operation.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentRefundResult.Status">
-            <summary>
-            Gets the status of the Refund operation.
-            </summary>
-        </member>
         <member name="T:Parbad.PaymentRequestResultStatus">
             <summary>
             Describes the status of the requested invoice.
@@ -995,66 +956,6 @@
             The tracking number is already exists or used before.
             </summary>
         </member>
-        <member name="T:Parbad.IPaymentRequestResult">
-            <summary>
-            Describes the result of the Request operation.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentRequestResult.Status">
-            <summary>
-            Gets the status of the requested invoice.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentRequestResult.GatewayTransporter">
-            <summary>
-            Redirects the client to the gateway website.
-            </summary>
-        </member>
-        <member name="T:Parbad.IPaymentResult">
-            <summary>
-            Describes the result of a payment operation.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentResult.TrackingNumber">
-            <summary>
-            A unique number which will be used for tracking a specific payment.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentResult.Amount">
-            <summary>
-            The amount of the payment.
-            <para>Examples:</para>
-            <para>decimal a = new Money(1000)</para>
-            <para>long a = new Money(1000)</para>
-            <para>Money m = 1000.55m</para>
-            <para>Money m = 1000</para>
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentResult.IsSucceed">
-            <summary>
-            Determines whether the payment was successful or not.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentResult.GatewayName">
-            <summary>
-            Name of the gateway which the client has paid the payment in.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentResult.GatewayAccountName">
-            <summary>
-            Name of the gateway account.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentResult.Message">
-            <summary>
-            A short message about the operation.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentResult.AdditionalData">
-            <summary>
-            Includes some additional data.
-            </summary>
-        </member>
         <member name="T:Parbad.PaymentVerifyResultStatus">
             <summary>
             Describes the status of the Verify operation.
@@ -1073,26 +974,6 @@
         <member name="F:Parbad.PaymentVerifyResultStatus.AlreadyVerified">
             <summary>
             The invoice has been verified before.
-            </summary>
-        </member>
-        <member name="T:Parbad.IPaymentVerifyResult">
-            <summary>
-            Describes the result of the Verify operation.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentVerifyResult.TransactionCode">
-            <summary>
-            Gets the transaction code from the gateway.
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentVerifyResult.CardNo">
-            <summary>
-            Gets the Shetab Card Number
-            </summary>
-        </member>
-        <member name="P:Parbad.IPaymentVerifyResult.Status">
-            <summary>
-            Gets the status of the Verify operation.
             </summary>
         </member>
         <member name="T:Parbad.Money">
@@ -1204,7 +1085,7 @@
             Fetches the invoice from the incoming request.
             </summary>
             <param name="onlinePayment"></param>
-            <exception cref="T:Parbad.PaymentTokenProviders.PaymentTokenProviderException"></exception>
+            <exception cref="T:Parbad.PaymentTokenProviders.InvalidPaymentTokenProviderException"></exception>
             <exception cref="T:Parbad.Exceptions.InvoiceNotFoundException"></exception>
         </member>
         <member name="M:Parbad.OnlinePaymentExtensions.Fetch(Parbad.IOnlinePayment,System.Int64)">
@@ -1213,7 +1094,7 @@
             </summary>
             <param name="onlinePayment"></param>
             <param name="trackingNumber">Invoice's tracking number.</param>
-            <exception cref="T:Parbad.PaymentTokenProviders.PaymentTokenProviderException"></exception>
+            <exception cref="T:Parbad.PaymentTokenProviders.InvalidPaymentTokenProviderException"></exception>
             <exception cref="T:Parbad.Exceptions.InvoiceNotFoundException"></exception>
         </member>
         <member name="M:Parbad.OnlinePaymentExtensions.Verify(Parbad.IOnlinePayment,System.Int64)">
@@ -1224,7 +1105,7 @@
             <param name="trackingNumber">The tracking number of the invoice which must be verified.</param>
             <exception cref="T:Parbad.Exceptions.InvoiceNotFoundException"></exception>
         </member>
-        <member name="M:Parbad.OnlinePaymentExtensions.VerifyAsync(Parbad.IOnlinePayment,Parbad.IPaymentFetchResult,System.Threading.CancellationToken)">
+        <member name="M:Parbad.OnlinePaymentExtensions.VerifyAsync(Parbad.IOnlinePayment,Parbad.Internal.PaymentFetchResult,System.Threading.CancellationToken)">
             <summary>
             Verifies the given invoice.
             </summary>
@@ -1233,7 +1114,7 @@
             <param name="cancellationToken"></param>
             <exception cref="T:Parbad.Exceptions.InvoiceNotFoundException"></exception>
         </member>
-        <member name="M:Parbad.OnlinePaymentExtensions.Verify(Parbad.IOnlinePayment,Parbad.IPaymentFetchResult)">
+        <member name="M:Parbad.OnlinePaymentExtensions.Verify(Parbad.IOnlinePayment,Parbad.Internal.PaymentFetchResult)">
             <summary>
             Verifies the given invoice.
             </summary>
@@ -1250,7 +1131,7 @@
             <param name="cancellationReason">The reason for canceling the operation. It will be saved in Message field in database.</param>
             <exception cref="T:Parbad.Exceptions.InvoiceNotFoundException"></exception>
         </member>
-        <member name="M:Parbad.OnlinePaymentExtensions.CancelAsync(Parbad.IOnlinePayment,Parbad.IPaymentFetchResult,System.String,System.Threading.CancellationToken)">
+        <member name="M:Parbad.OnlinePaymentExtensions.CancelAsync(Parbad.IOnlinePayment,Parbad.Internal.PaymentFetchResult,System.String,System.Threading.CancellationToken)">
             <summary>
             Cancels the given invoice. No Verifying request will be sent to the gateway.
             </summary>
@@ -1260,7 +1141,7 @@
             <param name="cancellationToken"></param>
             <exception cref="T:Parbad.Exceptions.InvoiceNotFoundException"></exception>
         </member>
-        <member name="M:Parbad.OnlinePaymentExtensions.Cancel(Parbad.IOnlinePayment,Parbad.IPaymentFetchResult,System.String)">
+        <member name="M:Parbad.OnlinePaymentExtensions.Cancel(Parbad.IOnlinePayment,Parbad.Internal.PaymentFetchResult,System.String)">
             <summary>
             Cancels the given invoice. No Verifying request will be sent to the gateway.
             </summary>
@@ -1283,7 +1164,7 @@
             <param name="onlinePayment"></param>
             <param name="trackingNumber">The tracking number of the payment that must be refunded.</param>
         </member>
-        <member name="M:Parbad.OnlinePaymentExtensions.RefundCompletely(Parbad.IOnlinePayment,Parbad.IPaymentVerifyResult)">
+        <member name="M:Parbad.OnlinePaymentExtensions.RefundCompletely(Parbad.IOnlinePayment,Parbad.Internal.PaymentVerifyResult)">
             <summary>
             Refunds completely the paid payment.
             </summary>
@@ -1317,7 +1198,7 @@
             <param name="amount">Amount of refund.</param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.OnlinePaymentExtensions.RefundCompletelyAsync(Parbad.IOnlinePayment,Parbad.IPaymentVerifyResult,System.Threading.CancellationToken)">
+        <member name="M:Parbad.OnlinePaymentExtensions.RefundCompletelyAsync(Parbad.IOnlinePayment,Parbad.Internal.PaymentVerifyResult,System.Threading.CancellationToken)">
             <summary>
             Refunds completely the paid payment.
             </summary>
@@ -1489,61 +1370,61 @@
             </summary>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
-        <member name="T:Parbad.Storage.Abstractions.IStorage">
+        <member name="T:Parbad.Storage.Abstractions.IPaymentStorage">
             <summary>
             Provides the APIs for managing payment and transaction in a persistence store.
             </summary>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.CreatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Abstractions.IPaymentStorage.CreatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
             <summary>
             Creates a new payment.
             </summary>
             <param name="payment"></param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.UpdatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Abstractions.IPaymentStorage.UpdatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
             <summary>
             Updates the given <paramref name="payment"/>.
             </summary>
             <param name="payment"></param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.CreateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Abstractions.IPaymentStorage.CreateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
             <summary>
             Creates a new transaction.
             </summary>
             <param name="transaction"></param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.GetPaymentByTrackingNumberAsync(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Abstractions.IPaymentStorage.GetPaymentByTrackingNumberAsync(System.Int64,System.Threading.CancellationToken)">
             <summary>
             Gets a payment by its tracking number.
             </summary>
             <param name="trackingNumber"></param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.GetPaymentByLocalTokenAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Abstractions.IPaymentStorage.GetPaymentByLocalTokenAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Gets a payment by its token.
             </summary>
             <param name="paymentToken"></param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.DoesPaymentExistAsync(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Abstractions.IPaymentStorage.DoesPaymentExistAsync(System.Int64,System.Threading.CancellationToken)">
             <summary>
             Checks whether a payment exists with the given <paramref name="trackingNumber"/>.
             </summary>
             <param name="trackingNumber"></param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Abstractions.IPaymentStorage.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
             <summary>
             Checks whether a payment exists with the given <paramref name="paymentToken"/>.
             </summary>
             <param name="paymentToken"></param>
             <param name="cancellationToken"></param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.IStorage.GetTransactionsAsync(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Abstractions.IPaymentStorage.GetTransactionsAsync(System.Int64,System.Threading.CancellationToken)">
             <summary>
             Gets a list of transactions of the given <paramref name="payment"/>.
             </summary>
@@ -1567,22 +1448,22 @@
         </member>
         <member name="M:Parbad.Storage.Abstractions.StorageBuilderExtensions.AddStorage``1(Parbad.Storage.Abstractions.IStorageBuilder,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
             <summary>
-            Adds an implementation of <see cref="T:Parbad.Storage.Abstractions.IStorage"/> which required by Parbad.Core for managing the storage operations.
+            Adds an implementation of <see cref="T:Parbad.Storage.Abstractions.IPaymentStorage"/> which required by Parbad.Core for managing the storage operations.
             </summary>
             <typeparam name="TManager"></typeparam>
             <param name="builder"></param>
             <param name="lifetime">The lifetime of given StorageManager.</param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.StorageBuilderExtensions.AddStorage(Parbad.Storage.Abstractions.IStorageBuilder,Parbad.Storage.Abstractions.IStorage)">
+        <member name="M:Parbad.Storage.Abstractions.StorageBuilderExtensions.AddStorage(Parbad.Storage.Abstractions.IStorageBuilder,Parbad.Storage.Abstractions.IPaymentStorage)">
             <summary>
-            Adds an implementation of <see cref="T:Parbad.Storage.Abstractions.IStorage"/> which required by Parbad.Core for managing the storage operations.
+            Adds an implementation of <see cref="T:Parbad.Storage.Abstractions.IPaymentStorage"/> which required by Parbad.Core for managing the storage operations.
             </summary>
             <param name="builder"></param>
-            <param name="storage"></param>
+            <param name="paymentStorage"></param>
         </member>
-        <member name="M:Parbad.Storage.Abstractions.StorageBuilderExtensions.AddStorage(Parbad.Storage.Abstractions.IStorageBuilder,System.Func{System.IServiceProvider,Parbad.Storage.Abstractions.IStorage},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+        <member name="M:Parbad.Storage.Abstractions.StorageBuilderExtensions.AddStorage(Parbad.Storage.Abstractions.IStorageBuilder,System.Func{System.IServiceProvider,Parbad.Storage.Abstractions.IPaymentStorage},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
             <summary>
-            Adds an implementation of <see cref="T:Parbad.Storage.Abstractions.IStorage"/> which required by Parbad.Core for managing the storage operations.
+            Adds an implementation of <see cref="T:Parbad.Storage.Abstractions.IPaymentStorage"/> which required by Parbad.Core for managing the storage operations.
             </summary>
             <param name="builder"></param>
             <param name="factory"></param>

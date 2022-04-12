@@ -5,10 +5,13 @@ using System;
 
 namespace Parbad.PaymentTokenProviders
 {
-    public class PaymentTokenProviderException : Exception
+    public class InvalidPaymentTokenProviderException : Exception
     {
-        public PaymentTokenProviderException(string message) : base(message)
+        public string PaymentToken { get; }
+
+        public InvalidPaymentTokenProviderException(string paymentToken, string message) : base(message)
         {
+            PaymentToken = paymentToken;
         }
     }
 }

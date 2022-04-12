@@ -23,20 +23,4 @@ namespace Parbad
         /// </summary>
         Failed
     }
-
-    /// <summary>
-    /// Describes the result of the Fetch operation.
-    /// </summary>
-    public interface IPaymentFetchResult : IPaymentResult
-    {
-        /// <summary>
-        /// Gets the status of the fetched invoice.
-        /// </summary>
-        PaymentFetchResultStatus Status { get; }
-
-        /// <summary>
-        /// Returns true if the invoice is already verified before.
-        /// </summary>
-        bool IsAlreadyVerified { get; }
-    }
 }

@@ -36,7 +36,7 @@ namespace Parbad.Gateway.ParbadVirtual
         }
 
         /// <inheritdoc />
-        public override async Task<IPaymentRequestResult> RequestAsync(Invoice invoice, CancellationToken cancellationToken = default)
+        public override async Task<PaymentRequestResult> RequestAsync(Invoice invoice, CancellationToken cancellationToken = default)
         {
             var httpContext = _httpContextAccessor.HttpContext;
 
@@ -49,7 +49,6 @@ namespace Parbad.Gateway.ParbadVirtual
 
             return PaymentRequestResult.SucceedWithPost(
                 account.Name,
-                httpContext,
                 url,
                 new Dictionary<string, string>
                 {
@@ -62,7 +61,7 @@ namespace Parbad.Gateway.ParbadVirtual
         }
 
         /// <inheritdoc />
-        public override async Task<IPaymentFetchResult> FetchAsync(InvoiceContext context, CancellationToken cancellationToken = default)
+        public override async Task<PaymentFetchResult> FetchAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             var callbackResult = await GetCallbackResult(cancellationToken);
 
@@ -75,7 +74,7 @@ namespace Parbad.Gateway.ParbadVirtual
         }
 
         /// <inheritdoc />
-        public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
+        public override async Task<PaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             var request = _httpContextAccessor.HttpContext.Request;
 
@@ -92,9 +91,9 @@ namespace Parbad.Gateway.ParbadVirtual
         }
 
         /// <inheritdoc />
-        public override Task<IPaymentRefundResult> RefundAsync(InvoiceContext context, Money amount, CancellationToken cancellationToken = default)
+        public override Task<PaymentRefundResult> RefundAsync(InvoiceContext context, Money amount, CancellationToken cancellationToken = default)
         {
-            return PaymentRefundResult.Succeed().ToInterfaceAsync();
+            return Task.FromResult(PaymentRefundResult.Succeed());
         }
 
         private async Task<(bool IsSucceed, string Message)> GetCallbackResult(CancellationToken cancellationToken)

@@ -12,13 +12,13 @@ using Parbad.Storage.EntityFrameworkCore.Internal;
 namespace Parbad.Storage.EntityFrameworkCore
 {
     /// <summary>
-    /// EntityFramework Core implementation of <see cref="IStorage"/>.
+    /// EntityFramework Core implementation of <see cref="IPaymentStorage"/>.
     /// </summary>
-    public class EntityFrameworkCoreStorage : IStorage
+    public class EntityFrameworkCorePaymentStorage : IPaymentStorage
     {
         protected ParbadDataContext DbContext { get; }
 
-        public EntityFrameworkCoreStorage(ParbadDataContext dbContext)
+        public EntityFrameworkCorePaymentStorage(ParbadDataContext dbContext)
         {
             DbContext = dbContext;
         }

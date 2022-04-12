@@ -28,7 +28,7 @@ namespace Parbad
         /// A complete URL of your website. It will be used by the gateway for redirecting the client again to your website.
         /// <para>A complete URL would be like: "http://www.mywebsite.com/foo/bar/"</para>
         /// </param>
-        public static IPaymentRequestResult Request(
+        public static PaymentRequestResult Request(
             this IOnlinePayment onlinePayment,
             string gatewayName,
             long trackingNumber,
@@ -43,7 +43,7 @@ namespace Parbad
         /// </summary>
         /// <param name="onlinePayment"></param>
         /// <param name="configureInvoice">A builder which helps to build an invoice.</param>
-        public static IPaymentRequestResult Request(this IOnlinePayment onlinePayment, Action<IInvoiceBuilder> configureInvoice)
+        public static PaymentRequestResult Request(this IOnlinePayment onlinePayment, Action<IInvoiceBuilder> configureInvoice)
             => onlinePayment.RequestAsync(configureInvoice)
                 .GetAwaiter()
                 .GetResult();
@@ -53,7 +53,7 @@ namespace Parbad
         /// </summary>
         /// <param name="onlinePayment"></param>
         /// <param name="invoice">The invoice that must be paid.</param>
-        public static IPaymentRequestResult Request(this IOnlinePayment onlinePayment, Invoice invoice) =>
+        public static PaymentRequestResult Request(this IOnlinePayment onlinePayment, Invoice invoice) =>
             onlinePayment.RequestAsync(invoice)
                 .GetAwaiter()
                 .GetResult();
@@ -73,7 +73,7 @@ namespace Parbad
         /// <para>A complete URL would be like: "http://www.mywebsite.com/foo/bar/"</para>
         /// </param>
         /// <param name="cancellationToken"></param>
-        public static Task<IPaymentRequestResult> RequestAsync(
+        public static Task<PaymentRequestResult> RequestAsync(
             this IOnlinePayment onlinePayment,
             string gatewayName,
             long trackingNumber,
@@ -97,7 +97,7 @@ namespace Parbad
         /// <param name="onlinePayment"></param>
         /// <param name="configureInvoice">A builder which helps to build an invoice.</param>
         /// <param name="cancellationToken"></param>
-        public static async Task<IPaymentRequestResult> RequestAsync(
+        public static async Task<PaymentRequestResult> RequestAsync(
             this IOnlinePayment onlinePayment,
             Action<IInvoiceBuilder> configureInvoice,
             CancellationToken cancellationToken = default)
@@ -118,9 +118,9 @@ namespace Parbad
         /// Fetches the invoice from the incoming request.
         /// </summary>
         /// <param name="onlinePayment"></param>
-        /// <exception cref="PaymentTokenProviderException"></exception>
+        /// <exception cref="InvalidPaymentTokenProviderException"></exception>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        public static IPaymentFetchResult Fetch(this IOnlinePayment onlinePayment)
+        public static PaymentFetchResult Fetch(this IOnlinePayment onlinePayment)
             => onlinePayment.FetchAndStoreAsync().GetAwaiter().GetResult();
 
         /// <summary>
@@ -128,9 +128,9 @@ namespace Parbad
         /// </summary>
         /// <param name="onlinePayment"></param>
         /// <param name="trackingNumber">Invoice's tracking number.</param>
-        /// <exception cref="PaymentTokenProviderException"></exception>
+        /// <exception cref="InvalidPaymentTokenProviderException"></exception>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        public static IPaymentFetchResult Fetch(this IOnlinePayment onlinePayment, long trackingNumber)
+        public static PaymentFetchResult Fetch(this IOnlinePayment onlinePayment, long trackingNumber)
             => onlinePayment.FetchAsync(trackingNumber).GetAwaiter().GetResult();
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Parbad
         /// <param name="onlinePayment"></param>
         /// <param name="trackingNumber">The tracking number of the invoice which must be verified.</param>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        public static IPaymentVerifyResult Verify(this IOnlinePayment onlinePayment, long trackingNumber)
+        public static PaymentVerifyResult Verify(this IOnlinePayment onlinePayment, long trackingNumber)
             => onlinePayment.VerifyAsync(trackingNumber).GetAwaiter().GetResult();
 
         /// <summary>
@@ -149,9 +149,9 @@ namespace Parbad
         /// <param name="invoice"></param>
         /// <param name="cancellationToken"></param>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        public static Task<IPaymentVerifyResult> VerifyAsync(
+        public static Task<PaymentVerifyResult> VerifyAsync(
             this IOnlinePayment onlinePayment,
-            IPaymentFetchResult invoice,
+            PaymentFetchResult invoice,
             CancellationToken cancellationToken = default)
         {
             if (invoice == null) throw new ArgumentNullException(nameof(invoice));
@@ -165,7 +165,7 @@ namespace Parbad
         /// <param name="onlinePayment"></param>
         /// <param name="invoice"></param>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        public static IPaymentVerifyResult Verify(this IOnlinePayment onlinePayment, IPaymentFetchResult invoice)
+        public static PaymentVerifyResult Verify(this IOnlinePayment onlinePayment, PaymentFetchResult invoice)
         {
             if (invoice == null) throw new ArgumentNullException(nameof(invoice));
 
@@ -179,7 +179,7 @@ namespace Parbad
         /// <param name="trackingNumber">The tracking number of the invoice which must be verified.</param>
         /// <param name="cancellationReason">The reason for canceling the operation. It will be saved in Message field in database.</param>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        public static IPaymentCancelResult Cancel(
+        public static PaymentCancelResult Cancel(
             this IOnlinePayment onlinePayment,
             long trackingNumber,
             string cancellationReason = null)
@@ -193,9 +193,9 @@ namespace Parbad
         /// <param name="cancellationReason">The reason for canceling the operation. It will be saved in Message field in database.</param>
         /// <param name="cancellationToken"></param>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        public static Task<IPaymentCancelResult> CancelAsync(
+        public static Task<PaymentCancelResult> CancelAsync(
             this IOnlinePayment onlinePayment,
-            IPaymentFetchResult invoice,
+            PaymentFetchResult invoice,
             string cancellationReason = null,
             CancellationToken cancellationToken = default)
         {
@@ -211,9 +211,9 @@ namespace Parbad
         /// <param name="invoice"></param>
         /// <param name="cancellationReason">The reason for canceling the operation. It will be saved in Message field in database.</param>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        public static IPaymentCancelResult Cancel(
+        public static PaymentCancelResult Cancel(
             this IOnlinePayment onlinePayment,
-            IPaymentFetchResult invoice,
+            PaymentFetchResult invoice,
             string cancellationReason = null)
         {
             if (invoice == null) throw new ArgumentNullException(nameof(invoice));
@@ -226,7 +226,7 @@ namespace Parbad
         /// </summary>
         /// <param name="onlinePayment"></param>
         /// <param name="invoice">The invoice that must be refunded.</param>
-        public static IPaymentRefundResult Refund(this IOnlinePayment onlinePayment, RefundInvoice invoice)
+        public static PaymentRefundResult Refund(this IOnlinePayment onlinePayment, RefundInvoice invoice)
             => onlinePayment.RefundAsync(invoice)
                 .GetAwaiter()
                 .GetResult();
@@ -236,7 +236,7 @@ namespace Parbad
         /// </summary>
         /// <param name="onlinePayment"></param>
         /// <param name="trackingNumber">The tracking number of the payment that must be refunded.</param>
-        public static IPaymentRefundResult RefundCompletely(this IOnlinePayment onlinePayment, long trackingNumber) =>
+        public static PaymentRefundResult RefundCompletely(this IOnlinePayment onlinePayment, long trackingNumber) =>
             onlinePayment.RefundAsync(new RefundInvoice(trackingNumber))
                 .GetAwaiter()
                 .GetResult();
@@ -246,7 +246,7 @@ namespace Parbad
         /// </summary>
         /// <param name="onlinePayment"></param>
         /// <param name="verifyResult"></param>
-        public static IPaymentRefundResult RefundCompletely(this IOnlinePayment onlinePayment, IPaymentVerifyResult verifyResult)
+        public static PaymentRefundResult RefundCompletely(this IOnlinePayment onlinePayment, PaymentVerifyResult verifyResult)
         {
             if (onlinePayment == null) throw new ArgumentNullException(nameof(onlinePayment));
             if (verifyResult == null) throw new ArgumentNullException(nameof(verifyResult));
@@ -261,7 +261,7 @@ namespace Parbad
         /// <param name="onlinePayment"></param>
         /// <param name="trackingNumber">The tracking number of the payment which must be refunded.</param>
         /// <param name="amount">Amount of refund.</param>
-        public static IPaymentRefundResult RefundSpecificAmount(
+        public static PaymentRefundResult RefundSpecificAmount(
             this IOnlinePayment onlinePayment,
             long trackingNumber,
             decimal amount) =>
@@ -275,7 +275,7 @@ namespace Parbad
         /// <param name="onlinePayment"></param>
         /// <param name="trackingNumber">The tracking number of the payment that must be refunded.</param>
         /// <param name="cancellationToken"></param>
-        public static Task<IPaymentRefundResult> RefundCompletelyAsync(
+        public static Task<PaymentRefundResult> RefundCompletelyAsync(
             this IOnlinePayment onlinePayment,
             long trackingNumber,
             CancellationToken cancellationToken = default) =>
@@ -289,7 +289,7 @@ namespace Parbad
         /// <param name="trackingNumber">The tracking number of the payment that must be refunded.</param>
         /// <param name="amount">Amount of refund.</param>
         /// <param name="cancellationToken"></param>
-        public static Task<IPaymentRefundResult> RefundSpecificAmountAsync(
+        public static Task<PaymentRefundResult> RefundSpecificAmountAsync(
             this IOnlinePayment onlinePayment,
             long trackingNumber,
             decimal amount,
@@ -302,9 +302,9 @@ namespace Parbad
         /// <param name="onlinePayment"></param>
         /// <param name="verifyResult"></param>
         /// <param name="cancellationToken"></param>
-        public static Task<IPaymentRefundResult> RefundCompletelyAsync(
+        public static Task<PaymentRefundResult> RefundCompletelyAsync(
             this IOnlinePayment onlinePayment,
-            IPaymentVerifyResult verifyResult,
+            PaymentVerifyResult verifyResult,
             CancellationToken cancellationToken = default)
         {
             if (onlinePayment == null) throw new ArgumentNullException(nameof(onlinePayment));

@@ -24,14 +24,4 @@ namespace Parbad
         AlreadyRefunded
     }
 
-    /// <summary>
-    /// Describes the result of the Refund operation.
-    /// </summary>
-    public interface IPaymentRefundResult : IPaymentResult
-    {
-        /// <summary>
-        /// Gets the status of the Refund operation.
-        /// </summary>
-        PaymentRefundResultStatus Status { get; }
-    }
 }

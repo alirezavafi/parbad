@@ -2,11 +2,12 @@
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Parbad.Internal
 {
     /// <inheritdoc />
-    public class PaymentResult : IPaymentResult
+    public class PaymentResult 
     {
         /// <summary>
         /// Initializes an instance of <see cref="PaymentResult"/>.
@@ -14,7 +15,7 @@ namespace Parbad.Internal
         public PaymentResult()
         {
             AdditionalData = new Dictionary<string, object>();
-            DatabaseAdditionalData = new Dictionary<string, string>();
+            //DatabaseAdditionalData = new Dictionary<string, string>();
         }
 
         /// <inheritdoc />
@@ -38,6 +39,6 @@ namespace Parbad.Internal
         /// <inheritdoc />
         public IDictionary<string, object> AdditionalData { get; protected set; }
 
-        public IDictionary<string, string> DatabaseAdditionalData { get; protected set; }
+        //public IDictionary<string, string> DatabaseAdditionalData { get; protected set; }
     }
 }

@@ -43,7 +43,7 @@ namespace Parbad.Gateway.ZarinPal
         }
 
         /// <inheritdoc />
-        public override async Task<IPaymentRequestResult> RequestAsync(Invoice invoice, CancellationToken cancellationToken = default)
+        public override async Task<PaymentRequestResult> RequestAsync(Invoice invoice, CancellationToken cancellationToken = default)
         {
             if (invoice == null) throw new ArgumentNullException(nameof(invoice));
 
@@ -60,7 +60,7 @@ namespace Parbad.Gateway.ZarinPal
             return ZarinPalHelper.CreateRequestResult(response, _httpContextAccessor.HttpContext, account, _gatewayOptions, _messagesOptions.Value);
         }
 
-        public override async Task<IPaymentFetchResult> FetchAsync(InvoiceContext context, CancellationToken cancellationToken = default)
+        public override async Task<PaymentFetchResult> FetchAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
@@ -93,7 +93,7 @@ namespace Parbad.Gateway.ZarinPal
 
 
         /// <inheritdoc />
-        public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
+        public override async Task<PaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
 
@@ -118,9 +118,9 @@ namespace Parbad.Gateway.ZarinPal
         }
 
         /// <inheritdoc />
-        public override Task<IPaymentRefundResult> RefundAsync(InvoiceContext context, Money amount, CancellationToken cancellationToken = default)
+        public override Task<PaymentRefundResult> RefundAsync(InvoiceContext context, Money amount, CancellationToken cancellationToken = default)
         {
-            return PaymentRefundResult.Failed("The Refund operation is not supported by this gateway.").ToInterfaceAsync();
+            return Task.FromResult(PaymentRefundResult.Failed("The Refund operation is not supported by this gateway."));
         }
     }
 }

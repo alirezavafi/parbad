@@ -51,11 +51,10 @@ namespace Parbad.Gateway.AsanPardakht
         }
 
         /// <inheritdoc />
-        public override async Task<IPaymentRequestResult> RequestAsync(Invoice invoice,
+        public override async Task<PaymentRequestResult> RequestAsync(Invoice invoice,
             CancellationToken cancellationToken = default)
         {
-            if (invoice == null) throw new ArgumentNullException(nameof(invoice));
-
+            if (invoice == null) throw new ArgumentNullException(nameof(invoice)); 
             var account = await GetAccountAsync(invoice).ConfigureAwaitFalse();
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/v1/Token");
@@ -77,7 +76,6 @@ namespace Parbad.Gateway.AsanPardakht
 
             return PaymentRequestResult.SucceedWithPost(
                 account.Name,
-                _httpContextAccessor.HttpContext,
                 _restGatewayOptions.PaymentPageUrl,
                 new Dictionary<string, string>
                 {
@@ -88,7 +86,7 @@ namespace Parbad.Gateway.AsanPardakht
         }
 
         /// <inheritdoc />
-        public override async Task<IPaymentFetchResult> FetchAsync(InvoiceContext context,
+        public override async Task<PaymentFetchResult> FetchAsync(InvoiceContext context,
             CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
@@ -145,7 +143,7 @@ namespace Parbad.Gateway.AsanPardakht
 
 
         /// <inheritdoc />
-        public override async Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context,
+        public override async Task<PaymentVerifyResult> VerifyAsync(InvoiceContext context,
             CancellationToken cancellationToken = default)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
@@ -204,14 +202,14 @@ namespace Parbad.Gateway.AsanPardakht
                 Message = settleHttpResp.IsSuccessStatusCode ? "موفق" : "ناموفق"
             };
 
-            verifyResult.DatabaseAdditionalData.Add("PayGateTranId", callbackResult.PayGateTranId);
-            verifyResult.DatabaseAdditionalData.Add("LastFourDigitOfPAN", callbackResult.CardNumber);
+            //verifyResult.DatabaseAdditionalData.Add("PayGateTranId", callbackResult.PayGateTranId);
+            //verifyResult.DatabaseAdditionalData.Add("LastFourDigitOfPAN", callbackResult.CardNumber);
 
             return verifyResult;
         }
 
         /// <inheritdoc />
-        public override Task<IPaymentRefundResult> RefundAsync(InvoiceContext context, Money amount,
+        public override Task<PaymentRefundResult> RefundAsync(InvoiceContext context, Money amount,
             CancellationToken cancellationToken = default)
         {
             throw new NotSupportedException();

@@ -66,7 +66,6 @@ namespace Parbad.Gateway.Sepehr.Internal
             }
 
             return PaymentRequestResult.SucceedWithPost(account.Name,
-                httpContext,
                 gatewayOptions.PaymentPageUrl,
                 new Dictionary<string, string>
                 {
@@ -272,7 +271,7 @@ namespace Parbad.Gateway.Sepehr.Internal
             };
             verificationResult.SetSepehrAdditionalData(verificationAdditionalData);
             var serializedAdditionalData = JsonConvert.SerializeObject(verificationAdditionalData);
-            verificationResult.DatabaseAdditionalData.Add(VerificationAdditionalDataKey, serializedAdditionalData);
+            //verificationResult.DatabaseAdditionalData.Add(VerificationAdditionalDataKey, serializedAdditionalData);
 
             return verificationResult;
         }
@@ -307,7 +306,7 @@ namespace Parbad.Gateway.Sepehr.Internal
             };
         }
 
-        public static async Task<IPaymentRefundResult> CreateRefundResult(InvoiceContext context, HttpResponseMessage responseMessage, MessagesOptions messagesOptions)
+        public static async Task<PaymentRefundResult> CreateRefundResult(InvoiceContext context, HttpResponseMessage responseMessage, MessagesOptions messagesOptions)
         {
             if (!responseMessage.IsSuccessStatusCode)
             {

@@ -1,7 +1,6 @@
 // Copyright (c) Parbad.Core. All rights reserved.
 // Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
 
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Parbad.Abstraction;
 using Parbad.Exceptions;
@@ -14,60 +13,82 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Serilog;
+using Serilog.Context;
 
 namespace Parbad.Internal
 {
     /// <inheritdoc />
     public class DefaultOnlinePayment : IOnlinePayment
     {
-        private readonly IStorage _storage;
+        private readonly IPaymentStorage _paymentStorage;
         private readonly IPaymentTokenProvider _tokenProvider;
         private readonly IGatewayProvider _gatewayProvider;
+        private readonly ILogger _logger;
         private readonly ParbadOptions _options;
-        private readonly IParbadLogger<DefaultOnlinePayment> _logger;
 
         /// <summary>
         /// Initializes an instance of <see cref="DefaultOnlinePayment"/>.
         /// </summary>
         public DefaultOnlinePayment(
             IServiceProvider services,
-            IStorage storage,
+            IPaymentStorage paymentStorage,
             IPaymentTokenProvider tokenProvider,
             IGatewayProvider gatewayProvider,
             IOptions<ParbadOptions> options,
-            IParbadLogger<DefaultOnlinePayment> logger)
+            ILogger logger)
         {
             Services = services;
-            _storage = storage;
+            _paymentStorage = paymentStorage;
             _tokenProvider = tokenProvider;
             _options = options.Value;
-            _logger = logger;
-            _storage = storage;
+            _paymentStorage = paymentStorage;
             _gatewayProvider = gatewayProvider;
+            _logger = logger;
         }
 
         /// <inheritdoc />
         public IServiceProvider Services { get; }
 
         /// <inheritdoc />
-        public virtual async Task<IPaymentRequestResult> RequestAsync(Invoice invoice, CancellationToken cancellationToken = default)
+        public virtual async Task<PaymentRequestResult> RequestAsync(Invoice invoice, CancellationToken cancellationToken = default)
         {
             if (invoice == null) throw new ArgumentNullException(nameof(invoice));
-
-            _logger.LogInformation(LoggingEvents.RequestPayment, $"Requesting the invoice {invoice.TrackingNumber} is started.");
+            using var l1 = LogContext.PushProperty("TrackingNumber", invoice.TrackingNumber);
+            using var l2 = LogContext.PushProperty("MobileNumber", invoice.MobileNumber);
+            
+            _logger.Information("Request {@Invoice} started", invoice);
 
             //  Check the tracking number
-            if (await _storage.DoesPaymentExistAsync(invoice.TrackingNumber, cancellationToken).ConfigureAwaitFalse())
+            var existingPayment = await _paymentStorage.GetPaymentByTrackingNumberAsync(invoice.TrackingNumber, cancellationToken);
+            if (existingPayment != null)
             {
-                _logger.LogInformation(LoggingEvents.RequestPayment, _options.Messages.DuplicateTrackingNumber);
-
-                return new PaymentRequestResult
+                if (existingPayment.IsCompleted)
                 {
-                    TrackingNumber = invoice.TrackingNumber,
-                    Status = PaymentRequestResultStatus.TrackingNumberAlreadyExists,
-                    Message = _options.Messages.DuplicateTrackingNumber,
-                    GatewayTransporter = new NullGatewayTransporter()
-                };
+                    _logger.Warning("{@Invoice} already processed with {@Payment}", invoice, existingPayment);
+
+                    return new PaymentRequestResult
+                    {
+                        TrackingNumber = invoice.TrackingNumber,
+                        Status = PaymentRequestResultStatus.TrackingNumberAlreadyExists,
+                        Message = _options.Messages.DuplicateTrackingNumber,
+                    };
+                }
+                else
+                {
+                    var transactions = await _paymentStorage.GetTransactionsAsync(existingPayment.Id, cancellationToken);
+                    var requestTransaction = transactions.FirstOrDefault(x => x.Type == TransactionType.Request);
+                    if (requestTransaction == null)
+                    {
+                        throw new InvalidOperationException("payment request transaction not found!");
+                    }
+                    else
+                    {
+                        var res = JsonConvert.DeserializeObject<PaymentRequestResult>(requestTransaction.AdditionalData);
+                        _logger.Information("Continuing processing {@Invoice} with {@Result}", invoice, res);
+                        return res;
+                    }
+                }
             }
 
             // Create a payment token
@@ -76,19 +97,10 @@ namespace Parbad.Internal
                 .ConfigureAwaitFalse();
 
             if (paymentToken.IsNullOrEmpty())
-            {
-                throw new PaymentTokenProviderException($"The Payment Token Provider '{_tokenProvider.GetType().Name}' didn't provide any token.");
-            }
+                throw new InvalidPaymentTokenProviderException(paymentToken, "EmptyToken");
 
-            //  Check the created payment token
-            if (await _storage.DoesPaymentExistAsync(paymentToken, cancellationToken).ConfigureAwaitFalse())
-            {
-                var message = $"Requesting the invoice {invoice.TrackingNumber} is finished. The payment token \"{paymentToken}\" already exists.";
-
-                _logger.LogError(LoggingEvents.RequestPayment, message);
-
-                throw new PaymentTokenProviderException(message);
-            }
+            if (await _paymentStorage.DoesPaymentExistAsync(paymentToken, cancellationToken).ConfigureAwaitFalse())
+                throw new InvalidPaymentTokenProviderException(paymentToken, "DuplicatePaymentToken");
 
             var gateway = _gatewayProvider.Provide(invoice.GatewayName);
 
@@ -102,9 +114,9 @@ namespace Parbad.Internal
                 GatewayName = gateway.GetRoutingGatewayName()
             };
 
-            await _storage.CreatePaymentAsync(newPayment, cancellationToken).ConfigureAwaitFalse();
+            await _paymentStorage.CreatePaymentAsync(newPayment, cancellationToken).ConfigureAwaitFalse();
 
-            PaymentRequestResult requestResult;
+            PaymentRequestResult requestResult = null;
 
             try
             {
@@ -112,15 +124,13 @@ namespace Parbad.Internal
                     .RequestAsync(invoice, cancellationToken)
                     .ConfigureAwaitFalse() as PaymentRequestResult;
 
-                if (requestResult == null) throw new Exception($"Requesting the invoice {invoice.TrackingNumber} is finished. The gateway {gateway.GetCompleteGatewayName()} returns null instead of a result.");
+                if (requestResult == null) throw new InvalidOperationException("Empty result");
             }
             catch (Exception exception)
             {
-                _logger.LogError(exception, exception.Message);
-
                 newPayment.IsCompleted = true;
                 newPayment.IsPaid = false;
-
+                _logger.Error(exception, "Failed to request {@Payment} with {@Result}", newPayment, requestResult);
                 requestResult = PaymentRequestResult.Failed(exception.Message);
             }
 
@@ -129,8 +139,6 @@ namespace Parbad.Internal
             requestResult.GatewayName = gateway.GetRoutingGatewayName();
 
             newPayment.GatewayAccountName = requestResult.GatewayAccountName;
-
-            await _storage.UpdatePaymentAsync(newPayment, cancellationToken).ConfigureAwaitFalse();
 
             var newTransaction = new Transaction
             {
@@ -142,35 +150,26 @@ namespace Parbad.Internal
                 PaymentId = newPayment.Id
             };
 
-            await _storage.CreateTransactionAsync(newTransaction, cancellationToken).ConfigureAwaitFalse();
+            _logger.Information("{@Payment}, {@Transaction} created successfully with {@Result}", newPayment, newTransaction, requestResult);
 
-            _logger.LogInformation(LoggingEvents.RequestPayment, $"Requesting the invoice {invoice.TrackingNumber} is finished.");
+            await _paymentStorage.UpdatePaymentAsync(newPayment, cancellationToken).ConfigureAwaitFalse();
+            await _paymentStorage.CreateTransactionAsync(newTransaction, cancellationToken).ConfigureAwaitFalse();
 
             return requestResult;
         }
 
         /// <inheritdoc />
-        public virtual async Task<IPaymentFetchResult> FetchAndStoreAsync(CancellationToken cancellationToken = default)
+        public virtual async Task<PaymentFetchResult> FetchAndStoreAsync(CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation(LoggingEvents.FetchPayment, "Fetching from the current HTTP request is started.");
-
             var paymentToken = await _tokenProvider.RetrieveTokenAsync(cancellationToken).ConfigureAwaitFalse();
 
             if (string.IsNullOrEmpty(paymentToken))
-            {
-                _logger.LogError(LoggingEvents.FetchPayment, "Fetching failed. No payment token is received.");
+                throw new InvalidPaymentTokenProviderException(paymentToken, "No Token is received.");
 
-                throw new PaymentTokenProviderException("No Token is received.");
-            }
-
-            var payment = await _storage.GetPaymentByLocalTokenAsync(paymentToken, cancellationToken).ConfigureAwaitFalse();
+            var payment = await _paymentStorage.GetPaymentByLocalTokenAsync(paymentToken, cancellationToken).ConfigureAwaitFalse();
 
             if (payment == null)
-            {
-                _logger.LogError(LoggingEvents.FetchPayment, $"Fetching failed. The operation is not valid. No payment found with the token: {paymentToken}");
-
                 throw new InvoiceNotFoundException(paymentToken);
-            }
 
             var result = (PaymentFetchResult)await FetchAsync(payment, cancellationToken);
             var transaction = new Transaction
@@ -183,53 +182,39 @@ namespace Parbad.Internal
                 PaymentId = payment.Id
             };
 
-            var tr = (await _storage.GetTransactionsAsync(payment.Id, cancellationToken)).FirstOrDefault(x => x.Type == TransactionType.Callback);
+            var tr = (await _paymentStorage.GetTransactionsAsync(payment.Id, cancellationToken)).FirstOrDefault(x => x.Type == TransactionType.Callback);
             if (tr == null)
-                await _storage.CreateTransactionAsync(transaction, cancellationToken).ConfigureAwaitFalse();
+                await _paymentStorage.CreateTransactionAsync(transaction, cancellationToken).ConfigureAwaitFalse();
 
             return result;
         }
 
         /// <inheritdoc />
-        public async Task<IPaymentFetchResult> FetchAsync(long trackingNumber, CancellationToken cancellationToken = default)
+        public async Task<PaymentFetchResult> FetchAsync(long trackingNumber, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation(LoggingEvents.FetchPayment, $"Fetching from database for invoice number {trackingNumber} is started.");
-
-            var payment = await _storage.GetPaymentByTrackingNumberAsync(trackingNumber, cancellationToken).ConfigureAwaitFalse();
-
+            var payment = await _paymentStorage.GetPaymentByTrackingNumberAsync(trackingNumber, cancellationToken).ConfigureAwaitFalse();
             if (payment == null)
-            {
-                _logger.LogError(LoggingEvents.FetchPayment, $"Fetching failed. The operation is not valid. No payment found for the given tracking number: {trackingNumber}");
-
                 throw new InvoiceNotFoundException(trackingNumber);
-            }
-
+            
             var result = await FetchAsync(payment, cancellationToken);
-
+            
             return result;
         }
 
         /// <inheritdoc />
-        public virtual async Task<IPaymentVerifyResult> VerifyAsync(long trackingNumber, CancellationToken cancellationToken = default)
+        public virtual async Task<PaymentVerifyResult> VerifyAsync(long trackingNumber, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation(LoggingEvents.VerifyPayment, $"Verifying the invoice {trackingNumber} is started.");
-
-            var payment = await _storage
+            using var l1 = LogContext.PushProperty("TrackingNumber", trackingNumber);
+            var payment = await _paymentStorage
                 .GetPaymentByTrackingNumberAsync(trackingNumber, cancellationToken)
                 .ConfigureAwaitFalse();
 
             if (payment == null)
-            {
-                _logger.LogError(LoggingEvents.VerifyPayment, $"Verifying the invoice {trackingNumber} is failed. The operation is not valid. No payment found with the tracking number {trackingNumber}");
-
                 throw new InvoiceNotFoundException(trackingNumber);
-            }
 
             if (payment.IsCompleted)
             {
-                _logger.LogInformation(LoggingEvents.VerifyPayment, $"Verifying the invoice {trackingNumber} is finished. The requested payment is already processed before.");
-
-                return new PaymentVerifyResult
+                var paymentVerifyResult = new PaymentVerifyResult
                 {
                     TrackingNumber = payment.TrackingNumber,
                     Amount = payment.Amount,
@@ -239,28 +224,25 @@ namespace Parbad.Internal
                     Status = payment.IsPaid ? PaymentVerifyResultStatus.AlreadyVerified : PaymentVerifyResultStatus.Failed,
                     Message = _options.Messages.PaymentIsAlreadyProcessedBefore
                 };
+
+                _logger.Information("{@Payment} already processed with {@Result}", payment, paymentVerifyResult);
+                
+                return paymentVerifyResult;
             }
 
             var gateway = _gatewayProvider.Provide(payment.GatewayName);
 
-            var transactions = await _storage.GetTransactionsAsync(payment.Id, cancellationToken).ConfigureAwaitFalse();
+            var transactions = await _paymentStorage.GetTransactionsAsync(payment.Id, cancellationToken).ConfigureAwaitFalse();
             var invoiceContext = new InvoiceContext(payment, transactions);
 
-            PaymentVerifyResult verifyResult;
+            PaymentVerifyResult verifyResult = null;
 
-            try
-            {
-                verifyResult = await gateway
-                    .VerifyAsync(invoiceContext, cancellationToken)
-                    .ConfigureAwaitFalse() as PaymentVerifyResult;
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(LoggingEvents.VerifyPayment, exception, $"Verifying the invoice {trackingNumber} is finished. An error occurred during requesting.");
-                throw;
-            }
+            verifyResult = await gateway
+                .VerifyAsync(invoiceContext, cancellationToken)
+                .ConfigureAwaitFalse() as PaymentVerifyResult;
 
-            if (verifyResult == null) throw new Exception($"The {gateway.GetCompleteGatewayName()} returns null instead of a result.");
+            if (verifyResult == null)
+                throw new InvalidOperationException("Verification result is null!!!");
 
             verifyResult.TrackingNumber = payment.TrackingNumber;
             verifyResult.Amount = payment.Amount;
@@ -270,8 +252,6 @@ namespace Parbad.Internal
             payment.IsCompleted = true;
             payment.IsPaid = verifyResult.IsSucceed;
             payment.TransactionCode = verifyResult.TransactionCode;
-
-            await _storage.UpdatePaymentAsync(payment, cancellationToken).ConfigureAwaitFalse();
 
             var transaction = new Transaction
             {
@@ -283,32 +263,29 @@ namespace Parbad.Internal
                 PaymentId = payment.Id
             };
 
-            await _storage.CreateTransactionAsync(transaction, cancellationToken).ConfigureAwaitFalse();
+            _logger.Information("{@Payment} verified with {@Transaction} {@Result}", payment, transaction, verifyResult);
 
-            _logger.LogInformation(LoggingEvents.VerifyPayment, $"Verifying the invoice {trackingNumber} is finished.");
+            await _paymentStorage.UpdatePaymentAsync(payment, cancellationToken).ConfigureAwaitFalse();
+            await _paymentStorage.CreateTransactionAsync(transaction, cancellationToken).ConfigureAwaitFalse();
 
             return verifyResult;
         }
 
         /// <inheritdoc />
-        public virtual async Task<IPaymentCancelResult> CancelAsync(long trackingNumber, string cancellationReason = null, CancellationToken cancellationToken = default)
+        public virtual async Task<PaymentCancelResult> CancelAsync(long trackingNumber, string cancellationReason = null, CancellationToken cancellationToken = default)
         {
-            _logger.LogInformation(LoggingEvents.CancelPayment, $"Canceling the invoice {trackingNumber} is started.");
+            using var l1 = LogContext.PushProperty("TrackingNumber", trackingNumber);
 
-            var payment = await _storage
+            var payment = await _paymentStorage
                 .GetPaymentByTrackingNumberAsync(trackingNumber, cancellationToken)
                 .ConfigureAwaitFalse();
 
             if (payment == null)
-            {
-                _logger.LogError(LoggingEvents.CancelPayment, $"Canceling the invoice {trackingNumber} is failed. The operation is not valid. No payment found with the tracking number {trackingNumber}");
-
                 throw new InvoiceNotFoundException(trackingNumber);
-            }
 
             if (payment.IsCompleted)
             {
-                return new PaymentCancelResult
+                var paymentCancelResult = new PaymentCancelResult
                 {
                     TrackingNumber = payment.TrackingNumber,
                     Amount = payment.Amount,
@@ -317,16 +294,15 @@ namespace Parbad.Internal
                     IsSucceed = false,
                     Message = _options.Messages.PaymentIsAlreadyProcessedBefore
                 };
+
+                _logger.Information("{@Payment} cancelled with {@Result}", payment, paymentCancelResult);
+                return paymentCancelResult;
             }
 
             var message = cancellationReason ?? _options.Messages.PaymentCanceledProgrammatically;
 
-            _logger.LogInformation(LoggingEvents.CancelPayment, message);
-
             payment.IsCompleted = true;
             payment.IsPaid = false;
-
-            await _storage.UpdatePaymentAsync(payment, cancellationToken).ConfigureAwaitFalse();
 
             var newTransaction = new Transaction
             {
@@ -337,11 +313,7 @@ namespace Parbad.Internal
                 PaymentId = payment.Id
             };
 
-            await _storage.CreateTransactionAsync(newTransaction, cancellationToken).ConfigureAwaitFalse();
-
-            _logger.LogInformation(LoggingEvents.CancelPayment, $"Canceling the invoice {trackingNumber} is finished.");
-
-            return new PaymentCancelResult
+            var cancelResult = new PaymentCancelResult
             {
                 TrackingNumber = payment.TrackingNumber,
                 Amount = payment.Amount,
@@ -350,31 +322,31 @@ namespace Parbad.Internal
                 GatewayAccountName = payment.GatewayAccountName,
                 Message = message
             };
+            
+            _logger.Information("{@Payment} cancel finished with {@Transaction} {@Result}", payment, newTransaction, cancelResult);
+
+            await _paymentStorage.UpdatePaymentAsync(payment, cancellationToken).ConfigureAwaitFalse();
+            await _paymentStorage.CreateTransactionAsync(newTransaction, cancellationToken).ConfigureAwaitFalse();
+            
+            return cancelResult;
         }
 
         /// <inheritdoc />
-        public virtual async Task<IPaymentRefundResult> RefundAsync(RefundInvoice invoice, CancellationToken cancellationToken = default)
+        public virtual async Task<PaymentRefundResult> RefundAsync(RefundInvoice invoice, CancellationToken cancellationToken = default)
         {
             if (invoice == null) throw new ArgumentNullException(nameof(invoice));
 
-            _logger.LogInformation(LoggingEvents.RefundPayment, $"Refunding the invoice {invoice.TrackingNumber} is started.");
+            using var l1 = LogContext.PushProperty("TrackingNumber", invoice.TrackingNumber);
 
-            var payment = await _storage.GetPaymentByTrackingNumberAsync(invoice.TrackingNumber, cancellationToken).ConfigureAwaitFalse();
+            var payment = await _paymentStorage.GetPaymentByTrackingNumberAsync(invoice.TrackingNumber, cancellationToken).ConfigureAwaitFalse();
 
             if (payment == null)
-            {
-                _logger.LogError(LoggingEvents.RefundPayment, $"Refunding the invoice {invoice.TrackingNumber} is failed. The operation is not valid. No payment found with the tracking number {invoice.TrackingNumber}");
-
                 throw new InvoiceNotFoundException(invoice.TrackingNumber);
-            }
 
             if (!payment.IsCompleted)
             {
-                var message = $"{_options.Messages.OnlyCompletedPaymentCanBeRefunded} Tracking number: {invoice.TrackingNumber}.";
-
-                _logger.LogInformation(LoggingEvents.RefundPayment, $"Refunding the invoice {invoice.TrackingNumber} is finished. {message}");
-
-                return PaymentRefundResult.Failed(message);
+                _logger.Warning("{@Payment} not completed to do refund", payment);
+                return PaymentRefundResult.Failed("PaymentNotCompleted");
             }
 
             Money amountToRefund;
@@ -385,7 +357,8 @@ namespace Parbad.Internal
             }
             else if (invoice.Amount > payment.Amount)
             {
-                throw new Exception("Amount cannot be greater than the amount of the paid payment.");
+                _logger.Warning("{@Invoice} amount greater than {@Payment} amount", invoice, payment);
+                throw new InvalidOperationException("Amount cannot be greater than the amount of the paid payment.");
             }
             else
             {
@@ -394,24 +367,17 @@ namespace Parbad.Internal
 
             var gateway = _gatewayProvider.Provide(payment.GatewayName);
 
-            var transactions = await _storage.GetTransactionsAsync(payment.Id, cancellationToken).ConfigureAwaitFalse();
+            var transactions = await _paymentStorage.GetTransactionsAsync(payment.Id, cancellationToken).ConfigureAwaitFalse();
             var verifyContext = new InvoiceContext(payment, transactions);
 
-            PaymentRefundResult refundResult;
+            PaymentRefundResult refundResult = null;
 
-            try
-            {
-                refundResult = await gateway
-                    .RefundAsync(verifyContext, amountToRefund, cancellationToken)
-                    .ConfigureAwaitFalse() as PaymentRefundResult;
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, "Parbad.Core exception. An error occurred during requesting.");
-                throw;
-            }
+            refundResult = await gateway
+                .RefundAsync(verifyContext, amountToRefund, cancellationToken)
+                .ConfigureAwaitFalse() as PaymentRefundResult;
 
-            if (refundResult == null) throw new Exception($"Gateway {gateway.GetCompleteGatewayName()} returns null instead of a result.");
+            if (refundResult == null)
+                throw new InvalidOperationException("Refund result is null");
 
             refundResult.TrackingNumber = payment.TrackingNumber;
             refundResult.Amount = amountToRefund;
@@ -428,14 +394,14 @@ namespace Parbad.Internal
                 PaymentId = payment.Id
             };
 
-            await _storage.CreateTransactionAsync(newtTransaction, cancellationToken).ConfigureAwaitFalse();
+            _logger.Information("{@Refund}, {@Transaction} perfomed with {@Result}", new { RefundAmount = amountToRefund}, newtTransaction, refundResult);
 
-            _logger.LogInformation(LoggingEvents.RefundPayment, $"Refunding the invoice {invoice.TrackingNumber} is finished.");
+            await _paymentStorage.CreateTransactionAsync(newtTransaction, cancellationToken).ConfigureAwaitFalse();
 
             return refundResult;
         }
 
-        private async Task<IPaymentFetchResult> FetchAsync(Payment payment, CancellationToken cancellationToken)
+        private async Task<PaymentFetchResult> FetchAsync(Payment payment, CancellationToken cancellationToken)
         {
             var fetchResult = new PaymentFetchResult
             {
@@ -456,26 +422,17 @@ namespace Parbad.Internal
 
             var gateway = _gatewayProvider.Provide(payment.GatewayName);
 
-            var transactions = await _storage.GetTransactionsAsync(payment.Id, cancellationToken).ConfigureAwaitFalse();
+            var transactions = await _paymentStorage.GetTransactionsAsync(payment.Id, cancellationToken).ConfigureAwaitFalse();
             var invoiceContext = new InvoiceContext(payment, transactions);
 
             PaymentFetchResult gatewayFetchResult;
 
-            try
-            {
-                gatewayFetchResult = await gateway
-                    .FetchAsync(invoiceContext, cancellationToken)
-                    .ConfigureAwaitFalse() as PaymentFetchResult;
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(LoggingEvents.VerifyPayment, exception, $"Fetching the invoice {payment.TrackingNumber} is finished. An error occurred during requesting.");
-                throw;
-            }
+            gatewayFetchResult = await gateway
+                .FetchAsync(invoiceContext, cancellationToken)
+                .ConfigureAwaitFalse() as PaymentFetchResult;
 
-            if (gatewayFetchResult == null) throw new Exception($"The {gateway.GetCompleteGatewayName()} returns null instead of a result.");
-
-            _logger.LogInformation(LoggingEvents.FetchPayment, "Fetching is finished.");
+            if (gatewayFetchResult == null) 
+                throw new InvalidOperationException($"Null result");
 
             fetchResult.Status = gatewayFetchResult.Status;
             fetchResult.CallbackResult = gatewayFetchResult.CallbackResult;
@@ -486,7 +443,6 @@ namespace Parbad.Internal
                 message = gatewayFetchResult.Message ?? _options.Messages.PaymentFailed;
             }
             fetchResult.Message = message;
-
             return fetchResult;
         }
     }

@@ -14,7 +14,7 @@ namespace Parbad.Storage.Cache.Abstractions
     /// <summary>
     /// Abstract cache implementation of Parbad.Core storage.
     /// </summary>
-    public abstract class CacheStorage : IStorage
+    public abstract class CachePaymentStorage : IPaymentStorage
     {
         /// <summary>
         /// A collection for holding the data.

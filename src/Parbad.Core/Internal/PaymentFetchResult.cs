@@ -3,7 +3,7 @@
 
 namespace Parbad.Internal
 {
-    public class PaymentFetchResult : PaymentResult, IPaymentFetchResult
+    public class PaymentFetchResult : PaymentResult
     {
         public PaymentFetchResultStatus Status { get; set; }
 

@@ -47,7 +47,6 @@ namespace Parbad.Gateway.Pasargad.Internal
 
             var result = PaymentRequestResult.SucceedWithPost(
                 account.Name,
-                httpContext,
                 gatewayOptions.PaymentPageUrl,
                 new Dictionary<string, string>
                 {
@@ -62,7 +61,7 @@ namespace Parbad.Gateway.Pasargad.Internal
                     {"sign", signedData}
                 }, null);
 
-            result.DatabaseAdditionalData.Add("timeStamp", timeStamp);
+            //result.DatabaseAdditionalData.Add("timeStamp", timeStamp);
 
             return result;
         }

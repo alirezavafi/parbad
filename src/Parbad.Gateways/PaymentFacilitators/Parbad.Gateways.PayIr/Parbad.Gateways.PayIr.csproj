@@ -26,4 +26,8 @@
     <None Include="Parbad.Gateway.PayIr.xml" pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Serilog" Version="2.10.0" />
+  </ItemGroup>
+
 </Project>

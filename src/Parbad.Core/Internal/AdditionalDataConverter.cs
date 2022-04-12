@@ -19,7 +19,7 @@ namespace Parbad.Internal
         {
             if (paymentResult == null) throw new ArgumentNullException(nameof(paymentResult));
 
-            return JsonConvert.SerializeObject(paymentResult.DatabaseAdditionalData);
+            return JsonConvert.SerializeObject(paymentResult);
         }
     }
 }

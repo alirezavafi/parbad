@@ -4,63 +4,63 @@
         <name>Parbad.Storage.Cache</name>
     </assembly>
     <members>
-        <member name="T:Parbad.Storage.Cache.Abstractions.CacheStorage">
+        <member name="T:Parbad.Storage.Cache.Abstractions.CachePaymentStorage">
             <summary>
             Abstract cache implementation of Parbad.Core storage.
             </summary>
         </member>
-        <member name="P:Parbad.Storage.Cache.Abstractions.CacheStorage.Collection">
+        <member name="P:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.Collection">
             <summary>
             A collection for holding the data.
             </summary>
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.CreatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.CreatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.UpdatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.UpdatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.CreateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.CreateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.GetPaymentByTrackingNumberAsync(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.GetPaymentByTrackingNumberAsync(System.Int64,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.GetPaymentByTokenAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.GetPaymentByTokenAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.DoesPaymentExistAsync(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.DoesPaymentExistAsync(System.Int64,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.GetTransactionsAsync(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.GetTransactionsAsync(System.Int64,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.FindPayment(Parbad.Storage.Abstractions.Models.Payment)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.FindPayment(Parbad.Storage.Abstractions.Models.Payment)">
             <summary>   
             Finds a payment in storage.
             </summary>
             <param name="payment"></param>
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.FindTransaction(Parbad.Storage.Abstractions.Models.Transaction)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.FindTransaction(Parbad.Storage.Abstractions.Models.Transaction)">
             <summary>
             Finds a transaction in storage.
             </summary>
             <param name="transaction"></param>
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.GenerateNewPaymentId">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.GenerateNewPaymentId">
             <summary>
             Generates a unique id for a new payment record.
             </summary>
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.GenerateNewTransactionId">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.GenerateNewTransactionId">
             <summary>
             Generates a unique id for a new transaction record.
             </summary>
         </member>
-        <member name="M:Parbad.Storage.Cache.Abstractions.CacheStorage.SaveChangesAsync(System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.Abstractions.CachePaymentStorage.SaveChangesAsync(System.Threading.CancellationToken)">
             <summary>
             Saves the current data in storage.
             </summary>
@@ -81,22 +81,22 @@
             Gets or sets a list of current transaction records.
             </summary>
         </member>
-        <member name="T:Parbad.Storage.Cache.DistributedCache.DistributedCacheStorage">
+        <member name="T:Parbad.Storage.Cache.DistributedCache.DistributedCachePaymentStorage">
             <summary>
             Distributed cache implementation of Parbad.Core storage.
             </summary>
         </member>
-        <member name="M:Parbad.Storage.Cache.DistributedCache.DistributedCacheStorage.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.Extensions.Options.IOptions{Parbad.Storage.Cache.DistributedCache.DistributedCacheStorageOptions})">
+        <member name="M:Parbad.Storage.Cache.DistributedCache.DistributedCachePaymentStorage.#ctor(Microsoft.Extensions.Caching.Distributed.IDistributedCache,Microsoft.Extensions.Options.IOptions{Parbad.Storage.Cache.DistributedCache.DistributedCacheStorageOptions})">
             <summary>
-            Initializes an instance of <see cref="T:Parbad.Storage.Cache.DistributedCache.DistributedCacheStorage"/>.
+            Initializes an instance of <see cref="T:Parbad.Storage.Cache.DistributedCache.DistributedCachePaymentStorage"/>.
             </summary>
             <param name="distributedCache"></param>
             <param name="options"></param>
         </member>
-        <member name="P:Parbad.Storage.Cache.DistributedCache.DistributedCacheStorage.Collection">
+        <member name="P:Parbad.Storage.Cache.DistributedCache.DistributedCachePaymentStorage.Collection">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.DistributedCache.DistributedCacheStorage.SaveChangesAsync(System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.DistributedCache.DistributedCachePaymentStorage.SaveChangesAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Parbad.Storage.Cache.DistributedCache.DistributedCacheStorageOptions">
@@ -129,22 +129,22 @@
         <member name="P:Parbad.Storage.Cache.Internal.CacheStorageCollection.Transactions">
             <inheritdoc />
         </member>
-        <member name="T:Parbad.Storage.Cache.MemoryCache.MemoryCacheStorage">
+        <member name="T:Parbad.Storage.Cache.MemoryCache.MemoryCachePaymentStorage">
             <summary>
             Memory cache implementation of Parbad.Core storage.
             </summary>
         </member>
-        <member name="M:Parbad.Storage.Cache.MemoryCache.MemoryCacheStorage.#ctor(Microsoft.Extensions.Caching.Memory.IMemoryCache,Microsoft.Extensions.Options.IOptions{Parbad.Storage.Cache.MemoryCache.MemoryCacheStorageOptions})">
+        <member name="M:Parbad.Storage.Cache.MemoryCache.MemoryCachePaymentStorage.#ctor(Microsoft.Extensions.Caching.Memory.IMemoryCache,Microsoft.Extensions.Options.IOptions{Parbad.Storage.Cache.MemoryCache.MemoryCacheStorageOptions})">
             <summary>
-            Initializes an instance of <see cref="T:Parbad.Storage.Cache.MemoryCache.MemoryCacheStorage"/>.
+            Initializes an instance of <see cref="T:Parbad.Storage.Cache.MemoryCache.MemoryCachePaymentStorage"/>.
             </summary>
             <param name="memoryCache"></param>
             <param name="options"></param>
         </member>
-        <member name="P:Parbad.Storage.Cache.MemoryCache.MemoryCacheStorage.Collection">
+        <member name="P:Parbad.Storage.Cache.MemoryCache.MemoryCachePaymentStorage.Collection">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.Cache.MemoryCache.MemoryCacheStorage.SaveChangesAsync(System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.Cache.MemoryCache.MemoryCachePaymentStorage.SaveChangesAsync(System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Parbad.Storage.Cache.MemoryCache.MemoryCacheStorageOptions">

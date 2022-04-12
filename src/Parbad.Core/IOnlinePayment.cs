@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Parbad.Abstraction;
 using Parbad.Exceptions;
+using Parbad.Internal;
 using Parbad.PaymentTokenProviders;
 
 namespace Parbad
@@ -27,24 +28,24 @@ namespace Parbad
         /// </summary>
         /// <param name="invoice">The invoice that must be paid.</param>
         /// <param name="cancellationToken"></param>
-        Task<IPaymentRequestResult> RequestAsync(Invoice invoice, CancellationToken cancellationToken = default);
+        Task<PaymentRequestResult> RequestAsync(Invoice invoice, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fetches the invoice from the incoming HTTP request.
         /// </summary>
         /// <param name="cancellationToken"></param>
-        /// <exception cref="PaymentTokenProviderException"></exception>
+        /// <exception cref="InvalidPaymentTokenProviderException"></exception>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        Task<IPaymentFetchResult> FetchAndStoreAsync(CancellationToken cancellationToken = default);
+        Task<PaymentFetchResult> FetchAndStoreAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Fetches the invoice by the given tracking number.
         /// </summary>
         /// <param name="trackingNumber">Invoice's tracking number.</param>
         /// <param name="cancellationToken"></param>
-        /// <exception cref="PaymentTokenProviderException"></exception>
+        /// <exception cref="InvalidPaymentTokenProviderException"></exception>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        Task<IPaymentFetchResult> FetchAsync(long trackingNumber, CancellationToken cancellationToken = default);
+        Task<PaymentFetchResult> FetchAsync(long trackingNumber, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Verifies the requested payment to check whether or not the invoice was paid in the gateway by the client.
@@ -53,7 +54,7 @@ namespace Parbad
         /// <param name="trackingNumber">The tracking number of the invoice which must be verified.</param>
         /// <param name="cancellationToken"></param>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        Task<IPaymentVerifyResult> VerifyAsync(long trackingNumber, CancellationToken cancellationToken = default);
+        Task<PaymentVerifyResult> VerifyAsync(long trackingNumber, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Cancels the given invoice. No Verifying request will be sent to the gateway.
@@ -62,7 +63,7 @@ namespace Parbad
         /// <param name="cancellationReason">The reason for canceling the operation. It will be saved in Message field in database.</param>
         /// <param name="cancellationToken"></param>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        Task<IPaymentCancelResult> CancelAsync(long trackingNumber, string cancellationReason = null, CancellationToken cancellationToken = default);
+        Task<PaymentCancelResult> CancelAsync(long trackingNumber, string cancellationReason = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Performs a refund request for the given invoice.
@@ -70,6 +71,6 @@ namespace Parbad
         /// <param name="invoice">The invoice that must be refunded.</param>
         /// <param name="cancellationToken"></param>
         /// <exception cref="InvoiceNotFoundException"></exception>
-        Task<IPaymentRefundResult> RefundAsync(RefundInvoice invoice, CancellationToken cancellationToken = default);
+        Task<PaymentRefundResult> RefundAsync(RefundInvoice invoice, CancellationToken cancellationToken = default);
     }
 }

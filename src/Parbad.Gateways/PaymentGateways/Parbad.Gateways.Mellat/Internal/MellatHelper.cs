@@ -74,7 +74,6 @@ namespace Parbad.Gateway.Mellat.Internal
 
             return PaymentRequestResult.SucceedWithPost(
                 account.Name,
-                httpContext,
                 gatewayOptions.PaymentPageUrl,
                 form,
                 webServiceResponse);

@@ -40,7 +40,7 @@ namespace Parbad.Storage.EntityFrameworkCore.Builder
                 options.ConfigureDbContext?.Invoke(dbBuilder);
             });
 
-            builder.AddStorage<EntityFrameworkCoreStorage>(ServiceLifetime.Transient);
+            builder.AddStorage<EntityFrameworkCorePaymentStorage>(ServiceLifetime.Transient);
 
             return builder;
         }

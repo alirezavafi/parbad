@@ -21,16 +21,16 @@ namespace Parbad.Abstraction
         protected IGatewayAccountProvider<TAccount> AccountProvider { get; }
 
         /// <inheritdoc />
-        public abstract Task<IPaymentRequestResult> RequestAsync(Invoice invoice, CancellationToken cancellationToken = default);
+        public abstract Task<PaymentRequestResult> RequestAsync(Invoice invoice, CancellationToken cancellationToken = default);
 
         /// <inheritdoc />
-        public abstract Task<IPaymentFetchResult> FetchAsync(InvoiceContext context, CancellationToken cancellationToken = default);
+        public abstract Task<PaymentFetchResult> FetchAsync(InvoiceContext context, CancellationToken cancellationToken = default);
 
         /// <inheritdoc />
-        public abstract Task<IPaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default);
+        public abstract Task<PaymentVerifyResult> VerifyAsync(InvoiceContext context, CancellationToken cancellationToken = default);
 
         /// <inheritdoc />
-        public abstract Task<IPaymentRefundResult> RefundAsync(InvoiceContext context, Money amount, CancellationToken cancellationToken = default);
+        public abstract Task<PaymentRefundResult> RefundAsync(InvoiceContext context, Money amount, CancellationToken cancellationToken = default);
 
         public virtual async Task<TAccount> GetAccountAsync(Invoice invoice)
         {

@@ -3,7 +3,7 @@
 
 namespace Parbad.Internal
 {
-    public class PaymentCancelResult : PaymentResult, IPaymentCancelResult
+    public class PaymentCancelResult : PaymentResult
     {
     }
 }

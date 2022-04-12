@@ -13,17 +13,17 @@ namespace Parbad.Storage.Cache.MemoryCache
     /// <summary>
     /// Memory cache implementation of Parbad.Core storage.
     /// </summary>
-    public class MemoryCacheStorage : CacheStorage
+    public class MemoryCachePaymentStorage : CachePaymentStorage
     {
         private readonly IMemoryCache _memoryCache;
         private readonly MemoryCacheStorageOptions _options;
 
         /// <summary>
-        /// Initializes an instance of <see cref="MemoryCacheStorage"/>.
+        /// Initializes an instance of <see cref="MemoryCachePaymentStorage"/>.
         /// </summary>
         /// <param name="memoryCache"></param>
         /// <param name="options"></param>
-        public MemoryCacheStorage(IMemoryCache memoryCache, IOptions<MemoryCacheStorageOptions> options)
+        public MemoryCachePaymentStorage(IMemoryCache memoryCache, IOptions<MemoryCacheStorageOptions> options)
         {
             _memoryCache = memoryCache;
             _options = options.Value;

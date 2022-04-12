@@ -70,33 +70,33 @@
         <member name="M:Parbad.Storage.EntityFrameworkCore.Configuration.TransactionConfiguration.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{Parbad.Storage.EntityFrameworkCore.Domain.TransactionEntity},Parbad.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions)">
             <inheritdoc />
         </member>
-        <member name="T:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage">
+        <member name="T:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage">
             <summary>
-            EntityFramework Core implementation of <see cref="T:Parbad.Storage.Abstractions.IStorage"/>.
+            EntityFramework Core implementation of <see cref="T:Parbad.Storage.Abstractions.IPaymentStorage"/>.
             </summary>
         </member>
-        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage.CreatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.CreatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage.UpdatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.UpdatePaymentAsync(Parbad.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage.CreateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.CreateTransactionAsync(Parbad.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage.GetPaymentByTrackingNumberAsync(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.GetPaymentByTrackingNumberAsync(System.Int64,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage.GetPaymentByLocalTokenAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.GetPaymentByLocalTokenAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage.DoesPaymentExistAsync(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.DoesPaymentExistAsync(System.Int64,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCoreStorage.GetTransactionsAsync(System.Int64,System.Threading.CancellationToken)">
+        <member name="M:Parbad.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.GetTransactionsAsync(System.Int64,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
         <member name="T:Parbad.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions">

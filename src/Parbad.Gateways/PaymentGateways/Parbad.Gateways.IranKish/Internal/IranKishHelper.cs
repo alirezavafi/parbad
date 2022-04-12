@@ -65,7 +65,6 @@ namespace Parbad.Gateway.IranKish.Internal
 
             return PaymentRequestResult.SucceedWithPost(
                 account.Name,
-                httpContext,
                 gatewayOptions.PaymentPageUrl,
                 new Dictionary<string, string>
                 {

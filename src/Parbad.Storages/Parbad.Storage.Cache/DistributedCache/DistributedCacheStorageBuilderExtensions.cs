@@ -26,7 +26,7 @@ namespace Parbad.Builder
         public static IStorageBuilder UseDistributedCache(this IStorageBuilder builder, Action<DistributedCacheStorageOptions> configureOptions)
         {
             builder.Services.Configure(configureOptions);
-            builder.AddStorage<DistributedCacheStorage>(ServiceLifetime.Transient);
+            builder.AddStorage<DistributedCachePaymentStorage>(ServiceLifetime.Transient);
 
             return builder;
         }

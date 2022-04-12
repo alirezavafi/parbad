@@ -69,7 +69,6 @@ namespace Parbad.Gateway.AsanPardakht.Internal
 
             return PaymentRequestResult.SucceedWithPost(
                 account.Name,
-                httpContext,
                 soapGatewayOptions.PaymentPageUrl,
                 new Dictionary<string, string>
                 {
@@ -255,8 +254,8 @@ namespace Parbad.Gateway.AsanPardakht.Internal
                 Message = message
             };
 
-            verifyResult.DatabaseAdditionalData.Add("PayGateTranId", callbackResult.PayGateTranId);
-            verifyResult.DatabaseAdditionalData.Add("LastFourDigitOfPAN", callbackResult.CardNumber);
+            //verifyResult.DatabaseAdditionalData.Add("PayGateTranId", callbackResult.PayGateTranId);
+            //verifyResult.DatabaseAdditionalData.Add("LastFourDigitOfPAN", callbackResult.CardNumber);
 
             return verifyResult;
         }

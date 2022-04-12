@@ -33,7 +33,7 @@ namespace Parbad.Builder
 
             builder.Services.Configure(configureOptions);
 
-            builder.AddStorage<MemoryCacheStorage>(ServiceLifetime.Transient);
+            builder.AddStorage<MemoryCachePaymentStorage>(ServiceLifetime.Transient);
 
             return builder;
         }
