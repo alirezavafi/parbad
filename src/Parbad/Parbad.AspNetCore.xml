@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>Persian.Plus.PaymentGateway</name>
+        <name>Parbad.Plus</name>
     </assembly>
     <members>
         <member name="M:Parbad.AspNetCore.GatewayTransporterExtensions.TransportToGateway(Parbad.IGatewayTransporter)">

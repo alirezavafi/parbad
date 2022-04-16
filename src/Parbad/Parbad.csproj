@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <PackageId>Persian.Plus.PaymentGateway</PackageId>
+        <PackageId>Parbad.Plus</PackageId>
         <Product>Parbad.AspNetCore</Product>
         <VersionPrefix>1.2.0</VersionPrefix>
         <LangVersion>9</LangVersion>
@@ -20,10 +20,11 @@
         <PackageTags>parbad aspnetcore Payment Gateway Bank Iran Shetab IranKish Mellat Melli Sadad Parsian Pasargad Saman Asan-Pardakht پرداخت درگاه بانک ایران شتاب ایران-کیش ملت ملی سداد پارسیان پاسارگاد سامان آسان-پرداخت</PackageTags>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
-        <PackageVersion>1.0.1</PackageVersion>
+        <PackageVersion>1.0.2</PackageVersion>
         <TargetFramework>net5.0</TargetFramework>
-        <AssemblyName>Persian.Plus.PaymentGateway</AssemblyName>
-        <RootNamespace>Persian.Plus.PaymentGateway</RootNamespace>
+        <AssemblyName>Parbad.Plus</AssemblyName>
+        <RootNamespace>Parbad.Plus</RootNamespace>
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -46,18 +47,18 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Parbad.Core\Parbad.Core.csproj" />
-        <ProjectReference Include="..\Parbad.Gateways\Parbad.Gateways.Core\Parbad.Gateways.Core.csproj" />
-        <ProjectReference Include="..\Parbad.Gateways\Parbad.Gateways.VirtualGateway\Parbad.Gateways.VirtualGateway.csproj" />
-        <ProjectReference Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.AsanPardakht\Parbad.Gateways.AsanPardakht.csproj" />
-        <ProjectReference Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.IranKish\Parbad.Gateways.IranKish.csproj" />
-        <ProjectReference Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.Mellat\Parbad.Gateways.Mellat.csproj" />
-        <ProjectReference Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.Melli\Parbad.Gateways.Melli.csproj" />
-        <ProjectReference Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.Parsian\Parbad.Gateways.Parsian.csproj" />
-        <ProjectReference Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.Pasargad\Parbad.Gateways.Pasargad.csproj" />
-        <ProjectReference Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.Saman\Parbad.Gateways.Saman.csproj" />
-        <ProjectReference Include="..\Parbad.Storages\Parbad.Storage.Cache\Parbad.Storage.Cache.csproj" />
-        <ProjectReference Include="..\Parbad.Storages\Parbad.Storage.EntityFrameworkCore\Parbad.Storage.EntityFrameworkCore.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Core\Parbad.Core.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\Parbad.Gateways.Core\Parbad.Gateways.Core.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\Parbad.Gateways.VirtualGateway\Parbad.Gateways.VirtualGateway.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.AsanPardakht\Parbad.Gateways.AsanPardakht.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.IranKish\Parbad.Gateways.IranKish.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.Mellat\Parbad.Gateways.Mellat.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.Melli\Parbad.Gateways.Melli.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.Parsian\Parbad.Gateways.Parsian.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.Pasargad\Parbad.Gateways.Pasargad.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Parbad.Gateways.Saman\Parbad.Gateways.Saman.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Storages\Parbad.Storage.Cache\Parbad.Storage.Cache.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Storages\Parbad.Storage.EntityFrameworkCore\Parbad.Storage.EntityFrameworkCore.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -69,5 +70,9 @@
     <ItemGroup>
         <PackageReference Include="Serilog" Version="2.10.0" />
     </ItemGroup>
-
+    <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+        <ItemGroup>
+            <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')-&gt;WithMetadataValue('PrivateAssets', 'All'))" />
+        </ItemGroup>
+    </Target>
 </Project>
