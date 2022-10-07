@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Persian.Plus.PaymentGateway.Core.Gateway.PayIr</name>
+    </assembly>
+    <members>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGateway.RequestAsync(Persian.Plus.PaymentGateway.Core.Abstraction.Invoice,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGateway.FetchAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGateway.VerifyAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGateway.RefundAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,Persian.Plus.PaymentGateway.Core.Money,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGatewayBuilderExtensions.AddPayIr(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayBuilder)">
+            <summary>
+            Adds the Pay.ir gateway to Persian.Plus.PaymentGateway.Core services.
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGatewayBuilderExtensions.WithAccounts(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayConfigurationBuilder{Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGateway},System.Action{Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayAccountBuilder{Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGatewayAccount}})">
+            <summary>
+            Configures the accounts for Pay.ir.
+            </summary>
+            <param name="builder"></param>
+            <param name="configureAccounts">Configures the accounts.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGatewayBuilderExtensions.WithOptions(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayConfigurationBuilder{Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGateway},System.Action{Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGatewayOptions})">
+            <summary>
+            Configures the options for PayIr Gateway.
+            </summary>
+            <param name="builder"></param>
+            <param name="configureOptions">Configuration</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.PayIr.PayIrGatewayInvoiceBuilderExtensions.UsePayIr(Persian.Plus.PaymentGateway.Core.InvoiceBuilder.IInvoiceBuilder)">
+            <summary>
+            The invoice will be sent to Pay.ir gateway.
+            </summary>
+            <param name="builder"></param>
+        </member>
+    </members>
+</doc>

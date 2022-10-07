@@ -1,0 +1,76 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageId>Persian.Plus.PaymentGateway</PackageId>
+        <Product>Parbad.AspNetCore</Product>
+        <VersionPrefix>1.2.0</VersionPrefix>
+        <LangVersion>9</LangVersion>
+        <Authors>Sina Soltani (revision by A.Vafi)</Authors>
+        <Copyright></Copyright>
+        <PackageProjectUrl>https://github.com/alirezavafi/persian-plus-payment-gateway</PackageProjectUrl>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageIconUrl>https://raw.githubusercontent.com/Sina-Soltani/Parbad/master/images/Parbad-128x128.png</PackageIconUrl>
+        <RepositoryUrl>https://github.com/alirezavafi/Parbad</RepositoryUrl>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Description>ASP.NET CORE integration for Parbad project.
+
+            For more information see: https://www.nuget.org/packages/Parbad/
+        </Description>
+        <PackageTags>parbad aspnetcore Payment Gateway Bank Iran Shetab IranKish Mellat Melli Sadad Parsian Pasargad Saman Asan-Pardakht پرداخت درگاه بانک ایران شتاب ایران-کیش ملت ملی سداد پارسیان پاسارگاد سامان آسان-پرداخت</PackageTags>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
+        <PackageVersion>1.1</PackageVersion>
+        <TargetFramework>net5.0</TargetFramework>
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <DocumentationFile>Parbad.AspNetCore.xml</DocumentationFile>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DocumentationFile>Parbad.AspNetCore.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1' ">
+        <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp3.0' or '$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'net5.0' ">
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference PrivateAssets="All" Include="..\Persian.Plus.PaymentGateway.Core\Persian.Plus.PaymentGateway.Core.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\Persian.Plus.PaymentGateway.Gateways.Core\Persian.Plus.PaymentGateway.Gateways.Core.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\Persian.Plus.PaymentGateway.Gateways.VirtualGateway\Persian.Plus.PaymentGateway.Gateways.VirtualGateway.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.AsanPardakht\Persian.Plus.PaymentGateway.Gateways.AsanPardakht.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.IranKish\Persian.Plus.PaymentGateway.Gateways.IranKish.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.Mellat\Persian.Plus.PaymentGateway.Gateways.Mellat.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.Melli\Persian.Plus.PaymentGateway.Gateways.Melli.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.Parsian\Persian.Plus.PaymentGateway.Gateways.Parsian.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.Pasargad\Persian.Plus.PaymentGateway.Gateways.Pasargad.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.Saman\Persian.Plus.PaymentGateway.Gateways.Saman.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Storages\Persian.Plus.PaymentGateway.Storage.Cache\Persian.Plus.PaymentGateway.Storage.Cache.csproj" />
+        <ProjectReference PrivateAssets="All" Include="..\Parbad.Storages\Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore\Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="icon.png" pack="true" Visible="false" PackagePath="" />
+        <None Include="readme.txt" pack="true" PackagePath="." />
+        <None Include="Parbad.AspNetCore.xml" pack="true" Visible="false" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Serilog" Version="2.10.0" />
+    </ItemGroup>
+    <Target Name="CopyProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+        <ItemGroup>
+            <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')-&gt;WithMetadataValue('PrivateAssets', 'All'))" />
+        </ItemGroup>
+    </Target>
+</Project>

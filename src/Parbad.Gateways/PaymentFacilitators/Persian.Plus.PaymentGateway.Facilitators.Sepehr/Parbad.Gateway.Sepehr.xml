@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Persian.Plus.PaymentGateway.Core.Gateway.Sepehr</name>
+    </assembly>
+    <members>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGateway">
+            <summary>
+            Sepehr Gateway.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGateway.#ctor(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayAccountProvider{Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGatewayAccount},Microsoft.AspNetCore.Http.IHttpContextAccessor,System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Options.IOptions{Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGatewayOptions},Microsoft.Extensions.Options.IOptions{Persian.Plus.PaymentGateway.Core.Options.ParbadOptions})">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGateway"/>.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGateway.RequestAsync(Persian.Plus.PaymentGateway.Core.Abstraction.Invoice,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGateway.FetchAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGateway.VerifyAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGateway.RefundAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,Persian.Plus.PaymentGateway.Core.Money,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGatewayBuilderExtensions.AddSepehr(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayBuilder)">
+            <summary>
+            Adds the Sepehr gateway to Persian.Plus.PaymentGateway.Core services.
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGatewayBuilderExtensions.WithAccounts(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayConfigurationBuilder{Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGateway},System.Action{Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayAccountBuilder{Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGatewayAccount}})">
+            <summary>
+            Configures the accounts for Sepehr gateway.
+            </summary>
+            <param name="builder"></param>
+            <param name="configureAccounts">Configures the accounts.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGatewayBuilderExtensions.WithOptions(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayConfigurationBuilder{Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGateway},System.Action{Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGatewayOptions})">
+            <summary>
+            Configures the options for Sepehr Gateway.
+            </summary>
+            <param name="builder"></param>
+            <param name="configureOptions">Configuration</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGatewayInvoiceBuilderExtensions.UseSepehr(Persian.Plus.PaymentGateway.Core.InvoiceBuilder.IInvoiceBuilder)">
+            <summary>
+            The invoice will be sent to Sepehr gateway.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGatewayPaymentResultExtensions.GetSepehrAdditionalData(Persian.Plus.PaymentGateway.Core.IPaymentVerifyResult)">
+            <summary>
+            Gets the verification additional data from Sepehr gateway.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.Sepehr.SepehrGatewayVerificationAdditionalData">
+            <summary>
+            Contains some additional data after the invoice verification.
+            </summary>
+        </member>
+    </members>
+</doc>

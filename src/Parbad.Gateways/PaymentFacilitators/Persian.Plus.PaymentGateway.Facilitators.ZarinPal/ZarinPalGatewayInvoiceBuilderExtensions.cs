@@ -1,0 +1,50 @@
+﻿// Copyright (c) Persian.Plus.PaymentGateway.Core. All rights reserved.
+// Licensed under the GNU GENERAL PUBLIC License, Version 3.0. See License.txt in the project root for license information.
+
+using System;
+using Persian.Plus.PaymentGateway.Core.Invoice;
+using Persian.Plus.PaymentGateway.Facilitators.ZarinPal.Internal;
+
+namespace Persian.Plus.PaymentGateway.Facilitators.ZarinPal
+{
+    public static class ZarinPalGatewayInvoiceBuilderExtensions
+    {
+        /// <summary>
+        /// The invoice will be sent to ZarinPal Gateway.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IInvoiceBuilder UseZarinPal(this IInvoiceBuilder builder)
+        {
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+
+            return builder.SetGateway(ZarinPalGateway.Name);
+        }
+
+        /// <summary>
+        /// Sets ZarinPal Gateway data.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="zarinPalInvoice">Describes an invoice for ZarinPal gateway.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IInvoiceBuilder SetZarinPalData(this IInvoiceBuilder builder, ZarinPalInvoice zarinPalInvoice)
+        {
+            if (builder == null) throw new ArgumentNullException(nameof(builder));
+
+            builder.AddOrUpdateProperty(ZarinPalHelper.ZarinPalRequestAdditionalKeyName, zarinPalInvoice);
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Sets ZarinPal Gateway data.
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="description">A short description about this invoice which is required by ZarinPal gateway.</param>
+        /// <param name="email">Buyer's email.</param>
+        /// <param name="mobile">Buyer's mobile.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IInvoiceBuilder SetZarinPalData(this IInvoiceBuilder builder, string description, string email = null, string mobile = null)
+            => SetZarinPalData(builder, new ZarinPalInvoice(description, email, mobile));
+    }
+}

@@ -1,0 +1,1473 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Persian.Plus.PaymentGateway.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder">
+            <summary>
+            A builder for building the Persian.Plus.PaymentGateway.Core services.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder.Services">
+            <summary>
+            Specifies the contract for a collection of service descriptors.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder.Build">
+            <summary>
+            Builds a single instance of <see cref="T:Persian.Plus.PaymentGateway.Core.IOnlinePaymentAccessor"/> which provides an
+            instance of <see cref="T:Persian.Plus.PaymentGateway.Core.IOnlinePayment"/> from configured <see cref="T:System.IServiceProvider"/>.
+            <para>
+            You use this method if you don't use Microsoft.Extensions.DependencyInjection in your application.
+            Otherwise in applications such as ASP.NET CORE that uses Microsoft.Extensions.DependencyInjection, 
+            you don't need to use this method because that gets done for you.
+            </para>
+            <para>
+            You can also register the <see cref="P:Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder.Services"/> in any other
+            dependency injection tools such as Autofac and use Dependency Injection benefits in your application.
+            For example you can inject the <see cref="T:Persian.Plus.PaymentGateway.Core.IOnlinePayment"/> where ever you need.
+            </para>
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Builder.ParbadBuilderExtensions.AddParbad(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds Persian.Plus.PaymentGateway.Core pre-configured services to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.CallbackUrl">
+            <summary>
+            A complete URL of your website. It will be used by the gateway for redirecting
+            the client again to your website.
+            <para>Note: A complete URL would be like: "http://www.mywebsite.com/foo/bar/"</para>
+            </summary>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.CallbackUrlFormatException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.CallbackUrl.#ctor(System.String)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.CallbackUrl"/> class.
+            </summary>
+            <param name="url">
+            A complete URL of your website. It will be used by the gateway for redirecting
+            the client again to your website.
+            <para>A complete URL would be like: "http://www.mywebsite.com/foo/bar/"</para>
+            </param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.CallbackUrlFormatException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.CallbackUrl.Url">
+            <summary>
+            Gets the URL.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.CallbackUrl.AddQueryString(System.String,System.String)">
+            <summary>
+            Adds a query string to the current URL.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.GatewayTransporterDescriptor">
+            <summary>
+            Describes a gateway transporter.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.GatewayTransporterExtensions.Transport(Persian.Plus.PaymentGateway.Core.IGatewayTransporter)">
+            <summary>
+            Transports the client to the specified gateway.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.GatewayAccount">
+            <summary>
+            Describes a gateway account.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.GatewayAccount.Name">
+            <summary>
+            Gets or sets the name of this account. The default value is "Default".
+            <para>Note: Make sure that accounts have different names. Otherwise a <see cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.DuplicateAccountException"/> will throw.</para>
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayAccountBuilderExtensions.AddInMemory``1(Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountBuilder{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Adds an in-memory account of type <typeparamref name="TAccount"/>.
+            </summary>
+            <typeparam name="TAccount"></typeparam>
+            <param name="builder"></param>
+            <param name="accounts">The accounts to add.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayAccountBuilderExtensions.AddInMemory``1(Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountBuilder{``0},System.Action{``0})">
+            <summary>
+            Adds an in-memory account of type <typeparamref name="TAccount"/>.
+            </summary>
+            <typeparam name="TAccount"></typeparam>
+            <param name="builder"></param>
+            <param name="configureAccount">Configures the <typeparamref name="TAccount"/>.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayAccountBuilderExtensions.AddFromConfiguration``1(Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountBuilder{``0},Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Adds an account of type <typeparamref name="TAccount"/> using the given <paramref name="configuration"/>.
+            </summary>
+            <typeparam name="TAccount"></typeparam>
+            <param name="builder"></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.Gateway.GatewayAccountInvoiceExtensions.GatewayAccountKeyName">
+            <summary>
+            Gateway Account key in <see cref="P:Persian.Plus.PaymentGateway.Core.Gateway.Invoice.Properties"/> property.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayAccountInvoiceExtensions.UseAccount(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.String)">
+            <summary>
+            Uses the given account to communicate with the gateway.
+            </summary>
+            <param name="builder"></param>
+            <param name="accountName">Name of the account.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayAccountInvoiceExtensions.GetAccountName(Persian.Plus.PaymentGateway.Core.Gateway.Invoice)">
+            <summary>
+            Gets the account name if specified.
+            </summary>
+            <param name="invoice"></param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.GatewayBase`1">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayBase`1.RequestAsync(Persian.Plus.PaymentGateway.Core.Gateway.Invoice,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayBase`1.FetchAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayBase`1.VerifyAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayBase`1.RefundAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,Persian.Plus.PaymentGateway.Core.Money,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayBuilderExtensions.ConfigureGateways(Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Gateway.IGatewayBuilder})">
+            <summary>
+            Configures the gateways.
+            </summary>
+            <param name="builder"></param>
+            <param name="configure"></param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.GatewayDescriptor">
+            <summary>
+            Describes the type of a gateway.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayDescriptor.#ctor(System.Type)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Gateway.GatewayDescriptor"/>.
+            </summary>
+            <param name="gatewayType">Type of the gateway.</param>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.GatewayDescriptor.GatewayType">
+            <summary>
+            Gets the type of the gateway.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayHttpClientConfigurationBuilderExtensions.WithProxy``1(Persian.Plus.PaymentGateway.Core.Gateway.IGatewayConfigurationBuilder{``0},System.Uri)">
+            <summary>
+            Configures the <see cref="T:System.Net.Http.HttpClient"/> of the specified gateway to use an <see cref="T:System.Net.IWebProxy"/>
+            for sending HTTP requests and receiving HTTP responses.
+            </summary>
+            <typeparam name="TGateway"></typeparam>
+            <param name="builder"></param>
+            <param name="proxyUrl">URL of proxy server.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayHttpClientConfigurationBuilderExtensions.WithProxy``1(Persian.Plus.PaymentGateway.Core.Gateway.IGatewayConfigurationBuilder{``0},System.Uri,System.String,System.String)">
+            <summary>
+            Configures the <see cref="T:System.Net.Http.HttpClient"/> of the specified gateway to use an <see cref="T:System.Net.IWebProxy"/>
+            for sending HTTP requests and receiving HTTP responses.
+            </summary>
+            <typeparam name="TGateway"></typeparam>
+            <param name="builder"></param>
+            <param name="proxyUrl">URL of proxy server.</param>
+            <param name="userName">Username of proxy server.</param>
+            <param name="password">Password of proxy server.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayHttpClientConfigurationBuilderExtensions.WithProxy``1(Persian.Plus.PaymentGateway.Core.Gateway.IGatewayConfigurationBuilder{``0},System.Net.IWebProxy)">
+            <summary>
+            Configures the <see cref="T:System.Net.Http.HttpClient"/> of the specified gateway to use an <see cref="T:System.Net.IWebProxy"/>
+            for sending HTTP requests and receiving HTTP responses.
+            </summary>
+            <typeparam name="TGateway"></typeparam>
+            <param name="builder"></param>
+            <param name="webProxy">The proxy that must be used.</param>
+            <returns></returns>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.IGateway">
+            <summary>
+            Represents a gateway (Bank).
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGateway.RequestAsync(Persian.Plus.PaymentGateway.Core.Gateway.Invoice,System.Threading.CancellationToken)">
+            <summary>
+            Performs a payment request using the given <paramref name="invoice"/>.
+            </summary>
+            <param name="invoice">The invoice which must be pay.</param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGateway.FetchAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,System.Threading.CancellationToken)">
+            <summary>
+            Fetches the invoice from current request.
+            This method must be called when the users come back from gateways to your website.
+            </summary>
+            <param name="context"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGateway.VerifyAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,System.Threading.CancellationToken)">
+            <summary>
+            Verifies the requested payment to check whether or not the invoice has was paid in the gateway by the client.
+            </summary>
+            <param name="context"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGateway.RefundAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,Persian.Plus.PaymentGateway.Core.Money,System.Threading.CancellationToken)">
+            <summary>
+            Performs a refund request for the given invoice.
+            </summary>
+            <param name="context"></param>
+            <param name="amount"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountBuilder`1">
+            <summary>
+            A builder for building gateway accounts.
+            </summary>
+            <typeparam name="TAccount">Type of the gateway account.</typeparam>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountBuilder`1.Services">
+            <summary>
+            Specifies the contract for a collection of service descriptors.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountBuilder`1.Clear">
+            <summary>
+            Removes the account sources of this gateway.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountBuilder`1.Add(Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountSource{`0})">
+            <summary>
+            Adds the given <paramref name="source"/> for specifying the accounts of type <typeparamref name="TAccount"/>.
+            </summary>
+            <param name="source">An account source for specifying the accounts.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountBuilder`1.Add``1(Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            Adds the given <typeparamref name="TSource"/> for specifying the accounts of type <typeparamref name="TAccount"/>.
+            </summary>
+            <typeparam name="TSource">Type of the account source.</typeparam>
+            <param name="serviceLifetime">Lifetime of <typeparamref name="TSource"></typeparamref>.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountBuilder`1.Add(System.Func{System.IServiceProvider,Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountSource{`0}},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            Adds the given account source factory for specifying the accounts of type <typeparamref name="TAccount"/>.
+            </summary>
+            <param name="factory">A factory for creating an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountSource`1"/>.</param>
+            <param name="serviceLifetime">Lifetime of the given source.</param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountCollection`1">
+            <summary>
+            A collection for holding gateway accounts.
+            </summary>
+            <typeparam name="TAccount">Type of account.</typeparam>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.DuplicateAccountException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountCollection`1.Get(System.String)">
+            <summary>
+            Gets an account with the given <paramref name="name"/>.
+            </summary>
+            <param name="name">Name of account.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountCollection`1.GetDefaultAccount">
+            <summary>
+            Gets the default account.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountSource`1">
+            <summary>
+            A source which used to add the accounts of the specified gateway.
+            </summary>
+            <typeparam name="TAccount"></typeparam>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountSource`1.AddAccountsAsync(Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountCollection{`0})">
+            <summary>
+            Adds the accounts for specified gateway.
+            </summary>
+            <param name="accounts"></param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayBuilder">
+            <summary>
+            A builder for building a gateway.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayBuilder.Services">
+            <summary>
+            Specifies the contract for a collection of service descriptors.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayBuilder.AddGateway``1(Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            Adds the specified gateway to Persian.Plus.PaymentGateway.Core services.
+            </summary>
+            <typeparam name="TGateway">Type of gateway.</typeparam>
+            <param name="serviceLifetime">Lifetime of <typeparamref name="TGateway"/>.</param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayConfigurationBuilder`1">
+            <summary>
+            A builder for configuring the specified gateway.
+            </summary>
+            <typeparam name="TGateway">Type of gateway.</typeparam>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayConfigurationBuilder`1.Services">
+            <summary>
+            Specifies the contract for a collection of service descriptors.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayConfigurationBuilder`1.WithAccounts``1(System.Action{Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountBuilder{``0}})">
+            <summary>
+            Configures the accounts of type <typeparamref name="TAccount"/> for <typeparamref name="TGateway"/>.
+            </summary>
+            <typeparam name="TAccount">Account of <typeparamref name="TGateway"/>.</typeparam>
+            <param name="configureAccounts">Configures the accounts.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayConfigurationBuilder`1.WithHttpClient(System.Action{Microsoft.Extensions.DependencyInjection.IHttpClientBuilder})">
+            <summary>
+            Configures the <see cref="T:System.Net.Http.HttpClient"/> required by <typeparamref name="TGateway"/>
+            for sending HTTP requests and receiving HTTP responses.
+            </summary>
+            <param name="configureHttpClient">HttpClient configuration.</param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayProvider">
+            <summary>
+            A provider for providing an <see cref="T:Persian.Plus.PaymentGateway.Core.Gateway.IGateway"/>.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IGatewayProvider.Provide(System.String)">
+            <summary>
+            Provides an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Gateway.IGateway"/> using the given <paramref name="gatewayName"/>.
+            </summary>
+            <param name="gatewayName">Name of the gateway.</param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.Invoice">
+            <summary>
+            Describes an invoice which must be requested.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.Invoice.#ctor">
+            <summary>
+            Describes an invoice which must be requested.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.Invoice.TrackingNumber">
+            <summary>
+            Gets or sets the Tracking number of the invoice.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.Invoice.Amount">
+            <summary>
+            Gets or sets the amount of the invoice.
+            <para>Note: You can also enter long and decimal numbers. It can also be parsed to long and decimal.</para>
+            <para>Examples:</para>
+            <para>long a = invoice.Amount;</para>
+            <para>decimal a = invoice.Amount;</para>
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.Invoice.CallbackUrl">
+            <summary>
+            A complete URL of your website. It will be used by the gateway for redirecting
+            the client again to your website.
+            <para>Note: A complete URL would be like: "http://www.mywebsite.com/foo/bar/"</para>
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.Invoice.GatewayName">
+            <summary>
+            Gets or sets the name of the gateway which the invoice must be paid in.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.Invoice.MobileNumber">
+            <summary>
+            Gets or sets the customer mobile number for saving/loading customer cart numbers in psp page.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.Invoice.Properties">
+            <summary>
+            Gets or sets the properties of the invoice.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Http.HttpContextBuilderExtensions.ConfigureHttpContext(Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Http.IHttpContextBuilder})">
+            <summary>
+            Configures the <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> required by Persian.Plus.PaymentGateway.Core.
+            </summary>
+            <param name="builder"></param>
+            <param name="httpContextBuilder">A builder for configuring the HttpContext.</param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.IGatewayTransporter">
+            <summary>
+            Defines a mechanism for transporting the client to a gateway.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.IGatewayTransporter.Descriptor">
+            <summary>
+            Describes a gateway transporter.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.IGatewayTransporter.TransportAsync(System.Threading.CancellationToken)">
+            <summary>
+            Transports the client to the specified gateway.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Internal.DefaultGatewayProvider">
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.GatewayNotFoundException"></exception>
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultGatewayProvider.#ctor(System.IServiceProvider)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Internal.DefaultGatewayProvider"/>.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultGatewayProvider.Provide(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Internal.DefaultGatewayTransporter">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultGatewayTransporter.#ctor(Microsoft.AspNetCore.Http.HttpContext,Persian.Plus.PaymentGateway.Core.GatewayTransporterDescriptor)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Internal.DefaultGatewayTransporter"/>.
+            </summary>
+            <param name="httpContext"></param>
+            <param name="descriptor"></param>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.DefaultGatewayTransporter.Descriptor">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultGatewayTransporter.TransportAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Internal.DefaultInvoiceBuilder">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultInvoiceBuilder.#ctor(System.IServiceProvider)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Internal.DefaultInvoiceBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultInvoiceBuilder.AddFormatter(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceFormatter)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultInvoiceBuilder.AddFormatter``1">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultInvoiceBuilder.BuildAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Internal.DefaultOnlinePayment">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultOnlinePayment.#ctor(System.IServiceProvider,Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage,Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider,Persian.Plus.PaymentGateway.Core.Gateway.IGatewayProvider,Microsoft.Extensions.Options.IOptions{Persian.Plus.PaymentGateway.Core.Options.ParbadOptions},Serilog.ILogger)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Internal.DefaultOnlinePayment"/>.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.DefaultOnlinePayment.Services">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultOnlinePayment.RequestAsync(Persian.Plus.PaymentGateway.Core.Gateway.Invoice,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultOnlinePayment.FetchAndStoreAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultOnlinePayment.FetchAsync(System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultOnlinePayment.VerifyAsync(System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultOnlinePayment.CancelAsync(System.Int64,System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.DefaultOnlinePayment.RefundAsync(Persian.Plus.PaymentGateway.Core.RefundInvoice,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Internal.GatewayBuilder">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.GatewayBuilder.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Internal.GatewayBuilder"/>.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.GatewayBuilder.Services">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.GatewayBuilder.AddGateway``1(Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.GatewayHelper.IsGateway(System.Type,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="type"></param>
+            <param name="throwException"></param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvalidGatewayTypeException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Internal.InMemoryGatewayAccountSource`1">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.InMemoryGatewayAccountSource`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <inheritdoc />
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.InMemoryGatewayAccountSource`1.InMemoryAccounts">
+            <summary>
+            Accounts.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.InMemoryGatewayAccountSource`1.AddAccountsAsync(Persian.Plus.PaymentGateway.Core.Gateway.IGatewayAccountCollection{`0})">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Internal.OnlinePaymentAccessor">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.OnlinePaymentAccessor.#ctor(System.IServiceProvider)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Internal.OnlinePaymentAccessor"/>.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.OnlinePaymentAccessor.Services">
+            <inheritdoc />
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.OnlinePaymentAccessor.OnlinePayment">
+            <inheritdoc />
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.PaymentRequestResult.Status">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Internal.PaymentResult">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Internal.PaymentResult.#ctor">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Internal.PaymentResult"/>.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.PaymentResult.TrackingNumber">
+            <inheritdoc />
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.PaymentResult.Amount">
+            <inheritdoc />
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.PaymentResult.IsSucceed">
+            <inheritdoc />
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.PaymentResult.GatewayName">
+            <inheritdoc />
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.PaymentResult.GatewayAccountName">
+            <inheritdoc />
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.PaymentResult.Message">
+            <inheritdoc />
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Internal.PaymentResult.AdditionalData">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.InvoiceContext">
+            <summary>
+            Describes the payment and transactions of a specific invoice.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.InvoiceContext.#ctor(Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models.Payment,System.Collections.Generic.IEnumerable{Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models.Transaction})">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.InvoiceContext"/>.
+            </summary>
+            <param name="payment"></param>
+            <param name="transactions"></param>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.InvoiceContext.Payment">
+            <summary>
+            Contains the payment information.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.InvoiceContext.Transactions">
+            <summary>
+            Contains the transactions of this invoice.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Invoice.DefaultInvoiceFormatter">
+            <summary>
+            Default implementation of <see cref="T:Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceFormatter"/>.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.DefaultInvoiceFormatter.#ctor(System.Action{Persian.Plus.PaymentGateway.Core.Gateway.Invoice})">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Invoice.DefaultInvoiceFormatter"/>.
+            </summary>
+            <param name="formatInvoice">Format the given invoice.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.DefaultInvoiceFormatter.#ctor(System.Func{Persian.Plus.PaymentGateway.Core.Gateway.Invoice,System.Threading.Tasks.Task})">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Invoice.DefaultInvoiceFormatter"/>.
+            </summary>
+            <param name="formatInvoiceAsync">Format the given invoice asynchronously.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.DefaultInvoiceFormatter.FormatAsync(Persian.Plus.PaymentGateway.Core.Gateway.Invoice,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder">
+            <summary>
+            A builder which helps to build an invoice.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder.AddFormatter(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceFormatter)">
+            <summary>
+            Adds the given <paramref name="formatter"/> to the list of formatters.
+            </summary>
+            <param name="formatter"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder.AddFormatter``1">
+            <summary>
+            Adds the given formatter to the list of formatters.
+            </summary>
+            <typeparam name="T">Type of the formatter.</typeparam>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder.BuildAsync(System.Threading.CancellationToken)">
+            <summary>
+            Builds an invoice with the given data.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceFormatter">
+            <summary>
+            A formatter that can change an invoice.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceFormatter.FormatAsync(Persian.Plus.PaymentGateway.Core.Gateway.Invoice,System.Threading.CancellationToken)">
+            <summary>
+            Formats the given <paramref name="invoice"/>.
+            </summary>
+            <param name="invoice"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions">
+            <summary>
+            Extension methods for <see cref="T:Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.SetTrackingNumber(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.Int64)">
+            <summary>
+            Sets the tracking number of invoice.
+            </summary>
+            <param name="builder"></param>
+            <param name="trackingNumber">
+            The tracking number of invoice.
+            <para>Note: It must be unique for each payment requests.</para>
+            </param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.SetAmount(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,Persian.Plus.PaymentGateway.Core.Money)">
+            <summary>
+            Sets the amount of the invoice.
+            </summary>
+            <param name="builder"></param>
+            <param name="amount">The amount of invoice.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.SetCallbackUrl(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.String)">
+            <summary>
+            Sets the callback URL. It will be used by the gateway for redirecting the
+            client again to your website.
+            <para>Note: A complete URL would be like: "http://www.mywebsite.com/foo/bar/"</para>
+            </summary>
+            <param name="builder"></param>
+            <param name="callbackUrl">
+            A complete URL of your website. It will be used by the gateway for redirecting the
+            client again to your website.
+            <para>Note: A complete URL would be like: "http://www.mywebsite.com/foo/bar/"</para>
+            </param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.SetCallbackUrl(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,Persian.Plus.PaymentGateway.Core.CallbackUrl)">
+            <summary>
+            Sets the callback URL. It will be used by the gateway for redirecting the
+            client again to your website.
+            <para>Note: A complete URL would be like: "http://www.mywebsite.com/foo/bar/"</para>
+            </summary>
+            <param name="builder"></param>
+            <param name="callbackUrl">
+            A complete URL of your website. It will be used by the gateway for redirecting the
+            client again to your website.
+            <para>Note: A complete URL would be like: "http://www.mywebsite.com/foo/bar/"</para>
+            </param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.SetGateway(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.String)">
+            <summary>
+            Sets the gateway name.
+            </summary>
+            <param name="builder"></param>
+            <param name="gatewayName"></param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.GatewayNotFoundException"></exception>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.SetMobileNumber(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.String)">
+            <summary>
+            Sets the mobile number.
+            </summary>
+            <param name="builder"></param>
+            <param name="mobileNumber"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.AddProperty(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.String,System.Object)">
+            <summary>
+            Adds the given key and value to the invoice.
+            </summary>
+            <param name="builder"></param>
+            <param name="key">Key of the data</param>
+            <param name="value">Value of the data</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.AddProperties(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Appends the given dictionary to the properties of the invoice.
+            </summary>
+            <param name="builder"></param>
+            <param name="properties"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.AddOrUpdateProperty(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.String,System.Object)">
+            <summary>
+            Adds or updates the given key and value to the invoice.
+            </summary>
+            <param name="builder"></param>
+            <param name="key">Key of the data</param>
+            <param name="value">Value of the data</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.AddOrUpdateProperties(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Adds or updates the given dictionary to the properties of the invoice.
+            </summary>
+            <param name="builder"></param>
+            <param name="properties"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.ChangeProperties(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.Action{System.Collections.Generic.IDictionary{System.String,System.Object}})">
+            <summary>
+            Changes the properties.
+            </summary>
+            <param name="builder"></param>
+            <param name="onChange">An action to perform on the properties.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.AddFormatter(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Gateway.Invoice})">
+            <summary>
+            Adds the given formatter to the list of formatters.
+            </summary>
+            <param name="builder"></param>
+            <param name="formatInvoice"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.AddFormatter(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.Func{Persian.Plus.PaymentGateway.Core.Gateway.Invoice,System.Threading.Tasks.Task})">
+            <summary>
+            Adds the given formatter to the list of formatters.
+            </summary>
+            <param name="builder"></param>
+            <param name="formatInvoice"></param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.IOnlinePayment">
+            <summary>
+            Provides an easy solution to perform payment request, verify the requested payment and
+            refund a payment.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.IOnlinePayment.Services">
+            <summary>
+            Defines a mechanism for retrieving a service object; that is, an object that
+            provides custom support to other objects.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.IOnlinePayment.RequestAsync(Persian.Plus.PaymentGateway.Core.Gateway.Invoice,System.Threading.CancellationToken)">
+            <summary>
+            Performs a payment request using the given <paramref name="invoice"/>.
+            </summary>
+            <param name="invoice">The invoice that must be paid.</param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.IOnlinePayment.FetchAndStoreAsync(System.Threading.CancellationToken)">
+            <summary>
+            Fetches the invoice from the incoming HTTP request.
+            </summary>
+            <param name="cancellationToken"></param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.InvalidPaymentTokenProviderException"></exception>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.IOnlinePayment.FetchAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Fetches the invoice by the given tracking number.
+            </summary>
+            <param name="trackingNumber">Invoice's tracking number.</param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.InvalidPaymentTokenProviderException"></exception>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.IOnlinePayment.VerifyAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Verifies the requested payment to check whether or not the invoice was paid in the gateway by the client.
+            This method must be called when the fetch result equals to <see cref="F:Persian.Plus.PaymentGateway.Core.PaymentFetchResultStatus.ReadyForVerifying"/>.
+            </summary>
+            <param name="trackingNumber">The tracking number of the invoice which must be verified.</param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.IOnlinePayment.CancelAsync(System.Int64,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancels the given invoice. No Verifying request will be sent to the gateway.
+            </summary>
+            <param name="trackingNumber">The tracking number of the invoice which must be verified.</param>
+            <param name="cancellationReason">The reason for canceling the operation. It will be saved in Message field in database.</param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.IOnlinePayment.RefundAsync(Persian.Plus.PaymentGateway.Core.RefundInvoice,System.Threading.CancellationToken)">
+            <summary>
+            Performs a refund request for the given invoice.
+            </summary>
+            <param name="invoice">The invoice that must be refunded.</param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.IOnlinePaymentAccessor">
+            <summary>
+            Provides an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.IOnlinePayment"/> from configured <see cref="T:System.IServiceProvider"/>.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.IOnlinePaymentAccessor.Services">
+            <summary>
+            Defines a mechanism for retrieving a service object; that is, an object that
+            provides custom support to other objects.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.IOnlinePaymentAccessor.OnlinePayment">
+            <summary>
+            Gets an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.IOnlinePayment"/>.
+            </summary>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.ParbadServiceNotInitializedException"></exception>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.PaymentFetchResultStatus">
+            <summary>
+            Describes the status of the fetched invoice.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentFetchResultStatus.ReadyForVerifying">
+            <summary>
+            The invoice is ready for verifying.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentFetchResultStatus.AlreadyProcessed">
+            <summary>
+            The invoice is already processed before.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentFetchResultStatus.Failed">
+            <summary>
+            Payment is failed.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.PaymentRefundResultStatus">
+            <summary>
+            Describes the status of the Refund operation.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentRefundResultStatus.Succeed">
+            <summary>
+            The Verify operation was successful.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentRefundResultStatus.Failed">
+            <summary>
+            The Verify operation is failed.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentRefundResultStatus.AlreadyRefunded">
+            <summary>
+            The invoice is already refunded before.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.PaymentRequestResultStatus">
+            <summary>
+            Describes the status of the requested invoice.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentRequestResultStatus.Succeed">
+            <summary>
+            Request was successful.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentRequestResultStatus.Failed">
+            <summary>
+            Request is failed.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentRequestResultStatus.TrackingNumberAlreadyExists">
+            <summary>
+            The tracking number is already exists or used before.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.PaymentVerifyResultStatus">
+            <summary>
+            Describes the status of the Verify operation.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentVerifyResultStatus.Succeed">
+            <summary>
+            The Verify operation was successful.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentVerifyResultStatus.Failed">
+            <summary>
+            The Verify operation is failed.
+            </summary>
+        </member>
+        <member name="F:Persian.Plus.PaymentGateway.Core.PaymentVerifyResultStatus.AlreadyVerified">
+            <summary>
+            The invoice has been verified before.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Money">
+            <summary>
+            Defines money unit.
+            <para>
+            Note: The official unit of currency in Iran is the Iranian rial (IR).
+            It means the amount of the invoice will be sent to Iranian gateways automatically
+            as <see cref="T:System.Int64"/> by Persian.Plus.PaymentGateway.Core.
+            </para>
+            <para>Examples:
+            <para>decimal a = new Money(1000)</para>
+            <para>long a = new Money(1000)</para>
+            <para>Money m = 1000.55m</para>
+            <para>Money m = 1000</para>
+            </para>
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Money.#ctor(System.Decimal)">
+            <summary>
+            Defines money unit.
+            <para>
+            Note: The official unit of currency in Iran is the Iranian rial (IR).
+            It means the amount of the invoice will be sent to Iranian gateways automatically
+            as <see cref="T:System.Int64"/> by Persian.Plus.PaymentGateway.Core.
+            </para>
+            </summary>
+            <param name="value">The amount of money.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Money.Parse(System.String)">
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Net.GatewayHttpClientExtensions">
+            <summary>
+            Manages the <see cref="T:System.Net.Http.HttpClient"/> for a specific gateway.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Net.GatewayHttpClientExtensions.AddHttpClientForGateway``1(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Adds a named <see cref="T:System.Net.Http.HttpClient"/> for the specified gateway.
+            </summary>
+            <typeparam name="TGateway"></typeparam>
+            <param name="services"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Net.GatewayHttpClientExtensions.CreateClient(System.Net.Http.IHttpClientFactory,Persian.Plus.PaymentGateway.Core.Gateway.IGateway)">
+            <summary>
+            Creates a <see cref="T:System.Net.Http.HttpClient"/> for the specified gateway.
+            </summary>
+            <param name="factory"></param>
+            <param name="gateway"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.Request(Persian.Plus.PaymentGateway.Core.IOnlinePayment,System.String,System.Int64,System.Decimal,System.String)">
+            <summary>
+            Performs a new payment request with the given data.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="gatewayName">The gateway which the client must pay the invoice in.</param>
+            <param name="trackingNumber">
+            A tracking number for this request. It will be sent to the gateway.
+            <para>Note: It must be unique for each requests.</para>
+            </param>
+            <param name="amount">The amount of the payment request.</param>
+            <param name="callbackUrl">
+            A complete URL of your website. It will be used by the gateway for redirecting the client again to your website.
+            <para>A complete URL would be like: "http://www.mywebsite.com/foo/bar/"</para>
+            </param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.Request(Persian.Plus.PaymentGateway.Core.IOnlinePayment,System.Action{Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder})">
+            <summary>
+            Performs a new payment request with the given data.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="configureInvoice">A builder which helps to build an invoice.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.Request(Persian.Plus.PaymentGateway.Core.IOnlinePayment,Persian.Plus.PaymentGateway.Core.Gateway.Invoice)">
+            <summary>
+            Performs a new payment request with the given invoice.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="invoice">The invoice that must be paid.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.RequestAsync(Persian.Plus.PaymentGateway.Core.IOnlinePayment,System.String,System.Int64,System.Decimal,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Performs a new payment request with the given data.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="gatewayName">The gateway which the client must pay the invoice in.</param>
+            <param name="trackingNumber">
+            A tracking number for this request. It will be sent to the gateway.
+            <para>Note: It must be unique for each requests.</para>
+            </param>
+            <param name="amount">The amount of the payment request.</param>
+            <param name="callbackUrl">
+            A complete URL of your website. It will be used by the gateway for redirecting the client again to your website.
+            <para>A complete URL would be like: "http://www.mywebsite.com/foo/bar/"</para>
+            </param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.RequestAsync(Persian.Plus.PaymentGateway.Core.IOnlinePayment,System.Action{Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder},System.Threading.CancellationToken)">
+            <summary>
+            Performs a new payment request by using an invoice builder.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="configureInvoice">A builder which helps to build an invoice.</param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.Fetch(Persian.Plus.PaymentGateway.Core.IOnlinePayment)">
+            <summary>
+            Fetches the invoice from the incoming request.
+            </summary>
+            <param name="onlinePayment"></param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.InvalidPaymentTokenProviderException"></exception>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.Fetch(Persian.Plus.PaymentGateway.Core.IOnlinePayment,System.Int64)">
+            <summary>
+            Fetches the invoice by the given tracking number.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="trackingNumber">Invoice's tracking number.</param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.InvalidPaymentTokenProviderException"></exception>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.Verify(Persian.Plus.PaymentGateway.Core.IOnlinePayment,System.Int64)">
+            <summary>
+            Verifies the given invoice.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="trackingNumber">The tracking number of the invoice which must be verified.</param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.VerifyAsync(Persian.Plus.PaymentGateway.Core.IOnlinePayment,Persian.Plus.PaymentGateway.Core.Internal.PaymentFetchResult,System.Threading.CancellationToken)">
+            <summary>
+            Verifies the given invoice.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="invoice"></param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.Verify(Persian.Plus.PaymentGateway.Core.IOnlinePayment,Persian.Plus.PaymentGateway.Core.Internal.PaymentFetchResult)">
+            <summary>
+            Verifies the given invoice.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="invoice"></param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.Cancel(Persian.Plus.PaymentGateway.Core.IOnlinePayment,System.Int64,System.String)">
+            <summary>
+            Cancels the given invoice. No Verifying request will be sent to the gateway.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="trackingNumber">The tracking number of the invoice which must be verified.</param>
+            <param name="cancellationReason">The reason for canceling the operation. It will be saved in Message field in database.</param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.CancelAsync(Persian.Plus.PaymentGateway.Core.IOnlinePayment,Persian.Plus.PaymentGateway.Core.Internal.PaymentFetchResult,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Cancels the given invoice. No Verifying request will be sent to the gateway.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="invoice"></param>
+            <param name="cancellationReason">The reason for canceling the operation. It will be saved in Message field in database.</param>
+            <param name="cancellationToken"></param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.Cancel(Persian.Plus.PaymentGateway.Core.IOnlinePayment,Persian.Plus.PaymentGateway.Core.Internal.PaymentFetchResult,System.String)">
+            <summary>
+            Cancels the given invoice. No Verifying request will be sent to the gateway.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="invoice"></param>
+            <param name="cancellationReason">The reason for canceling the operation. It will be saved in Message field in database.</param>
+            <exception cref="T:Persian.Plus.PaymentGateway.Core.Exceptions.InvoiceNotFoundException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.Refund(Persian.Plus.PaymentGateway.Core.IOnlinePayment,Persian.Plus.PaymentGateway.Core.RefundInvoice)">
+            <summary>
+            Performs a refund request for the given invoice.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="invoice">The invoice that must be refunded.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.RefundCompletely(Persian.Plus.PaymentGateway.Core.IOnlinePayment,System.Int64)">
+            <summary>
+            Refunds completely a specific payment with the given tracking number.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="trackingNumber">The tracking number of the payment that must be refunded.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.RefundCompletely(Persian.Plus.PaymentGateway.Core.IOnlinePayment,Persian.Plus.PaymentGateway.Core.Internal.PaymentVerifyResult)">
+            <summary>
+            Refunds completely the paid payment.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="verifyResult"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.RefundSpecificAmount(Persian.Plus.PaymentGateway.Core.IOnlinePayment,System.Int64,System.Decimal)">
+            <summary>
+            Refunds a specific amount of a  with the given tracking number.
+            <para>Note: Only Saman Gateway supports this operation.</para>
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="trackingNumber">The tracking number of the payment which must be refunded.</param>
+            <param name="amount">Amount of refund.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.RefundCompletelyAsync(Persian.Plus.PaymentGateway.Core.IOnlinePayment,System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Refunds completely a specific payment with the given tracking number.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="trackingNumber">The tracking number of the payment that must be refunded.</param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.RefundSpecificAmountAsync(Persian.Plus.PaymentGateway.Core.IOnlinePayment,System.Int64,System.Decimal,System.Threading.CancellationToken)">
+            <summary>
+            Refunds a specific amount of a payment with the given tracking number.
+            <para>Note: Only Saman Gateway supports this operation.</para>
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="trackingNumber">The tracking number of the payment that must be refunded.</param>
+            <param name="amount">Amount of refund.</param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.OnlinePaymentExtensions.RefundCompletelyAsync(Persian.Plus.PaymentGateway.Core.IOnlinePayment,Persian.Plus.PaymentGateway.Core.Internal.PaymentVerifyResult,System.Threading.CancellationToken)">
+            <summary>
+            Refunds completely the paid payment.
+            </summary>
+            <param name="onlinePayment"></param>
+            <param name="verifyResult"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Options.MessagesOptions">
+            <summary>
+            Provides configuration for Persian.Plus.PaymentGateway.Core messages.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Options.ParbadOptions">
+            <summary>
+            Provides configuration for Persian.Plus.PaymentGateway.Core.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Options.ParbadOptions.EnableLogging">
+            <summary>
+            Enables or disables the logging. The default value is true.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Options.ParbadOptions.Messages">
+            <summary>
+            Contains all messages that Persian.Plus.PaymentGateway.Core uses in results.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Options.ParbadOptionsExtensions.ConfigureOptions(Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Options.ParbadOptions})">
+            <summary>
+            Configures the Persian.Plus.PaymentGateway.Core options.
+            </summary>
+            <param name="builder"></param>
+            <param name="setupOptions"></param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.ParbadBuilder">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.ParbadBuilder.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.ParbadBuilder"/> class with the given <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.ParbadBuilder.Services">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.ParbadBuilder.Build">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.ParbadBuilder.CreateDefaultBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder"/> class with pre-configured services.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenBuilder">
+            <summary>
+            A builder for building the <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider"/> services.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenBuilder.Services">
+            <summary>
+            Specifies the contract for a collection of service descriptors.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenBuilder.AddPaymentTokenProvider``1(Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            Adds a provider to the <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> with the given
+            <paramref name="serviceLifetime"/>.
+            </summary>
+            <typeparam name="TProvider">Type of provider</typeparam>
+            <param name="serviceLifetime">Specifies the lifetime of the <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider"/>
+            in an Microsoft.Extensions.DependencyInjection.IServiceCollection.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenBuilder.AddPaymentTokenProvider(System.Func{System.IServiceProvider,Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            Adds a provider to the <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> using the given
+            <paramref name="implementationFactory"/> and <paramref name="serviceLifetime"/>.
+            </summary>
+            <param name="implementationFactory">A factory to create new instances of the
+            <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider"/> implementation.</param>
+            <param name="serviceLifetime">Specifies the lifetime of the <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider"/>
+            in an Microsoft.Extensions.DependencyInjection.IServiceCollection.</param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider">
+            <summary>
+            A provider which generates a token for each new payment requests.
+            The generated token will be saved in database and retrieved when the client
+            comes back from the gateway.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider.ProvideTokenAsync(Persian.Plus.PaymentGateway.Core.Gateway.Invoice,System.Threading.CancellationToken)">
+            <summary>
+            Generates a unique token for the given invoice.
+            </summary>
+            <param name="invoice">The invoice which must be paid by the client.</param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider.RetrieveTokenAsync(System.Threading.CancellationToken)">
+            <summary>
+            Retrieves the token.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.PaymentTokenProviderExtensions.ConfigurePaymentToken(Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder,System.Action{Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenBuilder})">
+            <summary>
+            Configures the <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider"/> required by Persian.Plus.PaymentGateway.Core to create
+            a unique token which will be used to load the payment data when the client comes
+            back from the gateway.
+            </summary>
+            <param name="builder"></param>
+            <param name="tokenBuilder">A builder to configure the <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider"/></param>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.QueryStringPaymentTokenOptions.QueryName">
+            <summary>
+            The default value is "paymentToken".
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.QueryStringPaymentTokenProviderExtensions.UseGuidQueryStringPaymentTokenProvider(Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenBuilder)">
+            <summary>
+            Uses the <see cref="T:Persian.Plus.PaymentGateway.Core.Internal.GuidQueryStringPaymentTokenProvider"/> as <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider"/>.
+            It generates a unique <see cref="T:System.Guid"/> as a token for each payments and puts it inside the query string
+            of the URL. The generated token will be retrieved from the query string when the client
+            comes back from the gateway.
+            <para>Note: This is the default <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider"/>, which means you don't need to call this.</para>
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.QueryStringPaymentTokenProviderExtensions.UseGuidQueryStringPaymentTokenProvider(Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenBuilder,System.Action{Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.QueryStringPaymentTokenOptions})">
+            <summary>
+            Uses the <see cref="T:Persian.Plus.PaymentGateway.Core.Internal.GuidQueryStringPaymentTokenProvider"/> as <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider"/>.
+            It generates a unique <see cref="T:System.Guid"/> as a token for each payments and puts it inside the query string
+            of the URL. The generated token will be retrieved from the query string when the client
+            comes back from the gateway.
+            <para>Note: This is the default <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider"/>, which means you don't need to call this.</para>
+            </summary>
+            <param name="builder"></param>
+            <param name="configureOptions">A delegate to configure the <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.QueryStringPaymentTokenOptions"/>.</param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Properties.Resources.AmountCannotBeNegative">
+            <summary>
+              Looks up a localized string similar to Amount cannot be negative..
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Properties.Resources.CannotGetParbadServiceException">
+            <summary>
+              Looks up a localized string similar to Cannot get Persian.Plus.PaymentGateway.Core service from injector. Make sure that Persian.Plus.PaymentGateway.Core is initialized by using the ParbadBuilder class..
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Properties.Resources.NoRecordsSavedInDatabase">
+            <summary>
+              Looks up a localized string similar to No records saved in database..
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Properties.Resources.OptionValueRequired">
+            <summary>
+              Looks up a localized string similar to Gateway configuration failed. {0} is required..
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Properties.Resources.RefundNotSupports">
+            <summary>
+              Looks up a localized string similar to The Refund operation is not supported by this gateway..
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.RefundInvoice.#ctor(System.Int64,System.Decimal)">
+            <summary>
+            Initializes a new instance of <see cref="T:Persian.Plus.PaymentGateway.Core.RefundInvoice"/>.
+            </summary>
+            <param name="trackingNumber"></param>
+            <param name="amount"></param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.StaticOnlinePayment">
+            <summary>
+            Provides a static version of <see cref="T:Persian.Plus.PaymentGateway.Core.IOnlinePayment"/>.
+            <para> You use this method when using no dependency injections such as
+            Microsoft.Extensions.DependencyInjection in your application,
+            otherwise you don't need to use this and can inject the <see cref="T:Persian.Plus.PaymentGateway.Core.IOnlinePayment"/>
+            interface wherever you need.
+            </para>
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.StaticOnlinePayment.Instance">
+            <summary>
+            Gets a new instance of <see cref="T:Persian.Plus.PaymentGateway.Core.IOnlinePayment"/> from the <see cref="T:System.IServiceProvider"/>.
+            </summary>
+            <exception cref="T:System.InvalidOperationException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.StaticOnlinePayment.Initialize(Persian.Plus.PaymentGateway.Core.IOnlinePaymentAccessor)">
+            <summary>
+            Initializes the <see cref="T:Persian.Plus.PaymentGateway.Core.StaticOnlinePayment"/> class for static usage.
+            </summary>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage">
+            <summary>
+            Provides the APIs for managing payment and transaction in a persistence store.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage.CreatePaymentAsync(Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new payment.
+            </summary>
+            <param name="payment"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage.UpdatePaymentAsync(Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+            <summary>
+            Updates the given <paramref name="payment"/>.
+            </summary>
+            <param name="payment"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage.CreateTransactionAsync(Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new transaction.
+            </summary>
+            <param name="transaction"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage.GetPaymentByTrackingNumberAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Gets a payment by its tracking number.
+            </summary>
+            <param name="trackingNumber"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage.GetPaymentByLocalTokenAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets a payment by its token.
+            </summary>
+            <param name="paymentToken"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage.DoesPaymentExistAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Checks whether a payment exists with the given <paramref name="trackingNumber"/>.
+            </summary>
+            <param name="trackingNumber"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Checks whether a payment exists with the given <paramref name="paymentToken"/>.
+            </summary>
+            <param name="paymentToken"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage.GetTransactionsAsync(System.Int64,System.Threading.CancellationToken)">
+            <summary>
+            Gets a list of transactions of the given <paramref name="payment"/>.
+            </summary>
+            <param name="payment"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models.Payment.IsCompleted">
+            <summary>
+            Determines if this payment is completed, regardless of whether it is successful or not.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models.Payment.IsPaid">
+            <summary>
+            Determines whether this payment is successful or not.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models.TransactionType">
+            <summary>
+            Type of transaction.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.StorageBuilderExtensions.AddStorage``1(Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IStorageBuilder,Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            Adds an implementation of <see cref="T:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage"/> which required by Persian.Plus.PaymentGateway.Core for managing the storage operations.
+            </summary>
+            <typeparam name="TManager"></typeparam>
+            <param name="builder"></param>
+            <param name="lifetime">The lifetime of given StorageManager.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.StorageBuilderExtensions.AddStorage(Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IStorageBuilder,Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage)">
+            <summary>
+            Adds an implementation of <see cref="T:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage"/> which required by Persian.Plus.PaymentGateway.Core for managing the storage operations.
+            </summary>
+            <param name="builder"></param>
+            <param name="paymentStorage"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.StorageBuilderExtensions.AddStorage(Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IStorageBuilder,System.Func{System.IServiceProvider,Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            Adds an implementation of <see cref="T:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage"/> which required by Persian.Plus.PaymentGateway.Core for managing the storage operations.
+            </summary>
+            <param name="builder"></param>
+            <param name="factory"></param>
+            <param name="lifetime">The lifetime of given StorageManager.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.StorageBuilderExtensions.ConfigureStorage(Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IStorageBuilder})">
+            <summary>
+            Configures the storage which required by Persian.Plus.PaymentGateway.Core for saving and loading data.
+            </summary>
+            <param name="builder"></param>
+            <param name="configureStorage"></param>
+        </member>
+    </members>
+</doc>

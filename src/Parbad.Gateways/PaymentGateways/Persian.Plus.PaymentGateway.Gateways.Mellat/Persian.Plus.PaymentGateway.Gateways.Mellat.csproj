@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\Persian.Plus.PaymentGateway.Core\Persian.Plus.PaymentGateway.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Persian.Plus" Version="1.4.0" />
+      <PackageReference Include="Serilog" Version="2.10.0" />
+    </ItemGroup>
+
+</Project>

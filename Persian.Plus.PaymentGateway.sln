@@ -1,0 +1,174 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB28BA4A-5CEF-4F6A-813B-4E22068C1350}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		azure-pipelines.yml = azure-pipelines.yml
+		CONTRIBUTING.md = CONTRIBUTING.md
+		images\How-it-works.png = images\How-it-works.png
+		LICENSE.txt = LICENSE.txt
+		images\Parbad-128x128.png = images\Parbad-128x128.png
+		images\Parbad-256x256.png = images\Parbad-256x256.png
+		images\ParbadVirtualGateway.v2.png = images\ParbadVirtualGateway.v2.png
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Core", "src\Persian.Plus.PaymentGateway.Core\Persian.Plus.PaymentGateway.Core.csproj", "{6B7AA18D-6292-4DA4-A3CE-8686C143F2AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway", "src\Persian.Plus.PaymentGateway\Persian.Plus.PaymentGateway.csproj", "{ABAA62A2-A6D9-4854-86CC-D7CD783FD470}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persian.Plus.PaymentGateway.Gateways", "Persian.Plus.PaymentGateway.Gateways", "{5AFB1097-3A40-4A5D-B441-ADA0980A7561}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Gateways.AsanPardakht", "src\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.AsanPardakht\Persian.Plus.PaymentGateway.Gateways.AsanPardakht.csproj", "{037FC06B-BC5B-41DB-B423-094397EC9265}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Gateways.IranKish", "src\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.IranKish\Persian.Plus.PaymentGateway.Gateways.IranKish.csproj", "{689AC746-BAFD-4090-94E9-4E82C7739C10}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Gateways.Mellat", "src\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.Mellat\Persian.Plus.PaymentGateway.Gateways.Mellat.csproj", "{0E8940B0-2C10-4992-B200-0A5A88B9689B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Gateways.Melli", "src\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.Melli\Persian.Plus.PaymentGateway.Gateways.Melli.csproj", "{8121CF3A-8002-41C3-A4A5-1E79920F30D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Gateways.Parsian", "src\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.Parsian\Persian.Plus.PaymentGateway.Gateways.Parsian.csproj", "{7FEF84B6-F1D5-4840-9346-2AB298CAF971}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Gateways.Pasargad", "src\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.Pasargad\Persian.Plus.PaymentGateway.Gateways.Pasargad.csproj", "{EB2EE2C3-3B87-4E50-A45B-83D87F60B353}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Gateways.Saman", "src\Parbad.Gateways\PaymentGateways\Persian.Plus.PaymentGateway.Gateways.Saman\Persian.Plus.PaymentGateway.Gateways.Saman.csproj", "{819BF946-12D0-476E-BD28-ABDC14AB531D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentFacilitators", "PaymentFacilitators", "{32388401-F1D4-4945-AD7A-09B458513142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Facilitators.IdPay", "src\Parbad.Gateways\PaymentFacilitators\Persian.Plus.PaymentGateway.Facilitators.IdPay\Persian.Plus.PaymentGateway.Facilitators.IdPay.csproj", "{DA6C9D8D-D9A3-4F62-8A50-C06CA8335B0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Facilitators.PayIr", "src\Parbad.Gateways\PaymentFacilitators\Persian.Plus.PaymentGateway.Facilitators.PayIr\Persian.Plus.PaymentGateway.Facilitators.PayIr.csproj", "{EF4E5FBF-229B-4D90-8C0C-1497B288B1F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Facilitators.PayPing", "src\Parbad.Gateways\PaymentFacilitators\Persian.Plus.PaymentGateway.Facilitators.PayPing\Persian.Plus.PaymentGateway.Facilitators.PayPing.csproj", "{8A266533-B6FB-4F00-8DCE-3590C9A4AB50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Facilitators.Sepehr", "src\Parbad.Gateways\PaymentFacilitators\Persian.Plus.PaymentGateway.Facilitators.Sepehr\Persian.Plus.PaymentGateway.Facilitators.Sepehr.csproj", "{B4097B1A-D791-4B62-8095-51C3532CD71F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Facilitators.ZarinPal", "src\Parbad.Gateways\PaymentFacilitators\Persian.Plus.PaymentGateway.Facilitators.ZarinPal\Persian.Plus.PaymentGateway.Facilitators.ZarinPal.csproj", "{97F42F10-29B1-48DC-8566-DE4133A96567}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentGateways", "PaymentGateways", "{7B7D4D04-B4EE-4BA9-A365-8F4EA8A124BF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Gateways.Core", "src\Parbad.Gateways\Persian.Plus.PaymentGateway.Gateways.Core\Persian.Plus.PaymentGateway.Gateways.Core.csproj", "{9D71EEA7-F1DB-4E04-9A8C-011D92D7D81C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Gateways.VirtualGateway", "src\Parbad.Gateways\Persian.Plus.PaymentGateway.Gateways.VirtualGateway\Persian.Plus.PaymentGateway.Gateways.VirtualGateway.csproj", "{CDAFA81B-6580-4B8B-950A-A0C1DCA9D706}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Storage.Cache", "src\Parbad.Storages\Persian.Plus.PaymentGateway.Storage.Cache\Persian.Plus.PaymentGateway.Storage.Cache.csproj", "{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore", "src\Parbad.Storages\Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore\Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.csproj", "{47B6FE9F-9A74-4B0E-A46E-647F055399B2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persian.Plus.PaymentGateway.Storages", "Persian.Plus.PaymentGateway.Storages", "{BE4ACCC2-FFF3-4AC7-86FC-7FC0775B444C}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\Parbad.Shared\Parbad.Shared.projitems*{2e124fc2-6fa6-45e1-9912-edca1c19cef7}*SharedItemsImports = 13
+		src\Parbad.Shared\Parbad.Shared.projitems*{53d0b3cc-2fd4-4113-a368-60715fb8518e}*SharedItemsImports = 5
+		src\Parbad.Shared\Parbad.Shared.projitems*{9b56707d-95be-4d78-a4b2-511e2636bdf3}*SharedItemsImports = 5
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B7AA18D-6292-4DA4-A3CE-8686C143F2AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B7AA18D-6292-4DA4-A3CE-8686C143F2AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B7AA18D-6292-4DA4-A3CE-8686C143F2AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B7AA18D-6292-4DA4-A3CE-8686C143F2AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABAA62A2-A6D9-4854-86CC-D7CD783FD470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABAA62A2-A6D9-4854-86CC-D7CD783FD470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABAA62A2-A6D9-4854-86CC-D7CD783FD470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABAA62A2-A6D9-4854-86CC-D7CD783FD470}.Release|Any CPU.Build.0 = Release|Any CPU
+		{037FC06B-BC5B-41DB-B423-094397EC9265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{037FC06B-BC5B-41DB-B423-094397EC9265}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{037FC06B-BC5B-41DB-B423-094397EC9265}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{037FC06B-BC5B-41DB-B423-094397EC9265}.Release|Any CPU.Build.0 = Release|Any CPU
+		{689AC746-BAFD-4090-94E9-4E82C7739C10}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{689AC746-BAFD-4090-94E9-4E82C7739C10}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{689AC746-BAFD-4090-94E9-4E82C7739C10}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{689AC746-BAFD-4090-94E9-4E82C7739C10}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E8940B0-2C10-4992-B200-0A5A88B9689B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E8940B0-2C10-4992-B200-0A5A88B9689B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E8940B0-2C10-4992-B200-0A5A88B9689B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E8940B0-2C10-4992-B200-0A5A88B9689B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8121CF3A-8002-41C3-A4A5-1E79920F30D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8121CF3A-8002-41C3-A4A5-1E79920F30D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8121CF3A-8002-41C3-A4A5-1E79920F30D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8121CF3A-8002-41C3-A4A5-1E79920F30D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FEF84B6-F1D5-4840-9346-2AB298CAF971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FEF84B6-F1D5-4840-9346-2AB298CAF971}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FEF84B6-F1D5-4840-9346-2AB298CAF971}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FEF84B6-F1D5-4840-9346-2AB298CAF971}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB2EE2C3-3B87-4E50-A45B-83D87F60B353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB2EE2C3-3B87-4E50-A45B-83D87F60B353}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB2EE2C3-3B87-4E50-A45B-83D87F60B353}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB2EE2C3-3B87-4E50-A45B-83D87F60B353}.Release|Any CPU.Build.0 = Release|Any CPU
+		{819BF946-12D0-476E-BD28-ABDC14AB531D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{819BF946-12D0-476E-BD28-ABDC14AB531D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{819BF946-12D0-476E-BD28-ABDC14AB531D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{819BF946-12D0-476E-BD28-ABDC14AB531D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA6C9D8D-D9A3-4F62-8A50-C06CA8335B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA6C9D8D-D9A3-4F62-8A50-C06CA8335B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA6C9D8D-D9A3-4F62-8A50-C06CA8335B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA6C9D8D-D9A3-4F62-8A50-C06CA8335B0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF4E5FBF-229B-4D90-8C0C-1497B288B1F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF4E5FBF-229B-4D90-8C0C-1497B288B1F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF4E5FBF-229B-4D90-8C0C-1497B288B1F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF4E5FBF-229B-4D90-8C0C-1497B288B1F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A266533-B6FB-4F00-8DCE-3590C9A4AB50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A266533-B6FB-4F00-8DCE-3590C9A4AB50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A266533-B6FB-4F00-8DCE-3590C9A4AB50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A266533-B6FB-4F00-8DCE-3590C9A4AB50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4097B1A-D791-4B62-8095-51C3532CD71F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4097B1A-D791-4B62-8095-51C3532CD71F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4097B1A-D791-4B62-8095-51C3532CD71F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4097B1A-D791-4B62-8095-51C3532CD71F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97F42F10-29B1-48DC-8566-DE4133A96567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97F42F10-29B1-48DC-8566-DE4133A96567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97F42F10-29B1-48DC-8566-DE4133A96567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97F42F10-29B1-48DC-8566-DE4133A96567}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D71EEA7-F1DB-4E04-9A8C-011D92D7D81C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D71EEA7-F1DB-4E04-9A8C-011D92D7D81C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D71EEA7-F1DB-4E04-9A8C-011D92D7D81C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D71EEA7-F1DB-4E04-9A8C-011D92D7D81C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDAFA81B-6580-4B8B-950A-A0C1DCA9D706}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDAFA81B-6580-4B8B-950A-A0C1DCA9D706}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDAFA81B-6580-4B8B-950A-A0C1DCA9D706}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDAFA81B-6580-4B8B-950A-A0C1DCA9D706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47B6FE9F-9A74-4B0E-A46E-647F055399B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47B6FE9F-9A74-4B0E-A46E-647F055399B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47B6FE9F-9A74-4B0E-A46E-647F055399B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47B6FE9F-9A74-4B0E-A46E-647F055399B2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{32388401-F1D4-4945-AD7A-09B458513142} = {5AFB1097-3A40-4A5D-B441-ADA0980A7561}
+		{DA6C9D8D-D9A3-4F62-8A50-C06CA8335B0C} = {32388401-F1D4-4945-AD7A-09B458513142}
+		{EF4E5FBF-229B-4D90-8C0C-1497B288B1F2} = {32388401-F1D4-4945-AD7A-09B458513142}
+		{8A266533-B6FB-4F00-8DCE-3590C9A4AB50} = {32388401-F1D4-4945-AD7A-09B458513142}
+		{B4097B1A-D791-4B62-8095-51C3532CD71F} = {32388401-F1D4-4945-AD7A-09B458513142}
+		{97F42F10-29B1-48DC-8566-DE4133A96567} = {32388401-F1D4-4945-AD7A-09B458513142}
+		{7B7D4D04-B4EE-4BA9-A365-8F4EA8A124BF} = {5AFB1097-3A40-4A5D-B441-ADA0980A7561}
+		{037FC06B-BC5B-41DB-B423-094397EC9265} = {7B7D4D04-B4EE-4BA9-A365-8F4EA8A124BF}
+		{689AC746-BAFD-4090-94E9-4E82C7739C10} = {7B7D4D04-B4EE-4BA9-A365-8F4EA8A124BF}
+		{0E8940B0-2C10-4992-B200-0A5A88B9689B} = {7B7D4D04-B4EE-4BA9-A365-8F4EA8A124BF}
+		{8121CF3A-8002-41C3-A4A5-1E79920F30D1} = {7B7D4D04-B4EE-4BA9-A365-8F4EA8A124BF}
+		{7FEF84B6-F1D5-4840-9346-2AB298CAF971} = {7B7D4D04-B4EE-4BA9-A365-8F4EA8A124BF}
+		{EB2EE2C3-3B87-4E50-A45B-83D87F60B353} = {7B7D4D04-B4EE-4BA9-A365-8F4EA8A124BF}
+		{819BF946-12D0-476E-BD28-ABDC14AB531D} = {7B7D4D04-B4EE-4BA9-A365-8F4EA8A124BF}
+		{9D71EEA7-F1DB-4E04-9A8C-011D92D7D81C} = {5AFB1097-3A40-4A5D-B441-ADA0980A7561}
+		{CDAFA81B-6580-4B8B-950A-A0C1DCA9D706} = {5AFB1097-3A40-4A5D-B441-ADA0980A7561}
+		{D0B88EE4-718A-42A4-9E65-3B2CD69CE4D4} = {BE4ACCC2-FFF3-4AC7-86FC-7FC0775B444C}
+		{47B6FE9F-9A74-4B0E-A46E-647F055399B2} = {BE4ACCC2-FFF3-4AC7-86FC-7FC0775B444C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CBDDB699-C14A-4235-B0AE-32725230B4ED}
+	EndGlobalSection
+EndGlobal

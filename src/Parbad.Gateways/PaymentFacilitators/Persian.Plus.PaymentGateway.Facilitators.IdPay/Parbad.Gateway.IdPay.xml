@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Persian.Plus.PaymentGateway.Core.Gateway.IdPay</name>
+    </assembly>
+    <members>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGateway.RequestAsync(Persian.Plus.PaymentGateway.Core.Abstraction.Invoice,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGateway.FetchAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGateway.VerifyAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGateway.RefundAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,Persian.Plus.PaymentGateway.Core.Money,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGatewayBuilderExtensions.AddIdPay(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayBuilder)">
+            <summary>
+            Adds the IDPay.ir gateway to Persian.Plus.PaymentGateway.Core services.
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGatewayBuilderExtensions.WithAccounts(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayConfigurationBuilder{Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGateway},System.Action{Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayAccountBuilder{Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGatewayAccount}})">
+            <summary>
+            Configures the accounts for IDPay.ir.
+            </summary>
+            <param name="builder"></param>
+            <param name="configureAccounts">Configures the accounts.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGatewayBuilderExtensions.WithOptions(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayConfigurationBuilder{Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGateway},System.Action{Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGatewayOptions})">
+            <summary>
+            Configures the options for IdPay Gateway.
+            </summary>
+            <param name="builder"></param>
+            <param name="configureOptions">Configuration</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.IdPay.IdPayGatewayInvoiceBuilderExtensions.UseIdPay(Persian.Plus.PaymentGateway.Core.InvoiceBuilder.IInvoiceBuilder)">
+            <summary>
+            The invoice will be sent to IDPay.ir gateway.
+            </summary>
+            <param name="builder"></param>
+        </member>
+    </members>
+</doc>

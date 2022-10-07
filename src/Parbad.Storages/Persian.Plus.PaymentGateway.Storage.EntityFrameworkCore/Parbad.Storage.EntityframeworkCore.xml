@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore</name>
+    </assembly>
+    <members>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Builder.EntityFrameworkStorageBuilderExtensions.UseEfCore(Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IStorageBuilder,System.Action{Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions})">
+            <summary>
+            Uses the EntityFramework Core as a storage for saving and loading data.
+            <para>
+            Note: It means Persian.Plus.PaymentGateway.Core can save and load the data in different database providers
+            such as SQL Server, MySql, Sqlite, PostgreSQL, Oracle, InMemory, etc.
+            For more information see: https://docs.microsoft.com/en-us/ef/core/providers/.
+            </para>
+            <para>Note: This database is only for internal usages such as saving and loading payment information.
+            You don't need to think about merging and using this database with your own database.
+            The important payment information such as Tracking Number, Transaction Code, etc. will you get from the result of
+            all payment requests.</para>
+            </summary>
+            <param name="builder"></param>
+            <param name="configureEfCoreOptions">Configures the EntityFrameworkCore options for Persian.Plus.PaymentGateway.Core.</param>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.EntityTypeConfiguration`1">
+            <summary>
+            Applies the configuration on the specified entity.
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.EntityTypeConfiguration`1.#ctor(Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.EntityTypeConfiguration`1"/>.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.EntityTypeConfiguration`1.EntityFrameworkCoreOptions">
+            <summary>
+            Contains the options for configuring the EntityFrameworkCore for Persian.Plus.PaymentGateway.Core storage.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.EntityTypeConfiguration`1.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{`0})">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.EntityTypeConfiguration`1.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{`0},Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions)">
+            <summary>
+            Configures the entity.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.PaymentConfiguration">
+            <summary>
+            Payment entity configuration.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.PaymentConfiguration.#ctor(Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.PaymentConfiguration"/>.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.PaymentConfiguration.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Domain.PaymentEntity},Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.TransactionConfiguration">
+            <summary>
+            Transaction entity configuration.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.TransactionConfiguration.#ctor(Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.TransactionConfiguration"/>.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Configuration.TransactionConfiguration.Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder{Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Domain.TransactionEntity},Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions)">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage">
+            <summary>
+            EntityFramework Core implementation of <see cref="T:Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IPaymentStorage"/>.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.CreatePaymentAsync(Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.UpdatePaymentAsync(Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models.Payment,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.CreateTransactionAsync(Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models.Transaction,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.GetPaymentByTrackingNumberAsync(System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.GetPaymentByLocalTokenAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.DoesPaymentExistAsync(System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.DoesPaymentExistAsync(System.String,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.EntityFrameworkCorePaymentStorage.GetTransactionsAsync(System.Int64,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions">
+            <summary>
+            Contains the options for configuring the EntityFrameworkCore for Persian.Plus.PaymentGateway.Core storage.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions.#ctor">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions"/>.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions.ConfigureDbContext">
+            <summary>
+            Configures the <see cref="T:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Context.ParbadDataContext"/>.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions.DefaultSchema">
+            <summary>
+            Gets or sets the default schema for all tables. The default value is "parbad".
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions.PaymentTableOptions">
+            <summary>
+            Contains the options for configuring the Payment table.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.EntityFrameworkCoreOptions.TransactionTableOptions">
+            <summary>
+            Contains the options for configuring the Transaction table.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.TableOptions">
+            <summary>
+            Contains the options for configuring a table.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.TableOptions.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Options.TableOptions.Schema">
+            <summary>
+            Gets or sets the schema.
+            </summary>
+        </member>
+    </members>
+</doc>

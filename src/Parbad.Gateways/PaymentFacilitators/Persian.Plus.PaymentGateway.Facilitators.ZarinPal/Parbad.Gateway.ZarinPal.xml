@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal</name>
+    </assembly>
+    <members>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalGateway.RequestAsync(Persian.Plus.PaymentGateway.Core.Abstraction.Invoice,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalGateway.VerifyAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalGateway.RefundAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,Persian.Plus.PaymentGateway.Core.Money,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalGatewayAccount">
+            <summary>
+            Describes an account for ZarinPal Gateway.
+            </summary>
+        </member>
+        <member name="T:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalInvoice">
+            <summary>
+            Describes an invoice for ZarinPal gateway.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalInvoice.#ctor(System.String)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalInvoice"/>.
+            </summary>
+            <param name="description">A short description about this invoice which is required by ZarinPal gateway.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalInvoice.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalInvoice"/>.
+            </summary>
+            <param name="description">A short description about this invoice which is required by ZarinPal gateway.</param>
+            <param name="email">Buyer's email.</param>
+            <param name="mobile">Buyer's mobile.</param>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalInvoice.Description">
+            <summary>
+            A short description about this invoice which is required by ZarinPal gateway.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalInvoice.Email">
+            <summary>
+            Buyer's email.
+            </summary>
+        </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalInvoice.Mobile">
+            <summary>
+            Buyer's mobile.
+            </summary>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Builder.ZarinPalGatewayBuilderExtensions.AddZarinPal(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayBuilder)">
+            <summary>
+            Adds the ZarinPal gateway to Persian.Plus.PaymentGateway.Core services.
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Builder.ZarinPalGatewayBuilderExtensions.WithAccounts(Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayConfigurationBuilder{Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalGateway},System.Action{Persian.Plus.PaymentGateway.Core.GatewayBuilders.IGatewayAccountBuilder{Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalGatewayAccount}})">
+            <summary>
+            Configures the accounts for <see cref="T:Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalGateway"/>.
+            </summary>
+            <param name="builder"></param>
+            <param name="configureAccounts">Configures the accounts.</param>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.ZarinPalGatewayInvoiceBuilderExtensions.UseZarinPal(Persian.Plus.PaymentGateway.Core.InvoiceBuilder.IInvoiceBuilder,Persian.Plus.PaymentGateway.Core.Gateway.ZarinPal.ZarinPalInvoice)">
+            <summary>
+            The invoice will be sent to ZarinPal gateway.
+            </summary>
+            <param name="builder"></param>
+            <param name="zarinPalInvoice">Describes an invoice for ZarinPal gateway.</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.ZarinPalGatewayInvoiceBuilderExtensions.UseZarinPal(Persian.Plus.PaymentGateway.Core.InvoiceBuilder.IInvoiceBuilder,System.String,System.String,System.String)">
+            <summary>
+            The invoice will be sent to ZarinPal gateway.
+            </summary>
+            <param name="builder"></param>
+            <param name="description">A short description about this invoice which is required by ZarinPal gateway.</param>
+            <param name="email">Buyer's email.</param>
+            <param name="mobile">Buyer's mobile.</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+    </members>
+</doc>
