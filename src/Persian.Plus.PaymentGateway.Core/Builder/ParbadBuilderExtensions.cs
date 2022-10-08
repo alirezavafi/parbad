@@ -11,11 +11,11 @@ namespace Persian.Plus.PaymentGateway.Core.Builder
         /// <summary>
         /// Adds Persian.Plus.PaymentGateway.Core pre-configured services to the specified <see cref="IServiceCollection"/>.
         /// </summary>
-        public static IParbadBuilder AddParbad(this IServiceCollection services)
+        public static IPaymentGatewayBuilder AddPaymentGateway(this IServiceCollection services)
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            return ParbadBuilder.CreateDefaultBuilder(services);
+            return PaymentGatewayBuilder.CreateDefaultBuilder(services);
         }
     }
 }

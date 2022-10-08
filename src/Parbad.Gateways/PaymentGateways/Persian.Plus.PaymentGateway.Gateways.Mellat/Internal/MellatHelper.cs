@@ -253,7 +253,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Mellat.Internal
             if (invoice.Properties.ContainsKey("EncryptedPan"))
             {
                 var encryptedPan = invoice.Properties["EncryptedPan"].ToString();
-                panSoapPart = $"<encPan>{encryptedPan}</encPan><panHiddenMode>0<panHiddenMode/>";
+                panSoapPart = $"<encPan>{encryptedPan}</encPan>";
             }
 
             return
@@ -277,7 +277,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Mellat.Internal
                 "<!--Optional:-->" +
                 $"<callBackUrl>{XmlHelper.EncodeXmlValue(invoice.CallbackUrl)}</callBackUrl>" +
                 "<payerId>0</payerId>" + mobileNumberSoapPart + panSoapPart +
-                "'</int:bpPayRequest>" +
+                "</int:bpPayRequest>" +
                 "</soapenv:Body>" +
                 "</soapenv:Envelope>";
         }

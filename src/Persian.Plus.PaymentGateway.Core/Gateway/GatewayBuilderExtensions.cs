@@ -14,7 +14,7 @@ namespace Persian.Plus.PaymentGateway.Core.Gateway
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configure"></param>
-        public static IParbadBuilder ConfigureGateways(this IParbadBuilder builder, Action<IGatewayBuilder> configure)
+        public static IPaymentGatewayBuilder ConfigureGateways(this IPaymentGatewayBuilder builder, Action<IGatewayBuilder> configure)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
             if (configure == null) throw new ArgumentNullException(nameof(configure));

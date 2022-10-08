@@ -14,13 +14,13 @@ using Persian.Plus.PaymentGateway.Core.PaymentTokenProviders;
 namespace Persian.Plus.PaymentGateway.Core
 {
     /// <inheritdoc />
-    public class ParbadBuilder : IParbadBuilder
+    public class PaymentGatewayBuilder : IPaymentGatewayBuilder
     {
         /// <summary>
-        /// Initializes an instance of <see cref="ParbadBuilder"/> class with the given <see cref="IServiceCollection"/>.
+        /// Initializes an instance of <see cref="PaymentGatewayBuilder"/> class with the given <see cref="IServiceCollection"/>.
         /// </summary>
         /// <param name="services"></param>
-        public ParbadBuilder(IServiceCollection services)
+        public PaymentGatewayBuilder(IServiceCollection services)
         {
             Services = services ?? throw new ArgumentNullException(nameof(services));
         }
@@ -41,13 +41,13 @@ namespace Persian.Plus.PaymentGateway.Core
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IParbadBuilder"/> class with pre-configured services.
+        /// Initializes a new instance of the <see cref="IPaymentGatewayBuilder"/> class with pre-configured services.
         /// </summary>
-        public static IParbadBuilder CreateDefaultBuilder(IServiceCollection services = null)
+        public static IPaymentGatewayBuilder CreateDefaultBuilder(IServiceCollection services = null)
         {
             services ??= new ServiceCollection();
 
-            var builder = new ParbadBuilder(services);
+            var builder = new PaymentGatewayBuilder(services);
 
             builder.Services.AddOptions();
 

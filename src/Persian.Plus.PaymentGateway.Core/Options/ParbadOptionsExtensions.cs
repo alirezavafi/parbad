@@ -15,7 +15,7 @@ namespace Persian.Plus.PaymentGateway.Core.Options
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="setupOptions"></param>
-        public static IParbadBuilder ConfigureOptions(this IParbadBuilder builder, Action<ParbadOptions> setupOptions)
+        public static IPaymentGatewayBuilder ConfigureOptions(this IPaymentGatewayBuilder builder, Action<ParbadOptions> setupOptions)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
             if (setupOptions == null) throw new ArgumentNullException(nameof(setupOptions));
@@ -27,7 +27,7 @@ namespace Persian.Plus.PaymentGateway.Core.Options
             return builder;
         }
 
-        private static void RegisterMessagesOptions(IParbadBuilder builder)
+        private static void RegisterMessagesOptions(IPaymentGatewayBuilder builder)
         {
             builder.Services.AddTransient<IOptions<MessagesOptions>>(provider =>
             {

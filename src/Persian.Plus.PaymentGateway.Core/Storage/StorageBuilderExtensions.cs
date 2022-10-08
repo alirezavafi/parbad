@@ -15,7 +15,7 @@ namespace Persian.Plus.PaymentGateway.Core.Storage
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configureStorage"></param>
-        public static IParbadBuilder ConfigureStorage(this IParbadBuilder builder, Action<IStorageBuilder> configureStorage)
+        public static IPaymentGatewayBuilder ConfigureStorage(this IPaymentGatewayBuilder builder, Action<IStorageBuilder> configureStorage)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
             if (configureStorage == null) throw new ArgumentNullException(nameof(configureStorage));

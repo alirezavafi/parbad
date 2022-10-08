@@ -4,17 +4,17 @@
         <name>Persian.Plus.PaymentGateway.Core</name>
     </assembly>
     <members>
-        <member name="T:Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder">
+        <member name="T:Persian.Plus.PaymentGateway.Core.Builder.IPaymentGatewayBuilder">
             <summary>
             A builder for building the Persian.Plus.PaymentGateway.Core services.
             </summary>
         </member>
-        <member name="P:Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder.Services">
+        <member name="P:Persian.Plus.PaymentGateway.Core.Builder.IPaymentGatewayBuilder.Services">
             <summary>
             Specifies the contract for a collection of service descriptors.
             </summary>
         </member>
-        <member name="M:Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder.Build">
+        <member name="M:Persian.Plus.PaymentGateway.Core.Builder.IPaymentGatewayBuilder.Build">
             <summary>
             Builds a single instance of <see cref="T:Persian.Plus.PaymentGateway.Core.IOnlinePaymentAccessor"/> which provides an
             instance of <see cref="T:Persian.Plus.PaymentGateway.Core.IOnlinePayment"/> from configured <see cref="T:System.IServiceProvider"/>.
@@ -24,13 +24,13 @@
             you don't need to use this method because that gets done for you.
             </para>
             <para>
-            You can also register the <see cref="P:Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder.Services"/> in any other
+            You can also register the <see cref="P:Persian.Plus.PaymentGateway.Core.Builder.IPaymentGatewayBuilder.Services"/> in any other
             dependency injection tools such as Autofac and use Dependency Injection benefits in your application.
             For example you can inject the <see cref="T:Persian.Plus.PaymentGateway.Core.IOnlinePayment"/> where ever you need.
             </para>
             </summary>
         </member>
-        <member name="M:Persian.Plus.PaymentGateway.Core.Builder.ParbadBuilderExtensions.AddParbad(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Persian.Plus.PaymentGateway.Core.Builder.ParbadBuilderExtensions.AddPaymentGateway(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Adds Persian.Plus.PaymentGateway.Core pre-configured services to the specified <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
             </summary>
@@ -145,7 +145,7 @@
         <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayBase`1.RefundAsync(Persian.Plus.PaymentGateway.Core.InvoiceContext,Persian.Plus.PaymentGateway.Core.Money,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayBuilderExtensions.ConfigureGateways(Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Gateway.IGatewayBuilder})">
+        <member name="M:Persian.Plus.PaymentGateway.Core.Gateway.GatewayBuilderExtensions.ConfigureGateways(Persian.Plus.PaymentGateway.Core.Builder.IPaymentGatewayBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Gateway.IGatewayBuilder})">
             <summary>
             Configures the gateways.
             </summary>
@@ -399,7 +399,7 @@
             Gets or sets the properties of the invoice.
             </summary>
         </member>
-        <member name="M:Persian.Plus.PaymentGateway.Core.Http.HttpContextBuilderExtensions.ConfigureHttpContext(Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Http.IHttpContextBuilder})">
+        <member name="M:Persian.Plus.PaymentGateway.Core.Http.HttpContextBuilderExtensions.ConfigureHttpContext(Persian.Plus.PaymentGateway.Core.Builder.IPaymentGatewayBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Http.IHttpContextBuilder})">
             <summary>
             Configures the <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> required by Persian.Plus.PaymentGateway.Core.
             </summary>
@@ -1182,31 +1182,31 @@
             Contains all messages that Persian.Plus.PaymentGateway.Core uses in results.
             </summary>
         </member>
-        <member name="M:Persian.Plus.PaymentGateway.Core.Options.ParbadOptionsExtensions.ConfigureOptions(Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Options.ParbadOptions})">
+        <member name="M:Persian.Plus.PaymentGateway.Core.Options.ParbadOptionsExtensions.ConfigureOptions(Persian.Plus.PaymentGateway.Core.Builder.IPaymentGatewayBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Options.ParbadOptions})">
             <summary>
             Configures the Persian.Plus.PaymentGateway.Core options.
             </summary>
             <param name="builder"></param>
             <param name="setupOptions"></param>
         </member>
-        <member name="T:Persian.Plus.PaymentGateway.Core.ParbadBuilder">
+        <member name="T:Persian.Plus.PaymentGateway.Core.PaymentGatewayBuilder">
             <inheritdoc />
         </member>
-        <member name="M:Persian.Plus.PaymentGateway.Core.ParbadBuilder.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentGatewayBuilder.#ctor(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.ParbadBuilder"/> class with the given <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
+            Initializes an instance of <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentGatewayBuilder"/> class with the given <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/>.
             </summary>
             <param name="services"></param>
         </member>
-        <member name="P:Persian.Plus.PaymentGateway.Core.ParbadBuilder.Services">
+        <member name="P:Persian.Plus.PaymentGateway.Core.PaymentGatewayBuilder.Services">
             <inheritdoc />
         </member>
-        <member name="M:Persian.Plus.PaymentGateway.Core.ParbadBuilder.Build">
+        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentGatewayBuilder.Build">
             <inheritdoc />
         </member>
-        <member name="M:Persian.Plus.PaymentGateway.Core.ParbadBuilder.CreateDefaultBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentGatewayBuilder.CreateDefaultBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            Initializes a new instance of the <see cref="T:Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder"/> class with pre-configured services.
+            Initializes a new instance of the <see cref="T:Persian.Plus.PaymentGateway.Core.Builder.IPaymentGatewayBuilder"/> class with pre-configured services.
             </summary>
         </member>
         <member name="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenBuilder">
@@ -1257,7 +1257,7 @@
             Retrieves the token.
             </summary>
         </member>
-        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.PaymentTokenProviderExtensions.ConfigurePaymentToken(Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder,System.Action{Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenBuilder})">
+        <member name="M:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.PaymentTokenProviderExtensions.ConfigurePaymentToken(Persian.Plus.PaymentGateway.Core.Builder.IPaymentGatewayBuilder,System.Action{Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenBuilder})">
             <summary>
             Configures the <see cref="T:Persian.Plus.PaymentGateway.Core.PaymentTokenProviders.IPaymentTokenProvider"/> required by Persian.Plus.PaymentGateway.Core to create
             a unique token which will be used to load the payment data when the client comes
@@ -1462,7 +1462,7 @@
             <param name="factory"></param>
             <param name="lifetime">The lifetime of given StorageManager.</param>
         </member>
-        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.StorageBuilderExtensions.ConfigureStorage(Persian.Plus.PaymentGateway.Core.Builder.IParbadBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IStorageBuilder})">
+        <member name="M:Persian.Plus.PaymentGateway.Core.Storage.StorageBuilderExtensions.ConfigureStorage(Persian.Plus.PaymentGateway.Core.Builder.IPaymentGatewayBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Storage.Abstractions.IStorageBuilder})">
             <summary>
             Configures the storage which required by Persian.Plus.PaymentGateway.Core for saving and loading data.
             </summary>

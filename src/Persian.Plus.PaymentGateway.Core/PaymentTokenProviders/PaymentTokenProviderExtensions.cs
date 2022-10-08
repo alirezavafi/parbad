@@ -16,7 +16,7 @@ namespace Persian.Plus.PaymentGateway.Core.PaymentTokenProviders
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="tokenBuilder">A builder to configure the <see cref="IPaymentTokenProvider"/></param>
-        public static IParbadBuilder ConfigurePaymentToken(this IParbadBuilder builder,
+        public static IPaymentGatewayBuilder ConfigurePaymentToken(this IPaymentGatewayBuilder builder,
             Action<IPaymentTokenBuilder> tokenBuilder)
         {
             tokenBuilder(new PaymentTokenBuilder(builder.Services));

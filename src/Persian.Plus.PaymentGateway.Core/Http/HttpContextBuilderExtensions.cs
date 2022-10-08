@@ -15,7 +15,7 @@ namespace Persian.Plus.PaymentGateway.Core.Http
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="httpContextBuilder">A builder for configuring the HttpContext.</param>
-        public static IParbadBuilder ConfigureHttpContext(this IParbadBuilder builder, Action<IHttpContextBuilder> httpContextBuilder)
+        public static IPaymentGatewayBuilder ConfigureHttpContext(this IPaymentGatewayBuilder builder, Action<IHttpContextBuilder> httpContextBuilder)
         {
             httpContextBuilder(new HttpContextBuilder(builder.Services));
 

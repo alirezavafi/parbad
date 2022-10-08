@@ -9,7 +9,7 @@ namespace Persian.Plus.PaymentGateway.Core.Builder
     /// <summary>
     /// A builder for building the Persian.Plus.PaymentGateway.Core services.
     /// </summary>
-    public interface IParbadBuilder
+    public interface IPaymentGatewayBuilder
     {
         /// <summary>
         /// Specifies the contract for a collection of service descriptors.
