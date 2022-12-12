@@ -18,7 +18,7 @@ using Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal.Models;
 
 namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal
 {
-    internal static class PasargadHelper
+    internal static class PasargadSoapHelper
     {
         private const string ActionNumber = "1003";
         private const string RefundNumber = "1004";
@@ -26,9 +26,9 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal
         public static PaymentRequestResult CreateRequestResult(
             Invoice invoice,
             HttpContext httpContext,
-            PasargadGatewayAccount account,
+            PasargadSoapGatewayAccount account,
             IPasargadCrypto crypto,
-            PasargadGatewayOptions gatewayOptions)
+            PasargadSoapGatewayOptions soapGatewayOptions)
         {
             var invoiceDate = GetTimeStamp(DateTime.Now);
 
@@ -48,7 +48,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal
 
             var result = PaymentRequestResult.SucceedWithPost(
                 account.Name,
-                gatewayOptions.PaymentPageUrl,
+                soapGatewayOptions.PaymentPageUrl,
                 new Dictionary<string, string>
                 {
                     {"merchantCode", account.MerchantCode},
@@ -106,7 +106,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal
             };
         }
 
-        public static PasargadCheckCallbackResult CreateCheckCallbackResult(string webServiceResponse, PasargadGatewayAccount account, PasargadCallbackResult callbackResult, MessagesOptions messagesOptions)
+        public static PasargadCheckCallbackResult CreateCheckCallbackResult(string webServiceResponse, PasargadSoapGatewayAccount account, PasargadCallbackResult callbackResult, MessagesOptions messagesOptions)
         {
             var compareReferenceId = XmlHelper.GetNodeValueFromXml(webServiceResponse, "invoiceNumber");
             var compareAction = XmlHelper.GetNodeValueFromXml(webServiceResponse, "action");
@@ -150,7 +150,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal
 
         public static IEnumerable<KeyValuePair<string, string>> CreateVerifyData(
             InvoiceContext context,
-            PasargadGatewayAccount account,
+            PasargadSoapGatewayAccount account,
             IPasargadCrypto crypto,
             PasargadCallbackResult callbackResult)
         {
@@ -200,7 +200,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal
             InvoiceContext context,
             Money amount,
             IPasargadCrypto crypto,
-            PasargadGatewayAccount account)
+            PasargadSoapGatewayAccount account)
         {
             var transactionRecord = context.Transactions.FirstOrDefault(transaction => transaction.Type == TransactionType.Request);
 

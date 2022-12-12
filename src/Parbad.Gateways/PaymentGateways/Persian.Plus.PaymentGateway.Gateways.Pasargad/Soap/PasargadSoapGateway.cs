@@ -21,28 +21,28 @@ using Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal.Models;
 namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
 {
     [Gateway(Name)]
-    public class PasargadGateway : GatewayBase<PasargadGatewayAccount>
+    public class PasargadSoapGateway : GatewayBase<PasargadSoapGatewayAccount>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
         private readonly IPasargadCrypto _crypto;
-        private readonly PasargadGatewayOptions _gatewayOptions;
+        private readonly PasargadSoapGatewayOptions _soapGatewayOptions;
         private readonly IOptions<MessagesOptions> _messageOptions;
 
-        public const string Name = "Pasargad";
+        public const string Name = "PasargadSoap";
 
-        public PasargadGateway(
+        public PasargadSoapGateway(
             IHttpContextAccessor httpContextAccessor,
             IHttpClientFactory httpClientFactory,
-            IGatewayAccountProvider<PasargadGatewayAccount> accountProvider,
+            IGatewayAccountProvider<PasargadSoapGatewayAccount> accountProvider,
             IPasargadCrypto crypto,
-            IOptions<PasargadGatewayOptions> gatewayOptions,
+            IOptions<PasargadSoapGatewayOptions> gatewayOptions,
             IOptions<MessagesOptions> messageOptions) : base(accountProvider)
         {
             _httpContextAccessor = httpContextAccessor;
             _httpClient = httpClientFactory.CreateClient(this);
             _crypto = crypto;
-            _gatewayOptions = gatewayOptions.Value;
+            _soapGatewayOptions = gatewayOptions.Value;
             _messageOptions = messageOptions;
         }
 
@@ -53,7 +53,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
 
             var account = await GetAccountAsync(invoice).ConfigureAwaitFalse();
 
-            return PasargadHelper.CreateRequestResult(invoice, _httpContextAccessor.HttpContext, account, _crypto, _gatewayOptions);
+            return PasargadSoapHelper.CreateRequestResult(invoice, _httpContextAccessor.HttpContext, account, _crypto, _soapGatewayOptions);
         }
 
         /// <inheritdoc />
@@ -79,7 +79,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
             PasargadCallbackResult callbackResult;
             if (callBackTransaction == null)
             {
-                callbackResult =  await PasargadHelper.CreateCallbackResult(
+                callbackResult =  await PasargadSoapHelper.CreateCallbackResult(
                         _httpContextAccessor.HttpContext.Request,
                         _messageOptions.Value,
                         cancellationToken)
@@ -108,7 +108,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
             }
 
             var responseMessage = await _httpClient.PostFormAsync(
-                    _gatewayOptions.ApiCheckPaymentUrl,
+                    _soapGatewayOptions.ApiCheckPaymentUrl,
                     callbackResult.CallbackCheckData,
                     cancellationToken)
                 .ConfigureAwaitFalse();
@@ -117,7 +117,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
 
             var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
 
-            var checkCallbackResult = PasargadHelper.CreateCheckCallbackResult(
+            var checkCallbackResult = PasargadSoapHelper.CreateCheckCallbackResult(
                 response,
                 account,
                 callbackResult,
@@ -128,17 +128,17 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
                 return checkCallbackResult.Result;
             }
 
-            var data = PasargadHelper.CreateVerifyData(context, account, _crypto, callbackResult);
+            var data = PasargadSoapHelper.CreateVerifyData(context, account, _crypto, callbackResult);
 
             responseMessage = await _httpClient.PostFormAsync(
-                    _gatewayOptions.ApiVerificationUrl,
+                    _soapGatewayOptions.ApiVerificationUrl,
                     data,
                     cancellationToken)
                 .ConfigureAwaitFalse();
 
             response = await responseMessage.Content.ReadAsStringAsync().ConfigureAwaitFalse();
 
-            return PasargadHelper.CreateVerifyResult(response, callbackResult, _messageOptions.Value);
+            return PasargadSoapHelper.CreateVerifyResult(response, callbackResult, _messageOptions.Value);
         }
 
         /// <inheritdoc />
@@ -148,17 +148,17 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
 
             var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
 
-            var data = PasargadHelper.CreateRefundData(context, amount, _crypto, account);
+            var data = PasargadSoapHelper.CreateRefundData(context, amount, _crypto, account);
 
             var responseMessage = await _httpClient.PostFormAsync(
-                    _gatewayOptions.ApiRefundUrl,
+                    _soapGatewayOptions.ApiRefundUrl,
                     data,
                     cancellationToken)
                 .ConfigureAwaitFalse();
 
             var response = await responseMessage.Content.ReadAsStringAsync().ConfigureAwaitFalse();
 
-            return PasargadHelper.CreateRefundResult(response, _messageOptions.Value);
+            return PasargadSoapHelper.CreateRefundResult(response, _messageOptions.Value);
         }
     }
 }

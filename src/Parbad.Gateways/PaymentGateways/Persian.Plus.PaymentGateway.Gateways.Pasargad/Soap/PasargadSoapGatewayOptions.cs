@@ -1,6 +1,6 @@
 ﻿namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
 {
-    public class PasargadGatewayOptions
+    public class PasargadSoapGatewayOptions
     {
         public string PaymentPageUrl { get; set; } = "https://pep.shaparak.ir/gateway.aspx";
 

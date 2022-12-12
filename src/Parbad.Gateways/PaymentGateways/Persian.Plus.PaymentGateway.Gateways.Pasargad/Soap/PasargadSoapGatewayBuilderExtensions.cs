@@ -8,32 +8,32 @@ using Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal;
 
 namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
 {
-    public static class PasargadGatewayBuilderExtensions
+    public static class PasargadSoapGatewayBuilderExtensions
     {
         /// <summary>
         /// Adds Pasargad gateway to Persian.Plus.PaymentGateway.Core services.
         /// </summary>
         /// <param name="builder"></param>
-        public static IGatewayConfigurationBuilder<PasargadGateway> AddPasargad(this IGatewayBuilder builder)
+        public static IGatewayConfigurationBuilder<PasargadSoapGateway> AddPasargadSoap(this IGatewayBuilder builder)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
 
             builder.Services.AddSingleton<IPasargadCrypto, PasargadCrypto>();
 
             return builder
-                .AddGateway<PasargadGateway>()
+                .AddGateway<PasargadSoapGateway>()
                 .WithHttpClient(clientBuilder => { })
                 .WithOptions(options => { });
         }
 
         /// <summary>
-        /// Configures the accounts for <see cref="PasargadGateway"/>.
+        /// Configures the accounts for <see cref="PasargadSoapGateway"/>.
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configureAccounts">Configures the accounts.</param>
-        public static IGatewayConfigurationBuilder<PasargadGateway> WithAccounts(
-            this IGatewayConfigurationBuilder<PasargadGateway> builder,
-            Action<IGatewayAccountBuilder<PasargadGatewayAccount>> configureAccounts)
+        public static IGatewayConfigurationBuilder<PasargadSoapGateway> WithAccounts(
+            this IGatewayConfigurationBuilder<PasargadSoapGateway> builder,
+            Action<IGatewayAccountBuilder<PasargadSoapGatewayAccount>> configureAccounts)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
 
@@ -45,9 +45,9 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configureOptions">Configuration</param>
-        public static IGatewayConfigurationBuilder<PasargadGateway> WithOptions(
-            this IGatewayConfigurationBuilder<PasargadGateway> builder,
-            Action<PasargadGatewayOptions> configureOptions)
+        public static IGatewayConfigurationBuilder<PasargadSoapGateway> WithOptions(
+            this IGatewayConfigurationBuilder<PasargadSoapGateway> builder,
+            Action<PasargadSoapGatewayOptions> configureOptions)
         {
             builder.Services.Configure(configureOptions);
 

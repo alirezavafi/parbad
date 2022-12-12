@@ -5,7 +5,7 @@ using Persian.Plus.PaymentGateway.Core.Gateway;
 
 namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
 {
-    public class PasargadGatewayAccount : GatewayAccount
+    public class PasargadSoapGatewayAccount : GatewayAccount
     {
         public string MerchantCode { get; set; }
 
