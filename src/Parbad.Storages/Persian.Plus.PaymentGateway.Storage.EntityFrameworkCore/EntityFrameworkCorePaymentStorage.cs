@@ -38,6 +38,7 @@ namespace Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore
             DbContext.Entry(entity).State = EntityState.Detached;
 
             payment.Id = entity.Id;
+            payment.CreatedOn = entity.CreatedOn;
         }
 
         /// <inheritdoc />

@@ -1,8 +1,8 @@
-﻿namespace Persian.Plus.PaymentGateway.Gateways.AsanPardakht.Rest
+﻿namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Rest
 {
     public class PasargadRestGatewayOptions
     {
-        public string PaymentPageUrl { get; set; } = "https://asan.shaparak.ir/";
-        public string ApiUrl { get; set; } = "https://ipgrest.asanpardakht.ir";
+        public string PaymentPageUrl { get; set; } = "https://pep.shaparak.ir/payment.aspx";
+        public string ApiUrl { get; set; } = "https://pep.shaparak.ir";
     }
 }

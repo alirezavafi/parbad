@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal.Models
+namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Models
 {
     internal class PasargadCallbackResult
     {

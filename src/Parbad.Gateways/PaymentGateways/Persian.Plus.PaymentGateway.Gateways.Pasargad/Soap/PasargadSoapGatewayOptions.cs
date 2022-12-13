@@ -1,4 +1,4 @@
-﻿namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
+﻿namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Soap
 {
     public class PasargadSoapGatewayOptions
     {

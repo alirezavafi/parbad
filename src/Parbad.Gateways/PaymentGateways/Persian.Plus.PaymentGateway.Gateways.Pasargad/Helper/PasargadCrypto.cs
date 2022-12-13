@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal
+namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Helper
 {
     internal class PasargadCrypto : IPasargadCrypto
     {

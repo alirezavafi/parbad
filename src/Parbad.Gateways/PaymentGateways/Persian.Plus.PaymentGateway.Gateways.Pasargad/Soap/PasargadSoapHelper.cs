@@ -14,9 +14,10 @@ using Persian.Plus.PaymentGateway.Core.Internal;
 using Persian.Plus.PaymentGateway.Core.Options;
 using Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models;
 using Persian.Plus.PaymentGateway.Core.Utilities;
-using Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal.Models;
+using Persian.Plus.PaymentGateway.Gateways.Pasargad.Helper;
+using Persian.Plus.PaymentGateway.Gateways.Pasargad.Models;
 
-namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal
+namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Soap
 {
     internal static class PasargadSoapHelper
     {

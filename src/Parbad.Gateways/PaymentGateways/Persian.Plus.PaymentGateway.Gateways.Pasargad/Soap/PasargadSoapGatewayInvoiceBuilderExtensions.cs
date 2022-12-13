@@ -1,7 +1,7 @@
 ﻿using System;
 using Persian.Plus.PaymentGateway.Core.Invoice;
 
-namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
+namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Soap
 {
     public static class PasargadSoapGatewayInvoiceBuilderExtensions
     {

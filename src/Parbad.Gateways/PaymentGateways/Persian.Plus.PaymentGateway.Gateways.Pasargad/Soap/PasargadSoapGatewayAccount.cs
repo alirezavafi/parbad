@@ -3,7 +3,7 @@
 
 using Persian.Plus.PaymentGateway.Core.Gateway;
 
-namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
+namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Soap
 {
     public class PasargadSoapGatewayAccount : GatewayAccount
     {

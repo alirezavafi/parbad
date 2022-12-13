@@ -47,7 +47,8 @@ namespace Persian.Plus.PaymentGateway.Storage.EntityFrameworkCore.Internal
                 GatewayName = entity.GatewayName,
                 GatewayAccountName = entity.GatewayAccountName,
                 IsCompleted = entity.IsCompleted,
-                IsPaid = entity.IsPaid
+                IsPaid = entity.IsPaid,
+                CreatedOn = entity.CreatedOn,
             };
         }
 

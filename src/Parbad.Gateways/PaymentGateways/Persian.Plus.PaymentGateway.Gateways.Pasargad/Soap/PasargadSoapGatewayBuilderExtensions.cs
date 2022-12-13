@@ -4,9 +4,9 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Persian.Plus.PaymentGateway.Core.Gateway;
-using Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal;
+using Persian.Plus.PaymentGateway.Gateways.Pasargad.Helper;
 
-namespace Persian.Plus.PaymentGateway.Gateways.Pasargad
+namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Soap
 {
     public static class PasargadSoapGatewayBuilderExtensions
     {

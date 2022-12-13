@@ -11,21 +11,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Persian.Plus.PaymentGateway.Core;
 using Persian.Plus.PaymentGateway.Core.Gateway;
 using Persian.Plus.PaymentGateway.Core.Internal;
 using Persian.Plus.PaymentGateway.Core.Net;
 using Persian.Plus.PaymentGateway.Core.Options;
 using Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models;
-using Persian.Plus.PaymentGateway.Gateways.AsanPardakht.Rest.Model;
-using Persian.Plus.PaymentGateway.Gateways.Pasargad;
-using Persian.Plus.PaymentGateway.Gateways.Pasargad.Internal.Models;
+using Persian.Plus.PaymentGateway.Gateways.Pasargad.Helper;
+using Persian.Plus.PaymentGateway.Gateways.Pasargad.Models;
+using Persian.Plus.PaymentGateway.Gateways.Pasargad.Rest.Model;
 
-namespace Persian.Plus.PaymentGateway.Gateways.AsanPardakht.Rest
+namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Rest
 {
     [Gateway(Name)]
-    public class PasardgadRestGateway : GatewayBase<PasargadRestGatewayAccount>
+    public class PasargadRestGateway : GatewayBase<PasargadRestGatewayAccount>
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly HttpClient _httpClient;
@@ -35,13 +34,13 @@ namespace Persian.Plus.PaymentGateway.Gateways.AsanPardakht.Rest
 
         public const string Name = "PasargadRest";
 
-        public PasardgadRestGateway(
+        public PasargadRestGateway(
             IHttpContextAccessor httpContextAccessor,
             IHttpClientFactory httpClientFactory,
             IGatewayAccountProvider<PasargadRestGatewayAccount> accountProvider,
             IOptions<PasargadRestGatewayOptions> gatewayOptions,
             IOptions<MessagesOptions> messageOptions,
-            IPasargadCrypto crypto,
+            IPasargadCrypto crypto
         ) : base(accountProvider)
         {
             _httpContextAccessor = httpContextAccessor;
@@ -59,36 +58,56 @@ namespace Persian.Plus.PaymentGateway.Gateways.AsanPardakht.Rest
             if (invoice == null) throw new ArgumentNullException(nameof(invoice)); 
             var account = await GetAccountAsync(invoice).ConfigureAwaitFalse();
 
-            var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/v1/Token");
-            var jsonContent = JsonContent.Create(new
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/Api/v1/Payment/GetToken");
+            JsonContent jsonContent;
+            if (!string.IsNullOrWhiteSpace(invoice.MobileNumber))
             {
-                InvoiceNumber = invoice.TrackingNumber,
-                InvoiceDate = DateTime.Now.ToString("yyyyMMdd HHmmss"),
-                TerminalCode = account.TerminalCode,
-                MerchantCode = account.MerchantCode,
-                Amount = (long) invoice.Amount,
-                RedirectAddress = invoice.CallbackUrl.Url,
-                Timestamp = DateTime.Now.ToString("yyyyMMdd HHmmss"),
-                Action = 1003,
-                Mobile = invoice.MobileNumber
-            });
+                jsonContent = JsonContent.Create(new
+                {
+                    InvoiceNumber = invoice.TrackingNumber,
+                    InvoiceDate = DateTime.Now.ToString("yyyy/MM/dd"),
+                    TerminalCode = account.TerminalCode,
+                    MerchantCode = account.MerchantCode,
+                    Amount = (long) invoice.Amount,
+                    RedirectAddress = invoice.CallbackUrl.Url,
+                    Timestamp = ((DateTime)invoice.Properties["CreatedOn"]).ToString("yyyyMMdd HHmmss"),
+                    Action = 1003,
+                    Mobile = invoice.MobileNumber
+                });
+            }
+            else
+            {
+                jsonContent = JsonContent.Create(new
+                {
+                    InvoiceNumber = invoice.TrackingNumber,
+                    InvoiceDate = DateTime.Now.ToString("yyyy/MM/dd"),
+                    TerminalCode = account.TerminalCode,
+                    MerchantCode = account.MerchantCode,
+                    Amount = (long) invoice.Amount,
+                    RedirectAddress = invoice.CallbackUrl.Url,
+                    Timestamp = ((DateTime)invoice.Properties["CreatedOn"]).ToString("yyyyMMdd HHmmss"),
+                    Action = 1003,
+                });
+            }
             requestMessage.Content = jsonContent;
-            var dataToSign = await jsonContent.ReadAsStringAsync();
+            var dataToSign = await jsonContent.ReadAsStringAsync(cancellationToken);
             var sign = _crypto.Encrypt(account.PrivateKey, dataToSign);
             requestMessage.Headers.Add("Sign", sign);
 
             var r = await _httpClient.SendAsync(requestMessage, cancellationToken);
             r.EnsureSuccessStatusCode();
-            var token = await r.Content.ReadAsStringAsync(cancellationToken);
+            var tokenResult = await r.Content.ReadFromJsonAsync<TokenResultResponse>(cancellationToken: cancellationToken);
+            if (tokenResult == null || !tokenResult.IsSuccess)
+                throw new InvalidOperationException("cannot get token");
             //JsonConvert.DeserializeObject<JObject>(token);
             return PaymentRequestResult.SucceedWithPost(
                 account.Name,
                 _restGatewayOptions.PaymentPageUrl,
                 new Dictionary<string, string>
                 {
-                    {"Token", token},
+                    {"Token", tokenResult.Token},
                 },
-                token);
+                tokenResult.Token);
         }
 
         /// <inheritdoc />
@@ -115,27 +134,39 @@ namespace Persian.Plus.PaymentGateway.Gateways.AsanPardakht.Rest
             PasargadCallbackResult callbackResult;
             if (callBackTransaction == null)
             {
-                var requestMessage = new HttpRequestMessage(HttpMethod.Get,
-                    $"/v1/TranResult?LocalInvoiceId={context.Payment.TrackingNumber}&MerchantConfigurationId={account.MerchantConfigurationId}");
-                requestMessage.Headers.Add("usr", account.UserName);
-                requestMessage.Headers.Add("pwd", account.Password);
+                var invoiceDate = context.Transactions.First().DateTime.ToString("yyyy/MM/dd");
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/Api/v1/Payment/CheckTransactionResult");
+                var jsonContent = JsonContent.Create(new
+                {
+                    InvoiceNumber = context.Payment.TrackingNumber,
+                    InvoiceDate = invoiceDate,
+                    TerminalCode = account.TerminalCode,
+                    MerchantCode = account.MerchantCode,
+                });
+                requestMessage.Content = jsonContent;
+                var dataToSign = await jsonContent.ReadAsStringAsync(cancellationToken);
+                var sign = _crypto.Encrypt(account.PrivateKey, dataToSign);
+                requestMessage.Headers.Add("Sign", sign);
                 var result = await _httpClient.SendAsync(requestMessage, cancellationToken: cancellationToken);
 
                 bool isSucceed = result.IsSuccessStatusCode;
                 TransactionResultResponse resultData = null;
                 if (isSucceed)
+                {
                     resultData =
                         await result.Content.ReadFromJsonAsync<TransactionResultResponse>(
                             cancellationToken: cancellationToken);
+                    isSucceed = resultData?.IsSuccess ?? false;
+                }
 
                 callbackResult = new PasargadCallbackResult
                 {
                     IsSucceed = isSucceed,
-                    PayGateTranId = resultData?.PayGateTranId,
-                    Rrn = resultData?.Rrn,
-                    CardNumber = resultData?.CardNumber,
+                    InvoiceDate = invoiceDate,
+                    InvoiceNumber = context.Payment.TrackingNumber.ToString(),
+                    TransactionId = resultData?.ReferenceNumber.ToString(),
                     Message = isSucceed ? "موفق" : "ناموفق",
-                    Status = resultData?.ServiceStatusCode
+                    CallbackCheckData = new []{new KeyValuePair<string, string>("TransactionReferenceNumber", resultData?.TransactionReferenceId)}
                 };
             }
             else
@@ -162,14 +193,21 @@ namespace Persian.Plus.PaymentGateway.Gateways.AsanPardakht.Rest
             }
 
             var account = await GetAccountAsync(context.Payment).ConfigureAwaitFalse();
-            var verifyHttpRequestMsg = new HttpRequestMessage(HttpMethod.Post, "/v1/Verify");
-            verifyHttpRequestMsg.Headers.Add("usr", account.UserName);
-            verifyHttpRequestMsg.Headers.Add("pwd", account.Password);
-            verifyHttpRequestMsg.Content = JsonContent.Create(new
+            var verifyHttpRequestMsg = new HttpRequestMessage(HttpMethod.Post, "/Api/v1/Payment/VerifyPayment");
+            var invoiceDate = context.Transactions.First().DateTime.ToString("yyyy/MM/dd");
+            var jsonContent = JsonContent.Create(new
             {
-                merchantConfigurationId = account.MerchantConfigurationId,
-                payGateTranId = callbackResult.PayGateTranId
+                InvoiceNumber = context.Payment.TrackingNumber,
+                InvoiceDate = invoiceDate,
+                TerminalCode = account.TerminalCode,
+                MerchantCode = account.MerchantCode,
+                Amount = context.Payment.Amount,
+                TimeStamp = context.Payment.CreatedOn.ToString("yyyy/MM/dd HH:mm:ss")
             });
+            verifyHttpRequestMsg.Content = jsonContent;
+            var dataToSign = await jsonContent.ReadAsStringAsync(cancellationToken);
+            var sign = _crypto.Encrypt(account.PrivateKey, dataToSign);
+            verifyHttpRequestMsg.Headers.Add("Sign", sign);
 
             var verifyHttpResp = await _httpClient.SendAsync(verifyHttpRequestMsg, cancellationToken);
             if (!verifyHttpResp.IsSuccessStatusCode)
@@ -180,17 +218,8 @@ namespace Persian.Plus.PaymentGateway.Gateways.AsanPardakht.Rest
                     Message = "ناموفق",
                 };
             }
-
-            var settleHttpRequestMsg = new HttpRequestMessage(HttpMethod.Post, "/v1/Settlement");
-            settleHttpRequestMsg.Headers.Add("usr", account.UserName);
-            settleHttpRequestMsg.Headers.Add("pwd", account.Password);
-            settleHttpRequestMsg.Content = JsonContent.Create(new
-            {
-                merchantConfigurationId = account.MerchantConfigurationId,
-                payGateTranId = callbackResult.PayGateTranId
-            });
-
-            if (!verifyHttpResp.IsSuccessStatusCode)
+            var result = await verifyHttpResp.Content.ReadFromJsonAsync<TransactionVerifyResponse>(cancellationToken: cancellationToken);
+            if (result == null)
             {
                 return new PaymentVerifyResult()
                 {
@@ -199,19 +228,16 @@ namespace Persian.Plus.PaymentGateway.Gateways.AsanPardakht.Rest
                 };
             }
 
-            var settleHttpResp = await _httpClient.SendAsync(settleHttpRequestMsg, cancellationToken);
-
-            var verifyResult = new PaymentVerifyResult
+            return new PaymentVerifyResult()
             {
-                Status = settleHttpResp.IsSuccessStatusCode ? PaymentVerifyResultStatus.Succeed : PaymentVerifyResultStatus.Failed,
-                TransactionCode = callbackResult.Rrn,
-                Message = settleHttpResp.IsSuccessStatusCode ? "موفق" : "ناموفق"
+                IsSucceed = result.IsSuccess,
+                Message = result.IsSuccess ? "موفق" : "ناموفق",
+                CardNo = result.MaskedCardNumber?.Replace("-", ""),
+                Status = result.IsSuccess ? PaymentVerifyResultStatus.Succeed : PaymentVerifyResultStatus.Failed,
+                Amount = context.Payment.Amount,
+                TransactionCode = result.ShaparakRefNumber,
+                TrackingNumber = context.Payment.TrackingNumber,
             };
-
-            //verifyResult.DatabaseAdditionalData.Add("PayGateTranId", callbackResult.PayGateTranId);
-            //verifyResult.DatabaseAdditionalData.Add("LastFourDigitOfPAN", callbackResult.CardNumber);
-
-            return verifyResult;
         }
 
         /// <inheritdoc />

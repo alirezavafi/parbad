@@ -1,7 +1,7 @@
 ﻿using System;
 using Persian.Plus.PaymentGateway.Core.Invoice;
 
-namespace Persian.Plus.PaymentGateway.Gateways.AsanPardakht.Rest
+namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Rest
 {
     public static class PasargadRestGatewayInvoiceBuilderExtensions
     {
@@ -9,11 +9,11 @@ namespace Persian.Plus.PaymentGateway.Gateways.AsanPardakht.Rest
         /// The invoice will be sent to Asan Pardakht gateway.
         /// </summary>
         /// <param name="builder"></param>
-        public static IInvoiceBuilder UsePassargadRest(this IInvoiceBuilder builder)
+        public static IInvoiceBuilder UsePasargadRest(this IInvoiceBuilder builder)
         {
             if (builder == null) throw new ArgumentNullException(nameof(builder));
 
-            return builder.SetGateway(PasardgadRestGateway.Name);
+            return builder.SetGateway(PasargadRestGateway.Name);
         }
     }
 }

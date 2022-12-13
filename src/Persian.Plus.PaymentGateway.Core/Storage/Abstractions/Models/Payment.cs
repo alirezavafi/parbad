@@ -31,5 +31,7 @@ namespace Persian.Plus.PaymentGateway.Core.Storage.Abstractions.Models
         /// Determines whether this payment is successful or not.
         /// </summary>
         public bool IsPaid { get; set; }
+
+        public DateTime CreatedOn { get; set; }
     }
 }

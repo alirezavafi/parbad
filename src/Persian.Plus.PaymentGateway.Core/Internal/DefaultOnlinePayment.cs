@@ -115,7 +115,7 @@ namespace Persian.Plus.PaymentGateway.Core.Internal
             };
 
             await _paymentStorage.CreatePaymentAsync(newPayment, cancellationToken).ConfigureAwaitFalse();
-
+            invoice.Properties.Add("CreatedOn", newPayment.CreatedOn);
             PaymentRequestResult requestResult = null;
 
             try
