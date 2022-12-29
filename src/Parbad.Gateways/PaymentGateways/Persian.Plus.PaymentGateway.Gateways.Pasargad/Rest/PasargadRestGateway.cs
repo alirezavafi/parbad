@@ -60,17 +60,18 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Rest
 
             var requestMessage = new HttpRequestMessage(HttpMethod.Post, "/Api/v1/Payment/GetToken");
             JsonContent jsonContent;
+            var invoiceCreationDate = ((DateTime)invoice.Properties["CreatedOn"]);
             if (!string.IsNullOrWhiteSpace(invoice.MobileNumber))
             {
                 jsonContent = JsonContent.Create(new
                 {
                     InvoiceNumber = invoice.TrackingNumber,
-                    InvoiceDate = DateTime.Now.ToString("yyyy/MM/dd"),
+                    InvoiceDate = invoiceCreationDate.ToString("yyyy/MM/dd"),
                     TerminalCode = account.TerminalCode,
                     MerchantCode = account.MerchantCode,
                     Amount = (long) invoice.Amount,
                     RedirectAddress = invoice.CallbackUrl.Url,
-                    Timestamp = ((DateTime)invoice.Properties["CreatedOn"]).ToString("yyyyMMdd HHmmss"),
+                    Timestamp = invoiceCreationDate.ToString("yyyyMMdd HHmmss"),
                     Action = 1003,
                     Mobile = invoice.MobileNumber
                 });
@@ -80,12 +81,12 @@ namespace Persian.Plus.PaymentGateway.Gateways.Pasargad.Rest
                 jsonContent = JsonContent.Create(new
                 {
                     InvoiceNumber = invoice.TrackingNumber,
-                    InvoiceDate = DateTime.Now.ToString("yyyy/MM/dd"),
+                    InvoiceDate = invoiceCreationDate.ToString("yyyy/MM/dd"),
                     TerminalCode = account.TerminalCode,
                     MerchantCode = account.MerchantCode,
                     Amount = (long) invoice.Amount,
                     RedirectAddress = invoice.CallbackUrl.Url,
-                    Timestamp = ((DateTime)invoice.Properties["CreatedOn"]).ToString("yyyyMMdd HHmmss"),
+                    Timestamp = invoiceCreationDate.ToString("yyyyMMdd HHmmss"),
                     Action = 1003,
                 });
             }
