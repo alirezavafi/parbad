@@ -151,7 +151,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Mellat.Internal
         {
             var serviceResult = XmlHelper.GetNodeValueFromXml(webServiceResponse, "return");
 
-            var isSucceed = serviceResult == OkResult;
+            var isSucceed = serviceResult == OkResult || serviceResult == AlreadyVerifiedResult;
 
             PaymentVerifyResult verifyResult = null;
 
