@@ -12,5 +12,7 @@ namespace Persian.Plus.PaymentGateway.Gateways.Mellat
         public string UserName { get; set; }
 
         public string UserPassword { get; set; }
+        public string PinBlockKeyHex { get; set; }
+        public string PinBlockVectorHex { get; set; }
     }
 }

@@ -399,6 +399,11 @@
             Gets or sets the properties of the invoice.
             </summary>
         </member>
+        <member name="P:Persian.Plus.PaymentGateway.Core.Gateway.Invoice.CardNumber">
+            <summary>
+            Gets or sets the customer card number for locking card number in psp page.
+            </summary>
+        </member>
         <member name="M:Persian.Plus.PaymentGateway.Core.Http.HttpContextBuilderExtensions.ConfigureHttpContext(Persian.Plus.PaymentGateway.Core.Builder.IPaymentGatewayBuilder,System.Action{Persian.Plus.PaymentGateway.Core.Http.IHttpContextBuilder})">
             <summary>
             Configures the <see cref="T:Microsoft.AspNetCore.Http.HttpContext"/> required by Persian.Plus.PaymentGateway.Core.
@@ -720,6 +725,14 @@
             </summary>
             <param name="builder"></param>
             <param name="mobileNumber"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.SetCardNumber(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.String)">
+            <summary>
+            Sets the card number
+            </summary>
+            <param name="builder"></param>
+            <param name="cardNumber"></param>
             <exception cref="T:System.ArgumentNullException"></exception>
         </member>
         <member name="M:Persian.Plus.PaymentGateway.Core.Invoice.InvoiceBuilderExtensions.AddProperty(Persian.Plus.PaymentGateway.Core.Invoice.IInvoiceBuilder,System.String,System.Object)">

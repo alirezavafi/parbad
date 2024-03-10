@@ -71,10 +71,17 @@ namespace Persian.Plus.PaymentGateway.Gateways.Mellat.Internal
             var mobileNumber = invoice.CoercedMobileNumber();
             if (!string.IsNullOrEmpty(mobileNumber))
                 form.Add("MobileNo", mobileNumber);
-            if (invoice.Properties.ContainsKey("EncryptedPan"))
+            if (!string.IsNullOrWhiteSpace(invoice.CardNumber))
             {
+                var mellatAccount = (MellatGatewayAccount)account;
+                if (string.IsNullOrWhiteSpace(mellatAccount.PinBlockKeyHex) || string.IsNullOrWhiteSpace(mellatAccount.PinBlockVectorHex))
+                {
+                    throw new InvalidOperationException("pin block key or vector missing");
+                }
+
+                var pinBlockCalc = new PinBlockCalculator();
                 form.Add("HiddenMode", "0");
-                form.Add("EncPan", invoice.Properties["EncryptedPan"].ToString());
+                form.Add("EncPan", pinBlockCalc.GetPanPinBlock(invoice.CardNumber, mellatAccount.PinBlockKeyHex, mellatAccount.PinBlockVectorHex));
             }
 
             return PaymentRequestResult.SucceedWithPost(
@@ -250,9 +257,15 @@ namespace Persian.Plus.PaymentGateway.Gateways.Mellat.Internal
             if (!string.IsNullOrWhiteSpace(mobileNumber))
                 mobileNumberSoapPart = $"<mobileNo>{mobileNumber}</mobileNo>";
             var panSoapPart = String.Empty;
-            if (invoice.Properties.ContainsKey("EncryptedPan"))
+            if (!string.IsNullOrWhiteSpace(invoice.CardNumber))
             {
-                var encryptedPan = invoice.Properties["EncryptedPan"].ToString();
+                var pinBlockCalc = new PinBlockCalculator();
+                if (string.IsNullOrWhiteSpace(account.PinBlockKeyHex) || string.IsNullOrWhiteSpace(account.PinBlockVectorHex))
+                {
+                    throw new InvalidOperationException("pin block key or vector missing");
+                }
+                var encryptedPan = pinBlockCalc.GetPanPinBlock(invoice.CardNumber, account.PinBlockKeyHex,
+                    account.PinBlockVectorHex);
                 panSoapPart = $"<encPan>{encryptedPan}</encPan>";
             }
 

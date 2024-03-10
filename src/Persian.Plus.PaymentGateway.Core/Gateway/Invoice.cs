@@ -54,5 +54,10 @@ namespace Persian.Plus.PaymentGateway.Core.Gateway
         /// Gets or sets the properties of the invoice.
         /// </summary>
         public IDictionary<string, object> Properties { get; set; }
+
+        /// <summary>
+        /// Gets or sets the customer card number for locking card number in psp page.
+        /// </summary>
+        public string CardNumber { get; set; }
     }
 }

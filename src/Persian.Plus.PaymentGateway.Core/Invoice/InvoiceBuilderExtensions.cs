@@ -86,6 +86,17 @@ namespace Persian.Plus.PaymentGateway.Core.Invoice
         }
 
         /// <summary>
+        /// Sets the card number
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="cardNumber"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public static IInvoiceBuilder SetCardNumber(this IInvoiceBuilder builder, string cardNumber)
+        {
+            return AddFormatter(builder, invoice => invoice.CardNumber = cardNumber);
+        }
+
+        /// <summary>
         /// Adds the given key and value to the invoice.
         /// </summary>
         /// <param name="builder"></param>
